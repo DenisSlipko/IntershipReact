@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
-import './style.css';
+import '../style.css';
 
-const Filter = ({ setShowFilter, dataKey }) => {
+const Filter = ({ setShowFilter, dataKey, setFilterValue }) => {
   const [value, setValue] = useState('');
 
   const cleanField = () => {
@@ -10,6 +10,7 @@ const Filter = ({ setShowFilter, dataKey }) => {
 
   const changeInputValue = (event) => {
     setValue(event.target.value);
+    setFilterValue(event.target.value);
   };
 
   const closeFilter = () => {

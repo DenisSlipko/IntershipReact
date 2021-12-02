@@ -1,4 +1,4 @@
-import { Table } from './components/Table';
+import { Table } from './components/TableComponents/Table';
 
 const App = () => {
   return (

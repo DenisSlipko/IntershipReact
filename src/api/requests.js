@@ -1,27 +1,14 @@
-const RequestHeader = {
-  'Content-type': 'application/json; charset=UTF-8',
-};
+import axios from 'axios';
 
-export const getData = async () => {
-  try {
-    const response = await fetch('http://localhost:3000/countries', {
-      method: 'GET',
-      headers: RequestHeader,
-    });
-    return response.json();
-  } catch (e) {
-    alert('Fail to get data from server. Try again later!');
-  }
-};
-
-export const changeData = async (rowId, changedDataObj) => {
-  try {
-    await fetch(`http://localhost:3000/countries/${rowId}`, {
-      method: 'PUT',
-      headers: RequestHeader,
-      body: JSON.stringify(changedDataObj),
-    });
-  } catch (e) {
-    alert('Fail to put data to server. Try again later!');
-  }
+export const getData = async (amountElOnPage, currentPage, isOrderAsc, dataKey, filter) => {
+  const response = await axios(`http://localhost:4000/countries?`, {
+    params: {
+      _limit: amountElOnPage,
+      _page: currentPage,
+      _order: isOrderAsc,
+      _sort: dataKey,
+      [`${dataKey}_like`]: filter,
+    },
+  });
+  return response.data;
 };

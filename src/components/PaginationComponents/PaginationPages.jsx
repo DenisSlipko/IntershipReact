@@ -1,13 +1,16 @@
 import { React } from 'react';
-import './style.css';
+import '../style.css';
 
-const PaginationPages = ({ totalAmount = 40, amountElOnPage }) => {
+const PaginationPages = ({ totalAmount = 40, amountElOnPage, setCurrentPage }) => {
   const pages = Math.ceil(totalAmount / amountElOnPage);
   const items = [];
 
+  const changePageHandler = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
   for (let i = 1; i <= pages; i++) {
     items.push(
-      <li className="page-number" key={i}>
+      <li className="page-number" key={i} onClick={() => changePageHandler(i)}>
         {i}
       </li>
     );

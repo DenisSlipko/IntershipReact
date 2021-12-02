@@ -1,7 +1,7 @@
 import { React } from 'react';
-import { Filter } from './Filter';
+import '../style.css';
 
-const BodyTable = ({ data, loading, columnsConfig, showFilter, setShowFilter, dataKey }) => {
+const TableRows = ({ data, loading, columnsConfig }) => {
   if (loading) {
     return <h2>Loading...</h2>;
   }
@@ -16,9 +16,8 @@ const BodyTable = ({ data, loading, columnsConfig, showFilter, setShowFilter, da
           ))}
         </div>
       ))}
-      {showFilter ? <Filter setShowFilter={setShowFilter} dataKey={dataKey} /> : null}
     </>
   );
 };
 
-export { BodyTable };
+export { TableRows };
