@@ -7,10 +7,11 @@ const ActionsContainer = ({
   dataKey,
   setDataKey,
   isSortable,
-  headerCell,
+  headerCellRef,
   sortHandler,
   setOrderAsc,
   arrowPosition,
+  setShowColumn,
 }) => {
   const [showMenu, setShowMenu] = useState(false);
 
@@ -34,10 +35,11 @@ const ActionsContainer = ({
           isSortable={isSortable}
           setShowFilter={setShowFilter}
           dataKey={dataKey}
-          headerCell={headerCell}
+          headerCellRef={headerCellRef}
           setShowMenu={setShowMenu}
           setOrderAsc={setOrderAsc}
           setDataKey={setDataKey}
+          setShowColumn={setShowColumn}
         />
       )}
     </div>

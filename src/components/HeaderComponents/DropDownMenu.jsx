@@ -32,9 +32,8 @@ const menuConfig = [
   },
 ];
 
-const DropDownMenu = ({ isSortable, setShowFilter, headerCell, setShowMenu, setOrderAsc, setDataKey, dataKey }) => {
+const DropDownMenu = ({ isSortable, setShowFilter, setShowMenu, setOrderAsc, setDataKey, dataKey, setShowColumn }) => {
   const getMenuHandler = (menuElement) => {
-    setDataKey(dataKey);
     setShowMenu(false);
     switch (menuElement.key) {
       case MenuElMap.UNSORT:
@@ -50,11 +49,13 @@ const DropDownMenu = ({ isSortable, setShowFilter, headerCell, setShowMenu, setO
         setDataKey(dataKey);
         break;
       case MenuElMap.FILTER:
+        setDataKey(dataKey);
         setShowFilter(true);
         break;
       case MenuElMap.HIDE:
-        console.log(headerCell.current.children[0].innerHTML);
-        headerCell.current.style.display = 'none';
+        console.log();
+        setDataKey(dataKey);
+        setShowColumn(false);
         break;
       default:
         break;

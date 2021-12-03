@@ -1,10 +1,10 @@
 import { React } from 'react';
 import { useState, useEffect } from 'react';
-import { Header } from '../HeaderComponents/Header';
+import { HeaderCell } from '../HeaderComponents/HeaderCell';
 import { TableRows } from './TableRows';
 import { Filter } from './Filter';
 import { Pagination } from '../PaginationComponents/Pagination';
-import axios from 'axios';
+import { getData } from '../../api/requests';
 import '../style.css';
 
 const Table = () => {
@@ -16,6 +16,8 @@ const Table = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [amountElOnPage, setAmountElOnPage] = useState(20);
   const [filterValue, setFilterValue] = useState(null);
+  const [showColumn, setShowColumn] = useState(true);
+  const [totalAmount, setTotalAmount] = useState(null);
 
   const countriesTableColumnsConfig = [
     {
@@ -46,45 +48,39 @@ const Table = () => {
   ];
 
   useEffect(() => {
-    const getData = async () => {
-      setLoading(true);
-      const response = await axios(`http://localhost:4000/countries?`, {
-        params: {
-          _limit: amountElOnPage,
-          _page: currentPage,
-          _order: isOrderAsc,
-          _sort: dataKey,
-          [`${dataKey}_like`]: filterValue,
-        },
-      });
-      setData(response.data);
-    };
-    getData();
+    getData(amountElOnPage, currentPage, isOrderAsc, dataKey, filterValue, setData, setTotalAmount);
     setLoading(false);
   }, [amountElOnPage, currentPage, isOrderAsc, dataKey, filterValue]);
 
+  const showColumnHandler = () => {
+    setShowColumn(false);
+  };
+
   return (
     <div className="table" id="table">
-      <Header
-        columnsConfig={countriesTableColumnsConfig}
-        setShowFilter={setShowFilter}
-        setDataKey={setDataKey}
-        isOrderAsc={isOrderAsc}
-        setOrderAsc={setOrderAsc}
-        dataKey={dataKey}
-      />
-      <TableRows
-        data={data}
-        loading={loading}
-        columnsConfig={countriesTableColumnsConfig}
-        showFilter={showFilter}
-        setShowFilter={setShowFilter}
-        dataKey={dataKey}
-      />
+      <div className="table-header">
+        <div className="table-header-row">
+          {countriesTableColumnsConfig.map((column) => (
+            <HeaderCell
+              key={column.key}
+              column={column}
+              setShowFilter={setShowFilter}
+              setDataKey={setDataKey}
+              isOrderAsc={isOrderAsc}
+              setOrderAsc={setOrderAsc}
+              dataKey={dataKey}
+              showColumnHandler={showColumnHandler}
+              showColumn={showColumn}
+            />
+          ))}
+        </div>
+      </div>
+      <TableRows data={data} loading={loading} columnsConfig={countriesTableColumnsConfig} dataKey={dataKey} />
       <Pagination
         setCurrentPage={setCurrentPage}
         setAmountElOnPage={setAmountElOnPage}
         amountElOnPage={amountElOnPage}
+        totalAmount={totalAmount}
       />
       {showFilter && <Filter setShowFilter={setShowFilter} dataKey={dataKey} setFilterValue={setFilterValue} />}
     </div>

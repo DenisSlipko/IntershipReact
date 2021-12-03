@@ -1,7 +1,7 @@
 import { React } from 'react';
 import '../style.css';
 
-const PaginationPages = ({ totalAmount = 40, amountElOnPage, setCurrentPage }) => {
+const PaginationPages = ({ totalAmount, amountElOnPage, setCurrentPage }) => {
   const pages = Math.ceil(totalAmount / amountElOnPage);
   const items = [];
 

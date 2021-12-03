@@ -1,7 +1,7 @@
 import { React } from 'react';
 import '../style.css';
 
-const TableRows = ({ data, loading, columnsConfig }) => {
+const TableRows = ({ data, loading, columnsConfig, dataKey }) => {
   if (loading) {
     return <h2>Loading...</h2>;
   }

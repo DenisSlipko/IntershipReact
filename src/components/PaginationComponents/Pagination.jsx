@@ -2,7 +2,7 @@ import { React } from 'react';
 import { PaginationPages } from './PaginationPages';
 import '../style.css';
 
-const Pagination = ({ setCurrentPage, setAmountElOnPage, amountElOnPage }) => {
+const Pagination = ({ setCurrentPage, setAmountElOnPage, amountElOnPage, totalAmount }) => {
   const paginationConfigList = [{ pageSize: '20' }, { pageSize: '50' }, { pageSize: '100' }];
 
   const changeAmountElHandler = (e) => {
@@ -20,7 +20,7 @@ const Pagination = ({ setCurrentPage, setAmountElOnPage, amountElOnPage }) => {
           </option>
         ))}
       </select>
-      <PaginationPages amountElOnPage={amountElOnPage} setCurrentPage={setCurrentPage} />
+      <PaginationPages amountElOnPage={amountElOnPage} setCurrentPage={setCurrentPage} totalAmount={totalAmount} />
     </div>
   );
 };

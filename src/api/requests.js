@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const getData = async (amountElOnPage, currentPage, isOrderAsc, dataKey, filter) => {
+export const getData = async (amountElOnPage, currentPage, isOrderAsc, dataKey, filter, setData, setTotalAmount) => {
   const response = await axios(`http://localhost:4000/countries?`, {
     params: {
       _limit: amountElOnPage,
@@ -10,5 +10,6 @@ export const getData = async (amountElOnPage, currentPage, isOrderAsc, dataKey, 
       [`${dataKey}_like`]: filter,
     },
   });
-  return response.data;
+  setData(response.data);
+  setTotalAmount(response.headers['x-total-count']);
 };
