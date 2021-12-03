@@ -1,7 +1,7 @@
 import { React } from 'react';
 import '../style.css';
 
-const TableRows = ({ data, loading, columnsConfig, dataKey }) => {
+const TableRows = ({ data, loading, columnsConfig }) => {
   if (loading) {
     return <h2>Loading...</h2>;
   }
@@ -9,11 +9,14 @@ const TableRows = ({ data, loading, columnsConfig, dataKey }) => {
     <>
       {data.map((element) => (
         <div className="table-row" key={element.id}>
-          {columnsConfig.map((column) => (
-            <div className="table-row__cell" key={element[column.key]}>
-              {element[column.key]}
-            </div>
-          ))}
+          {columnsConfig.map(
+            (column) =>
+              column.key && (
+                <div className="table-row__cell" key={element[column.key]}>
+                  {element[column.key]}
+                </div>
+              )
+          )}
         </div>
       ))}
     </>

@@ -9,6 +9,7 @@ const Filter = ({ setShowFilter, dataKey, setFilterValue }) => {
   };
 
   const changeInputValue = (event) => {
+    localStorage.setItem('filter', event.target.value);
     setValue(event.target.value);
     setFilterValue(event.target.value);
   };

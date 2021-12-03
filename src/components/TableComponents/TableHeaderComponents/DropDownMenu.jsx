@@ -1,5 +1,5 @@
 import { React } from 'react';
-import '../style.css';
+import '../../style.css';
 
 const MenuElMap = {
   UNSORT: 'unsort',
@@ -32,7 +32,16 @@ const menuConfig = [
   },
 ];
 
-const DropDownMenu = ({ isSortable, setShowFilter, setShowMenu, setOrderAsc, setDataKey, dataKey, setShowColumn }) => {
+const DropDownMenu = ({
+  isSortable,
+  setShowFilter,
+  setShowMenu,
+  setOrderAsc,
+  setDataKey,
+  dataKey,
+  setCountriesTableColumnsConfig,
+  countriesTableColumnsConfig,
+}) => {
   const getMenuHandler = (menuElement) => {
     setShowMenu(false);
     switch (menuElement.key) {
@@ -53,9 +62,9 @@ const DropDownMenu = ({ isSortable, setShowFilter, setShowMenu, setOrderAsc, set
         setShowFilter(true);
         break;
       case MenuElMap.HIDE:
-        console.log();
-        setDataKey(dataKey);
-        setShowColumn(false);
+        console.log(dataKey);
+        const filteredConfig = countriesTableColumnsConfig.filter((el) => el.key !== dataKey);
+        setCountriesTableColumnsConfig(filteredConfig);
         break;
       default:
         break;

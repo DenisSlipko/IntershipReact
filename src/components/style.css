@@ -60,12 +60,6 @@
   flex: 1;
   padding-left: 10px;
 }
-.arrow[data-asc='asc'] {
-  transform: rotate(180deg);
-}
-.arrow[data-asc='desc'] {
-  transform: rotate(360deg);
-}
 .header-sort-btn {
   cursor: pointer;
 }

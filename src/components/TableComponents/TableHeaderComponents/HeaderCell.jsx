@@ -1,10 +1,17 @@
 import { React, useState } from 'react';
 import { ActionsContainer } from './ActionsContainer';
-import '../style.css';
+import '../../style.css';
 
-const HeaderCell = ({ setShowFilter, setDataKey, setOrderAsc, isOrderAsc, column }) => {
+const HeaderCell = ({
+  setShowFilter,
+  setDataKey,
+  setOrderAsc,
+  isOrderAsc,
+  column,
+  countriesTableColumnsConfig,
+  setCountriesTableColumnsConfig,
+}) => {
   const [arrowPosition, setArrowPosition] = useState('south');
-  const [showColumn, setShowColumn] = useState(true);
 
   const sortHandler = (key) => {
     if (isOrderAsc === null) {
@@ -22,7 +29,7 @@ const HeaderCell = ({ setShowFilter, setDataKey, setOrderAsc, isOrderAsc, column
   };
 
   return (
-    showColumn && (
+    column.key && (
       <div className="table-header__cell">
         <div className="header-sort-btn" onClick={() => sortHandler(column.key)}>
           {column.label}
@@ -36,7 +43,9 @@ const HeaderCell = ({ setShowFilter, setDataKey, setOrderAsc, isOrderAsc, column
           setOrderAsc={setOrderAsc}
           isOrderAsc={isOrderAsc}
           arrowPosition={arrowPosition}
-          setShowColumn={setShowColumn}
+          column={column}
+          countriesTableColumnsConfig={countriesTableColumnsConfig}
+          setCountriesTableColumnsConfig={setCountriesTableColumnsConfig}
         />
       </div>
     )

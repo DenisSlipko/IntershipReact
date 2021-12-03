@@ -1,6 +1,6 @@
-import { React } from 'react';
 import { PaginationPages } from './PaginationPages';
-import '../style.css';
+import { React } from 'react';
+import '../../style.css';
 
 const Pagination = ({ setCurrentPage, setAmountElOnPage, amountElOnPage, totalAmount }) => {
   const paginationConfigList = [{ pageSize: '20' }, { pageSize: '50' }, { pageSize: '100' }];

@@ -1,6 +1,6 @@
 import { React, useState } from 'react';
 import { DropDownMenu } from './DropDownMenu';
-import '../style.css';
+import '../../style.css';
 
 const ActionsContainer = ({
   setShowFilter,
@@ -11,7 +11,9 @@ const ActionsContainer = ({
   sortHandler,
   setOrderAsc,
   arrowPosition,
-  setShowColumn,
+  column,
+  countriesTableColumnsConfig,
+  setCountriesTableColumnsConfig,
 }) => {
   const [showMenu, setShowMenu] = useState(false);
 
@@ -39,7 +41,9 @@ const ActionsContainer = ({
           setShowMenu={setShowMenu}
           setOrderAsc={setOrderAsc}
           setDataKey={setDataKey}
-          setShowColumn={setShowColumn}
+          column={column}
+          countriesTableColumnsConfig={countriesTableColumnsConfig}
+          setCountriesTableColumnsConfig={setCountriesTableColumnsConfig}
         />
       )}
     </div>

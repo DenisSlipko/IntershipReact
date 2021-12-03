@@ -1,7 +1,7 @@
-import axios from 'axios';
+import { instance } from './coreJs';
 
 export const getData = async (amountElOnPage, currentPage, isOrderAsc, dataKey, filter, setData, setTotalAmount) => {
-  const response = await axios(`http://localhost:4000/countries?`, {
+  const response = await instance(`countries?`, {
     params: {
       _limit: amountElOnPage,
       _page: currentPage,

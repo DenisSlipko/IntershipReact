@@ -1,25 +1,24 @@
-import { React } from 'react';
+import { Pagination } from './PaginationComponents/Pagination';
+import { HeaderCell } from './TableHeaderComponents/HeaderCell';
+import { getData } from '../../api/requests';
 import { useState, useEffect } from 'react';
-import { HeaderCell } from '../HeaderComponents/HeaderCell';
 import { TableRows } from './TableRows';
 import { Filter } from './Filter';
-import { Pagination } from '../PaginationComponents/Pagination';
-import { getData } from '../../api/requests';
+import { React } from 'react';
 import '../style.css';
 
 const Table = () => {
-  const [isOrderAsc, setOrderAsc] = useState(null);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
-  const [dataKey, setDataKey] = useState(null);
+  const [totalAmount, setTotalAmount] = useState(null);
+  const [filterValue, setFilterValue] = useState(localStorage.getItem('filter'));
+  const [dataKey, setDataKey] = useState(localStorage.getItem('data-key'));
+  const [isOrderAsc, setOrderAsc] = useState(localStorage.getItem('is-asc'));
   const [currentPage, setCurrentPage] = useState(1);
   const [amountElOnPage, setAmountElOnPage] = useState(20);
-  const [filterValue, setFilterValue] = useState(null);
-  const [showColumn, setShowColumn] = useState(true);
-  const [totalAmount, setTotalAmount] = useState(null);
 
-  const countriesTableColumnsConfig = [
+  const [countriesTableColumnsConfig, setCountriesTableColumnsConfig] = useState([
     {
       label: 'Name',
       key: 'name',
@@ -45,16 +44,16 @@ const Table = () => {
       key: 'capital',
       sortable: false,
     },
-  ];
+  ]);
 
   useEffect(() => {
+    setLoading(true);
     getData(amountElOnPage, currentPage, isOrderAsc, dataKey, filterValue, setData, setTotalAmount);
+    localStorage.setItem('is-asc', isOrderAsc);
+    localStorage.setItem('data-key', dataKey);
+    //
     setLoading(false);
   }, [amountElOnPage, currentPage, isOrderAsc, dataKey, filterValue]);
-
-  const showColumnHandler = () => {
-    setShowColumn(false);
-  };
 
   return (
     <div className="table" id="table">
@@ -69,8 +68,8 @@ const Table = () => {
               isOrderAsc={isOrderAsc}
               setOrderAsc={setOrderAsc}
               dataKey={dataKey}
-              showColumnHandler={showColumnHandler}
-              showColumn={showColumn}
+              countriesTableColumnsConfig={countriesTableColumnsConfig}
+              setCountriesTableColumnsConfig={setCountriesTableColumnsConfig}
             />
           ))}
         </div>
