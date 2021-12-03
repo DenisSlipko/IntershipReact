@@ -62,7 +62,6 @@ const DropDownMenu = ({
         setShowFilter(true);
         break;
       case MenuElMap.HIDE:
-        console.log(dataKey);
         const filteredConfig = countriesTableColumnsConfig.filter((el) => el.key !== dataKey);
         setCountriesTableColumnsConfig(filteredConfig);
         break;
