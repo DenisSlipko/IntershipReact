@@ -1,54 +1,64 @@
 import { React, useState } from 'react';
-import { ActionsContainer } from './ActionsContainer';
+import { DropDownMenu } from './DropDownMenu';
 import '../../style.css';
 
 const HeaderCell = ({
-  setShowFilter,
-  setDataKey,
-  setOrderAsc,
+  handleShowFilter,
+  handleSort,
   isOrderAsc,
-  column,
+  dataKey,
+  label,
+  isSortable,
   countriesTableColumnsConfig,
-  setCountriesTableColumnsConfig,
+  handleHideColumn,
 }) => {
-  const [arrowPosition, setArrowPosition] = useState('south');
+  const [arrow, setArrowPosition] = useState('south');
+  const [showMenu, setShowMenu] = useState(false);
 
   const sortHandler = (key) => {
     if (isOrderAsc === null) {
-      setOrderAsc('asc');
-      setDataKey(key);
+      handleSort('asc', key);
       setArrowPosition('north');
     } else if (isOrderAsc === 'asc') {
-      setOrderAsc('desc');
-      setDataKey(key);
+      handleSort('desc', key);
       setArrowPosition('south');
     } else {
-      setOrderAsc(null);
-      setDataKey(null);
+      handleSort(null, null);
     }
   };
 
+  const handleShowMenu = (isShow) => {
+    setShowMenu(isShow);
+  };
+  const handleArrow = () => {
+    sortHandler(dataKey);
+  };
+
   return (
-    column.key && (
-      <div className="table-header__cell">
-        <div className="header-sort-btn" onClick={() => sortHandler(column.key)}>
-          {column.label}
-        </div>
-        <ActionsContainer
-          isSortable={column.sortable}
-          dataKey={column.key}
-          setDataKey={setDataKey}
-          setShowFilter={setShowFilter}
-          sortHandler={sortHandler}
-          setOrderAsc={setOrderAsc}
-          isOrderAsc={isOrderAsc}
-          arrowPosition={arrowPosition}
-          column={column}
-          countriesTableColumnsConfig={countriesTableColumnsConfig}
-          setCountriesTableColumnsConfig={setCountriesTableColumnsConfig}
-        />
+    <div className="table-header__cell">
+      <div className="header-sort-btn" onClick={() => sortHandler(dataKey)}>
+        {label}
       </div>
-    )
+      <div className="actions-container">
+        <span className="material-icons arrow" onClick={handleArrow}>
+          {arrow}
+        </span>
+        <span className="material-icons menuBtn" onClick={() => handleShowMenu(true)}>
+          more_vert
+        </span>
+        {showMenu && (
+          <DropDownMenu
+            isSortable={isSortable}
+            handleShowFilter={handleShowFilter}
+            dataKey={dataKey}
+            handleShowMenu={handleShowMenu}
+            handleSort={handleSort}
+            countriesTableColumnsConfig={countriesTableColumnsConfig}
+            handleHideColumn={handleHideColumn}
+          />
+        )}
+      </div>
+    </div>
   );
 };
 

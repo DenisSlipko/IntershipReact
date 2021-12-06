@@ -1,38 +1,34 @@
 import { React, useState } from 'react';
 import '../style.css';
 
-const Filter = ({ setShowFilter, dataKey, setFilterValue }) => {
+const Filter = ({ handleCloseFilter, filterLabel, handleFilterValue }) => {
   const [value, setValue] = useState('');
 
-  const cleanField = () => {
+  const handleCleanField = () => {
     setValue('');
   };
 
-  const changeInputValue = (event) => {
+  const handleInputChange = (event) => {
     localStorage.setItem('filter', event.target.value);
     setValue(event.target.value);
-    setFilterValue(event.target.value);
-  };
-
-  const closeFilter = () => {
-    setShowFilter(false);
+    handleFilterValue(event);
   };
 
   return (
     <div className="filter-menu-container">
-      <div className="btn-clean" onClick={cleanField}>
+      <div className="btn-clean" onClick={handleCleanField}>
         x
       </div>
-      <div className="filter-label">{dataKey}</div>
+      <div className="filter-label">{filterLabel}</div>
       <div className="filter-operator">equal</div>
       <input
         type="text"
         className="filter-value"
         placeholder="Filter value"
         value={value}
-        onChange={changeInputValue}
+        onChange={handleInputChange}
       />
-      <div className="btn-exit" onClick={closeFilter}>
+      <div className="btn-exit" onClick={handleCloseFilter}>
         x
       </div>
     </div>

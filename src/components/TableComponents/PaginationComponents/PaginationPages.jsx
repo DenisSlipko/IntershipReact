@@ -1,22 +1,21 @@
 import { React } from 'react';
 import '../../style.css';
 
-const PaginationPages = ({ totalAmount, amountElOnPage, setCurrentPage }) => {
-  const pages = Math.ceil(totalAmount / amountElOnPage);
-  const items = [];
+const PaginationPages = ({ totalAmount, amountElOnPage, handlePageChanges }) => {
+  const pagesAmount = Math.ceil(totalAmount / amountElOnPage);
+  const items = Array(pagesAmount)
+    .fill()
+    .map((_, i) => i + 1);
 
-  const changePageHandler = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-  for (let i = 1; i <= pages; i++) {
-    items.push(
-      <li className="page-number" key={i} onClick={() => changePageHandler(i)}>
-        {i}
-      </li>
-    );
-  }
-
-  return <ul className="page-num-container">{items}</ul>;
+  return (
+    <ul className="page-num-container">
+      {items.map((item) => (
+        <li className="page-number" key={item} onClick={() => handlePageChanges(item)}>
+          {item}
+        </li>
+      ))}
+    </ul>
+  );
 };
 
 export { PaginationPages };

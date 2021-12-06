@@ -1,6 +1,5 @@
 import axios from 'axios';
-export const instance = axios.create({
-  method: 'get',
+export const baseRequest = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
