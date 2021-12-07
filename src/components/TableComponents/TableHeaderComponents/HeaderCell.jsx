@@ -1,60 +1,47 @@
 import { React, useState } from 'react';
-import { DropDownMenu } from './DropDownMenu';
+import DropDownMenu from './DropDownMenu';
 import '../../style.css';
 
 const HeaderCell = ({
-  handleShowFilter,
-  handleSort,
-  isOrderAsc,
-  dataKey,
+  onShowFilter,
+  onSortChange,
+  columnName,
   label,
   isSortable,
   countriesTableColumnsConfig,
-  handleHideColumn,
+  onHideColumn,
+  onSort,
+  arrow,
+  sortValue,
 }) => {
-  const [arrow, setArrowPosition] = useState('south');
   const [showMenu, setShowMenu] = useState(false);
 
-  const sortHandler = (key) => {
-    if (isOrderAsc === null) {
-      handleSort('asc', key);
-      setArrowPosition('north');
-    } else if (isOrderAsc === 'asc') {
-      handleSort('desc', key);
-      setArrowPosition('south');
-    } else {
-      handleSort(null, null);
-    }
-  };
-
-  const handleShowMenu = (isShow) => {
+  const onShowMenu = (isShow) => {
     setShowMenu(isShow);
-  };
-  const handleArrow = () => {
-    sortHandler(dataKey);
   };
 
   return (
     <div className="table-header__cell">
-      <div className="header-sort-btn" onClick={() => sortHandler(dataKey)}>
+      <div className="header-sort-btn" onClick={() => onSort(columnName)}>
         {label}
       </div>
       <div className="actions-container">
-        <span className="material-icons arrow" onClick={handleArrow}>
+        <span className="material-icons arrow" onClick={() => onSort(columnName)}>
           {arrow}
         </span>
-        <span className="material-icons menuBtn" onClick={() => handleShowMenu(true)}>
+        <span className="material-icons menuBtn" onClick={() => onShowMenu(true)}>
           more_vert
         </span>
         {showMenu && (
           <DropDownMenu
             isSortable={isSortable}
-            handleShowFilter={handleShowFilter}
-            dataKey={dataKey}
-            handleShowMenu={handleShowMenu}
-            handleSort={handleSort}
+            onShowFilter={onShowFilter}
+            columnName={columnName}
+            onShowMenu={onShowMenu}
+            onSortChange={onSortChange}
             countriesTableColumnsConfig={countriesTableColumnsConfig}
-            handleHideColumn={handleHideColumn}
+            onHideColumn={onHideColumn}
+            sortValue={sortValue}
           />
         )}
       </div>
@@ -62,4 +49,4 @@ const HeaderCell = ({
   );
 };
 
-export { HeaderCell };
+export default HeaderCell;

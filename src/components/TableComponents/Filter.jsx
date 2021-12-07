@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
 import '../style.css';
 
-const Filter = ({ handleCloseFilter, filterLabel, handleFilterValue }) => {
+const Filter = ({ onCloseFilter, filterLabel, onFilterChange }) => {
   const [value, setValue] = useState('');
 
   const handleCleanField = () => {
@@ -11,7 +11,7 @@ const Filter = ({ handleCloseFilter, filterLabel, handleFilterValue }) => {
   const handleInputChange = (event) => {
     localStorage.setItem('filter', event.target.value);
     setValue(event.target.value);
-    handleFilterValue(event);
+    onFilterChange(event);
   };
 
   return (
@@ -28,11 +28,11 @@ const Filter = ({ handleCloseFilter, filterLabel, handleFilterValue }) => {
         value={value}
         onChange={handleInputChange}
       />
-      <div className="btn-exit" onClick={handleCloseFilter}>
+      <div className="btn-exit" onClick={onCloseFilter}>
         x
       </div>
     </div>
   );
 };
 
-export { Filter };
+export default Filter;

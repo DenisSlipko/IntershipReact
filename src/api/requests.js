@@ -1,6 +1,6 @@
 import { baseRequest } from './coreJs';
 
-export const getData = async (amountElOnPage, currentPage, isOrderAsc, dataKey, filter, setData, setTotalAmount) => {
+export const getData = async (amountElOnPage, currentPage, isOrderAsc, dataKey, filter) => {
   const like = `${dataKey}_like`;
   const response = await baseRequest('countries', {
     params: {
@@ -11,5 +11,6 @@ export const getData = async (amountElOnPage, currentPage, isOrderAsc, dataKey, 
       [like]: filter,
     },
   });
+
   return [response.data, response.headers['x-total-count']];
 };

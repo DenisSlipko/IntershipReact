@@ -1,9 +1,9 @@
-import { React, useState, useEffect, useCallback } from 'react';
-import { Pagination } from './PaginationComponents/Pagination';
-import { HeaderCell } from './TableHeaderComponents/HeaderCell';
+import { React, useState, useEffect } from 'react';
 import { getData } from '../../api/requests';
-import { TableRows } from './TableRows';
-import { Filter } from './Filter';
+import Pagination from './PaginationComponents/Pagination';
+import HeaderCell from './TableHeaderComponents/HeaderCell';
+import TableRows from './TableRows';
+import Filter from './Filter';
 import '../style.css';
 
 const tableColumsConfig = [
@@ -34,70 +34,98 @@ const tableColumsConfig = [
   },
 ];
 
+const defaultAmountEl = 20;
+const defaultCurrentPage = 1;
+
+const sortValue = {
+  asc: 'asc',
+  desc: 'desc',
+};
+
+const arrowPosition = {
+  down: 'north',
+  up: 'south',
+};
+
 const Table = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
   const [totalAmount, setTotalAmount] = useState(0);
   const [filterValue, setFilterValue] = useState(localStorage.getItem('filter'));
-  const [dataKey, setDataKey] = useState(localStorage.getItem('data-key'));
+  const [columnName, setColumnName] = useState(localStorage.getItem('data-key'));
   const [isOrderAsc, setOrderAsc] = useState(localStorage.getItem('is-asc'));
-  const [currentPage, setCurrentPage] = useState(1);
-  const [amountElOnPage, setAmountElOnPage] = useState(20);
+  const [currentPage, setCurrentPage] = useState(defaultCurrentPage);
+  const [amountElOnPage, setAmountElOnPage] = useState(defaultAmountEl);
   const [countriesTableColumnsConfig, setCountriesTableColumnsConfig] = useState(tableColumsConfig);
+  const [arrow, setArrowPosition] = useState(arrowPosition.up);
 
-  const loadingData = useCallback(() => {
+  const pagesAmount = Math.ceil(totalAmount / amountElOnPage);
+
+  const loadingData = (amountElOnPage, currentPage, isOrderAsc, columnName, filterValue) => {
     setLoading(true);
     const fetchData = async () => {
-      const [data, amount] = await getData(amountElOnPage, currentPage, isOrderAsc, dataKey, filterValue);
+      const [data, amount] = await getData(amountElOnPage, currentPage, isOrderAsc, columnName, filterValue);
       setData(data);
       setTotalAmount(amount);
     };
     fetchData();
     localStorage.setItem('is-asc', isOrderAsc);
-    localStorage.setItem('data-key', dataKey);
+    localStorage.setItem('data-key', columnName);
     setLoading(false);
-  }, [amountElOnPage, currentPage, isOrderAsc, dataKey, filterValue]);
+  };
 
   useEffect(() => {
-    loadingData();
-  }, [loadingData]);
+    loadingData(amountElOnPage, currentPage, isOrderAsc, columnName, filterValue);
+  }, [amountElOnPage, currentPage, isOrderAsc, columnName, filterValue]);
 
-  const handleCloseFilter = () => {
+  const onCloseFilter = () => {
     setShowFilter(false);
   };
-  const handleFilterValue = (event) => {
+  const onFilterChange = (event) => {
     setFilterValue(event.target.value);
   };
 
-  const handleAmountElChanges = (event) => {
+  const onAmountElChanges = (event) => {
     const parseValue = parseInt(event.target.value, 10);
     if (amountElOnPage !== parseValue) {
       setAmountElOnPage(parseValue);
     }
   };
 
-  const handlePageChanges = (pageNumber) => {
+  const onPageChanges = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  const handleHideColumn = () => {
-    const filteredConfig = countriesTableColumnsConfig.filter((el) => el.key !== dataKey);
+  const onHideColumn = () => {
+    const filteredConfig = countriesTableColumnsConfig.filter(({ key }) => key !== columnName);
     setCountriesTableColumnsConfig(filteredConfig);
   };
 
-  const handleSort = (isAsc, dataKey) => {
+  const onSortChange = (isAsc, columnName) => {
     setOrderAsc(isAsc);
-    setDataKey(dataKey);
+    setColumnName(columnName);
   };
 
-  const handleShowFilter = (dataKey) => {
-    setDataKey(dataKey);
+  const onShowFilter = (columnName) => {
+    setColumnName(columnName);
     setShowFilter(true);
   };
 
+  const onSort = (columnName) => {
+    if (isOrderAsc === null) {
+      onSortChange(sortValue.asc, columnName);
+      setArrowPosition(arrowPosition.down);
+    } else if (isOrderAsc === sortValue.asc) {
+      onSortChange(sortValue.desc, columnName);
+      setArrowPosition(arrowPosition.up);
+    } else {
+      onSortChange(null, null);
+    }
+  };
+
   return (
-    <div className="table" id="table">
+    <div className="table">
       <div className="table-header">
         <div className="table-header-row">
           {countriesTableColumnsConfig.map(({ key, label, sortable }) => (
@@ -105,26 +133,22 @@ const Table = () => {
               key={key}
               label={label}
               isSortable={sortable}
-              handleShowFilter={handleShowFilter}
+              onShowFilter={onShowFilter}
               isOrderAsc={isOrderAsc}
-              handleSort={handleSort}
-              dataKey={key}
+              onSortChange={onSortChange}
+              columnName={key}
               countriesTableColumnsConfig={countriesTableColumnsConfig}
-              handleHideColumn={handleHideColumn}
+              onHideColumn={onHideColumn}
+              arrow={arrow}
+              onSort={onSort}
+              sortValue={sortValue}
             />
           ))}
         </div>
       </div>
-      <TableRows data={data} loading={loading} columnsConfig={countriesTableColumnsConfig} dataKey={dataKey} />
-      <Pagination
-        handlePageChanges={handlePageChanges}
-        handleAmountElChanges={handleAmountElChanges}
-        amountElOnPage={amountElOnPage}
-        totalAmount={totalAmount}
-      />
-      {showFilter && (
-        <Filter handleCloseFilter={handleCloseFilter} filterLabel={dataKey} handleFilterValue={handleFilterValue} />
-      )}
+      <TableRows data={data} loading={loading} columnsConfig={countriesTableColumnsConfig} />
+      <Pagination onPageChanges={onPageChanges} onAmountElChanges={onAmountElChanges} pagesAmount={pagesAmount} />
+      {showFilter && <Filter onCloseFilter={onCloseFilter} filterLabel={columnName} onFilterChange={onFilterChange} />}
     </div>
   );
 };

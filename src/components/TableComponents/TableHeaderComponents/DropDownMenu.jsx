@@ -1,52 +1,46 @@
 import { React } from 'react';
 import '../../style.css';
 
-const MenuElMap = {
-  UNSORT: 'UNSORT',
-  SORT_BY_ASC: 'SORT BY ASC',
-  SORT_BY_DESC: 'SORT BY DESC',
-  FILTER: 'FILTER',
-  HIDE: 'HIDE',
-};
-
-const DropDownMenu = ({ isSortable, handleShowFilter, handleSort, dataKey, handleHideColumn, handleShowMenu }) => {
-  const handleMenuSort = (isAsc, dataKey) => {
-    handleShowMenu(false);
-    handleSort(isAsc, dataKey);
+const DropDownMenu = ({ isSortable, onShowFilter, onSortChange, columnName, onHideColumn, onShowMenu, sortValue }) => {
+  const handleMenuSort = (isAsc, columnName) => {
+    onShowMenu(false);
+    onSortChange(isAsc, columnName);
   };
   const handleMenuShowFilter = () => {
-    handleShowMenu(false);
-    handleShowFilter(dataKey);
+    onShowMenu(false);
+    onShowFilter(columnName);
   };
 
   const handleMenuHideColumn = () => {
-    handleShowMenu(false);
-    handleHideColumn();
+    onShowMenu(false);
+    onHideColumn();
   };
 
   return (
     <div className="drop-down__menu">
-      <div className="menu-item" onClick={() => handleMenuSort(null, null)}>
-        {MenuElMap.UNSORT}
-      </div>
       {isSortable && (
-        <div className="menu-item" onClick={() => handleMenuSort('asc', dataKey)}>
-          {MenuElMap.SORT_BY_ASC}
+        <div className="menu-item" onClick={() => handleMenuSort(null, null)}>
+          UNSORT
         </div>
       )}
       {isSortable && (
-        <div className="menu-item" onClick={() => handleMenuSort('desc', dataKey)}>
-          {MenuElMap.SORT_BY_DESC}
+        <div className="menu-item" onClick={() => handleMenuSort(sortValue.asc, columnName)}>
+          SORT BY ASC
+        </div>
+      )}
+      {isSortable && (
+        <div className="menu-item" onClick={() => handleMenuSort(sortValue.desc, columnName)}>
+          SORT BY DESC
         </div>
       )}
       <div className="menu-item" onClick={handleMenuShowFilter}>
-        {MenuElMap.FILTER}
+        FILTER
       </div>
       <div className="menu-item" onClick={handleMenuHideColumn}>
-        {MenuElMap.HIDE}
+        HIDE
       </div>
     </div>
   );
 };
 
-export { DropDownMenu };
+export default DropDownMenu;

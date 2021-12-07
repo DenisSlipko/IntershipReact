@@ -21,4 +21,4 @@ const TableRows = ({ data, loading, columnsConfig }) => {
   );
 };
 
-export { TableRows };
+export default TableRows;
