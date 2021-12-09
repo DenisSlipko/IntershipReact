@@ -1,18 +1,19 @@
 import { React } from 'react';
-import '../../style.css';
 
-const DropDownMenu = ({ isSortable, onShowFilter, onSortChange, columnName, onHideColumn, onShowMenu, sortValue }) => {
+import { SortValue } from '../constants';
+
+const DropDownMenu = ({ isSortable, columnName, onHideColumn, onClose, onShowFilter, onSortChange }) => {
   const handleMenuSort = (isAsc, columnName) => {
-    onShowMenu(false);
+    onClose();
     onSortChange(isAsc, columnName);
   };
   const handleMenuShowFilter = () => {
-    onShowMenu(false);
+    onClose();
     onShowFilter(columnName);
   };
 
   const handleMenuHideColumn = () => {
-    onShowMenu(false);
+    onClose();
     onHideColumn();
   };
 
@@ -24,12 +25,12 @@ const DropDownMenu = ({ isSortable, onShowFilter, onSortChange, columnName, onHi
         </div>
       )}
       {isSortable && (
-        <div className="menu-item" onClick={() => handleMenuSort(sortValue.asc, columnName)}>
+        <div className="menu-item" onClick={() => handleMenuSort(SortValue.asc, columnName)}>
           SORT BY ASC
         </div>
       )}
       {isSortable && (
-        <div className="menu-item" onClick={() => handleMenuSort(sortValue.desc, columnName)}>
+        <div className="menu-item" onClick={() => handleMenuSort(SortValue.desc, columnName)}>
           SORT BY DESC
         </div>
       )}

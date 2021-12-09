@@ -1,17 +1,17 @@
 import { React, useState } from 'react';
-import '../style.css';
 
-const Filter = ({ onCloseFilter, filterLabel, onFilterChange }) => {
-  const [value, setValue] = useState('');
+const Filter = ({ filterLabel, filterValue, onChangeFilter, onCloseFilter }) => {
+  const [value, setValue] = useState(filterValue);
 
   const handleCleanField = () => {
     setValue('');
   };
 
   const handleInputChange = (event) => {
-    localStorage.setItem('filter', event.target.value);
-    setValue(event.target.value);
-    onFilterChange(event);
+    const value = event.target.value;
+    localStorage.setItem('filter', value);
+    setValue(value);
+    onChangeFilter(value);
   };
 
   return (

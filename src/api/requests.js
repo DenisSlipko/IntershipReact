@@ -1,6 +1,6 @@
 import { baseRequest } from './coreJs';
 
-export const getData = async (amountElOnPage, currentPage, isOrderAsc, dataKey, filter) => {
+export const countriesData = async (amountElOnPage, currentPage, isOrderAsc, dataKey, filter) => {
   const like = `${dataKey}_like`;
   const response = await baseRequest('countries', {
     params: {

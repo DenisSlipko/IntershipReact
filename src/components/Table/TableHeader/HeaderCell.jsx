@@ -1,23 +1,22 @@
 import { React, useState } from 'react';
+
 import DropDownMenu from './DropDownMenu';
-import '../../style.css';
+import { ArrowType } from '../constants';
+import { SortValue } from '../constants';
 
 const HeaderCell = ({
-  onShowFilter,
-  onSortChange,
   columnName,
   label,
   isSortable,
-  countriesTableColumnsConfig,
+  isOrderAsc,
   onHideColumn,
+  onShowFilter,
+  onSortChange,
   onSort,
-  arrow,
-  sortValue,
 }) => {
   const [showMenu, setShowMenu] = useState(false);
-
-  const onShowMenu = (isShow) => {
-    setShowMenu(isShow);
+  const handleClose = () => {
+    setShowMenu(false);
   };
 
   return (
@@ -27,21 +26,19 @@ const HeaderCell = ({
       </div>
       <div className="actions-container">
         <span className="material-icons arrow" onClick={() => onSort(columnName)}>
-          {arrow}
+          {isOrderAsc === SortValue.asc ? ArrowType.up : ArrowType.down}
         </span>
-        <span className="material-icons menuBtn" onClick={() => onShowMenu(true)}>
+        <span className="material-icons menuBtn" onClick={() => setShowMenu(true)}>
           more_vert
         </span>
         {showMenu && (
           <DropDownMenu
             isSortable={isSortable}
-            onShowFilter={onShowFilter}
             columnName={columnName}
-            onShowMenu={onShowMenu}
+            onClose={handleClose}
+            onShowFilter={onShowFilter}
             onSortChange={onSortChange}
-            countriesTableColumnsConfig={countriesTableColumnsConfig}
             onHideColumn={onHideColumn}
-            sortValue={sortValue}
           />
         )}
       </div>
