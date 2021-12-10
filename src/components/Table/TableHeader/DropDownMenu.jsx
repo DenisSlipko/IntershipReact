@@ -1,20 +1,25 @@
 import { React } from 'react';
+import { useDispatch } from 'react-redux';
+import { setColumnHeader, setSortFlag } from '../../../store/ActionsCreator';
 
 import { SortValue } from '../constants';
 
-const DropDownMenu = ({ isSortable, columnName, onHideColumn, onClose, onShowFilter, onSortChange }) => {
-  const handleMenuSort = (isAsc, columnName) => {
+const DropDownMenu = ({ isSortable, columnHeader, onClose, onHideColumn, onShow }) => {
+  const dispatch = useDispatch();
+
+  const handleMenuSort = (isAsc, columnHeader) => {
     onClose();
-    onSortChange(isAsc, columnName);
+    dispatch(setSortFlag(isAsc));
+    dispatch(setColumnHeader(columnHeader));
   };
   const handleMenuShowFilter = () => {
     onClose();
-    onShowFilter(columnName);
+    onShow();
+    dispatch(setColumnHeader(columnHeader));
   };
-
   const handleMenuHideColumn = () => {
     onClose();
-    onHideColumn();
+    onHideColumn(columnHeader);
   };
 
   return (
@@ -25,12 +30,12 @@ const DropDownMenu = ({ isSortable, columnName, onHideColumn, onClose, onShowFil
         </div>
       )}
       {isSortable && (
-        <div className="menu-item" onClick={() => handleMenuSort(SortValue.asc, columnName)}>
+        <div className="menu-item" onClick={() => handleMenuSort(SortValue.ASC, columnHeader)}>
           SORT BY ASC
         </div>
       )}
       {isSortable && (
-        <div className="menu-item" onClick={() => handleMenuSort(SortValue.desc, columnName)}>
+        <div className="menu-item" onClick={() => handleMenuSort(SortValue.DESC, columnHeader)}>
           SORT BY DESC
         </div>
       )}

@@ -1,6 +1,11 @@
 import { React, useState } from 'react';
 
-const Filter = ({ filterLabel, filterValue, onChangeFilter, onCloseFilter }) => {
+import { useDispatch } from 'react-redux';
+import { setFilterValue } from '../../store/ActionsCreator';
+
+const Filter = ({ filterLabel, filterValue, onClose }) => {
+  const dispatch = useDispatch();
+
   const [value, setValue] = useState(filterValue);
 
   const handleCleanField = () => {
@@ -11,7 +16,7 @@ const Filter = ({ filterLabel, filterValue, onChangeFilter, onCloseFilter }) => 
     const value = event.target.value;
     localStorage.setItem('filter', value);
     setValue(value);
-    onChangeFilter(value);
+    dispatch(setFilterValue(value));
   };
 
   return (
@@ -28,7 +33,7 @@ const Filter = ({ filterLabel, filterValue, onChangeFilter, onCloseFilter }) => 
         value={value}
         onChange={handleInputChange}
       />
-      <div className="btn-exit" onClick={onCloseFilter}>
+      <div className="btn-exit" onClick={onClose}>
         x
       </div>
     </div>

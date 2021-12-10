@@ -1,0 +1,9 @@
+export const GET_DATA = 'GET_DATA';
+export const GET_TOTAL = 'GET_TOTAL';
+export const FILTER_VALUE = 'FILTER_VALUE';
+export const DATA_CONFIG = 'DATA_CONFIG';
+export const COLUMN_HEADER = 'COLUMN_HEADER';
+export const SORT_FLAG = 'SORT_FLAG';
+export const CURRENT_PAGE = 'CURRENT_PAGE';
+export const AMOUNT_ELEMENT = 'AMOUNT_ELEMENT';
+export const TOTAL_AMOUNT = 'TOTAL_AMOUNT';
