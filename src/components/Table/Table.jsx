@@ -1,45 +1,71 @@
-import { React, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { React, useEffect, useState } from 'react';
 
-import { SortValue } from './constants';
+import { DEFAULT_AMOUNT_EL, DEFAULT_CURRENT_PAGE, SortValue } from './constants';
 import Pagination from './PaginationComponents/Pagination';
 import HeaderCell from './TableHeader/HeaderCell';
 import TableRows from './TableRows';
 import Filter from './Filter';
-import { setColumnHeader, setSortFlag } from '../../store/ActionsCreator';
-import { TableColumnsConfig } from '../../App';
 
-const Table = ({ amountElOnPage, isOrderAsc, columnHeader, filterValue, data, totalAmount }) => {
-  const dispatch = useDispatch();
+const Table = ({ TableColumnsConfig, data, totalAmount, onDataUpdate }) => {
+  const [filterValue, setFilterValue] = useState(localStorage.getItem('filter'));
+  const [columnHeaderKey, setColumnHeaderKey] = useState(localStorage.getItem('data-key'));
+  const [isOrderAsc, setOrderAsc] = useState(localStorage.getItem('is-asc'));
+  const [currentPage, setCurrentPage] = useState(DEFAULT_CURRENT_PAGE);
+  const [amountElOnPage, setAmountElOnPage] = useState(DEFAULT_AMOUNT_EL);
   const [countriesTableColumnsConfig, setCountriesTableColumnsConfig] = useState(TableColumnsConfig);
   const [showFilter, setShowFilter] = useState(false);
 
   const pagesAmount = Math.ceil(totalAmount / amountElOnPage);
 
-  const handleChangeSort = (isAsc, columnHeader) => {
-    dispatch(setSortFlag(isAsc));
-    dispatch(setColumnHeader(columnHeader));
+  useEffect(() => {
+    onDataUpdate(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue);
+
+    // setOrderAsc(localStorage.getItem('is-asc'));
+    // setColumnHeaderKey(localStorage.getItem('data-key'));
+    // setFilterValue(localStorage.getItem('filter'));
+  }, [amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue]);
+
+  const handleChangeSort = (isAsc, columnHeaderKey) => {
+    setOrderAsc(isAsc);
+    setColumnHeaderKey(columnHeaderKey);
   };
 
-  const handleSort = (columnHeader) => {
+  const handleSort = (columnHeaderKey) => {
     if (isOrderAsc === null) {
-      handleChangeSort(SortValue.ASC, columnHeader);
+      handleChangeSort(SortValue.ASC, columnHeaderKey);
     } else if (isOrderAsc === SortValue.ASC) {
-      handleChangeSort(SortValue.DESC, columnHeader);
+      handleChangeSort(SortValue.DESC, columnHeaderKey);
     } else {
       handleChangeSort(null, null);
     }
   };
 
-  const handleShowFilter = () => {
+  const handleChangePage = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const handleChangeAmountEl = (event) => {
+    const amount = parseInt(event.target.value, 10);
+
+    if (amountElOnPage !== amount) {
+      setAmountElOnPage(amount);
+    }
+  };
+
+  const handleChangeFilter = (value) => {
+    setFilterValue(value);
+  };
+
+  const handleShowFilter = (columnHeaderKey) => {
+    setColumnHeaderKey(columnHeaderKey);
     setShowFilter(true);
   };
   const handleCloseFilter = () => {
     setShowFilter(false);
   };
 
-  const handleHideColumn = (columnHeader) => {
-    const filteredConfig = TableColumnsConfig.filter(({ key }) => key !== columnHeader);
+  const handleHideColumn = (columnHeaderKey) => {
+    const filteredConfig = countriesTableColumnsConfig.filter(({ key }) => key !== columnHeaderKey);
     setCountriesTableColumnsConfig(filteredConfig);
   };
 
@@ -51,19 +77,27 @@ const Table = ({ amountElOnPage, isOrderAsc, columnHeader, filterValue, data, to
             <HeaderCell
               key={key}
               label={label}
-              columnHeader={key}
+              columnHeaderKey={key}
               isSortable={sortable}
               isOrderAsc={isOrderAsc}
               onSort={handleSort}
+              onSortChange={handleChangeSort}
               onHideColumn={handleHideColumn}
-              onShow={handleShowFilter}
+              onShowFilter={handleShowFilter}
             />
           ))}
         </div>
       </div>
       <TableRows data={data} columnsConfig={countriesTableColumnsConfig} />
-      <Pagination pagesAmount={pagesAmount} />
-      {showFilter && <Filter filterLabel={columnHeader} filterValue={filterValue} onClose={handleCloseFilter} />}
+      <Pagination pagesAmount={pagesAmount} onPageChange={handleChangePage} onChangeAmountEl={handleChangeAmountEl} />
+      {showFilter && (
+        <Filter
+          filterLabel={columnHeaderKey}
+          filterValue={filterValue}
+          onClose={handleCloseFilter}
+          onChangeFilter={handleChangeFilter}
+        />
+      )}
     </div>
   );
 };

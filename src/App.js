@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Table from './components/Table/Table';
-import { countriesData } from './api/requests';
 
-export const TableColumnsConfig = [
+import Table from './components/Table/Table';
+import { fetchCountries } from './store/thunks/countries.thunks';
+import { getCountries, getTotalAmount } from './store/redusers/countries';
+
+const TableColumnsConfig = [
   {
     label: 'Name',
     key: 'name',
@@ -15,7 +17,7 @@ export const TableColumnsConfig = [
     sortable: true,
   },
   {
-    label: 'Phone сode',
+    label: 'Phone code',
     key: 'phone_code',
     sortable: false,
   },
@@ -32,30 +34,25 @@ export const TableColumnsConfig = [
 ];
 
 const App = () => {
-  const columnHeader = useSelector(({ reduxState }) => reduxState.columnHeader);
-  const isOrderAsc = useSelector(({ reduxState }) => reduxState.isAsc);
-  const currentPage = useSelector(({ reduxState }) => reduxState.page);
-  const amountElOnPage = useSelector(({ reduxState }) => reduxState.amount);
-  const filterValue = useSelector(({ reduxState }) => reduxState.filterValue);
-  const data = useSelector(({ reduxState }) => reduxState.countries);
-  const totalAmount = useSelector(({ reduxState }) => reduxState.total);
+  const countries = useSelector(getCountries);
+  const totalAmount = useSelector(getTotalAmount);
+
   const dispatch = useDispatch();
 
-  localStorage.setItem('is-asc', isOrderAsc);
-  localStorage.setItem('data-key', columnHeader);
-
   useEffect(() => {
-    dispatch(countriesData(amountElOnPage, currentPage, isOrderAsc, columnHeader, filterValue));
-  }, [amountElOnPage, currentPage, isOrderAsc, columnHeader, filterValue]);
+    handleDataUpdate();
+  }, []);
+
+  const handleDataUpdate = (amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue) => {
+    dispatch(fetchCountries(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue));
+  };
 
   return (
     <Table
-      columnHeader={columnHeader}
-      isOrderAsc={isOrderAsc}
-      amountElOnPage={amountElOnPage}
-      filterValue={filterValue}
-      data={data}
+      TableColumnsConfig={TableColumnsConfig}
+      data={countries}
       totalAmount={totalAmount}
+      onDataUpdate={handleDataUpdate}
     />
   );
 };

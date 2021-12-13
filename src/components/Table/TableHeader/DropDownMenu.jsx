@@ -1,49 +1,43 @@
 import { React } from 'react';
-import { useDispatch } from 'react-redux';
-import { setColumnHeader, setSortFlag } from '../../../store/ActionsCreator';
 
 import { SortValue } from '../constants';
 
-const DropDownMenu = ({ isSortable, columnHeader, onClose, onHideColumn, onShow }) => {
-  const dispatch = useDispatch();
+const DropDownMenu = ({ isSortable, columnHeaderKey, onClose, onHideColumn, onShowFilter, onSortChange }) => {
+  const handleMenuSort = (isAsc, columnHeaderKey) => {
+    onSortChange(isAsc, columnHeaderKey);
+    onClose();
+  };
 
-  const handleMenuSort = (isAsc, columnHeader) => {
-    onClose();
-    dispatch(setSortFlag(isAsc));
-    dispatch(setColumnHeader(columnHeader));
-  };
   const handleMenuShowFilter = () => {
+    onShowFilter(columnHeaderKey);
     onClose();
-    onShow();
-    dispatch(setColumnHeader(columnHeader));
   };
+
   const handleMenuHideColumn = () => {
+    onHideColumn(columnHeaderKey);
     onClose();
-    onHideColumn(columnHeader);
   };
 
   return (
     <div className="drop-down__menu">
       {isSortable && (
-        <div className="menu-item" onClick={() => handleMenuSort(null, null)}>
-          UNSORT
-        </div>
-      )}
-      {isSortable && (
-        <div className="menu-item" onClick={() => handleMenuSort(SortValue.ASC, columnHeader)}>
-          SORT BY ASC
-        </div>
-      )}
-      {isSortable && (
-        <div className="menu-item" onClick={() => handleMenuSort(SortValue.DESC, columnHeader)}>
-          SORT BY DESC
-        </div>
+        <>
+          <div className="menu-item" onClick={() => handleMenuSort(null, null)}>
+            Unsort
+          </div>
+          <div className="menu-item" onClick={() => handleMenuSort(SortValue.ASC, columnHeaderKey)}>
+            Sort by ASC
+          </div>
+          <div className="menu-item" onClick={() => handleMenuSort(SortValue.DESC, columnHeaderKey)}>
+            Sort by DESC
+          </div>
+        </>
       )}
       <div className="menu-item" onClick={handleMenuShowFilter}>
-        FILTER
+        Filter
       </div>
       <div className="menu-item" onClick={handleMenuHideColumn}>
-        HIDE
+        Hide
       </div>
     </div>
   );

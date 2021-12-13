@@ -1,34 +1,46 @@
 import { React, useState } from 'react';
 
 import DropDownMenu from './DropDownMenu';
-import { ArrowType } from '../constants';
-import { SortValue } from '../constants';
+import { ArrowType, SortValue } from '../constants';
 
-const HeaderCell = ({ columnHeader, label, isSortable, isOrderAsc, onHideColumn, onSort, onShow }) => {
+const HeaderCell = ({
+  columnHeaderKey,
+  label,
+  isSortable,
+  isOrderAsc,
+  onHideColumn,
+  onSort,
+  onShowFilter,
+  onSortChange,
+}) => {
   const [showMenu, setShowMenu] = useState(false);
+
   const handleClose = () => {
     setShowMenu(false);
   };
 
   return (
     <div className="table-header__cell">
-      <div className="header-sort-btn" onClick={() => onSort(columnHeader)}>
+      <div className="header-sort-btn" onClick={() => isSortable && onSort(columnHeaderKey)}>
         {label}
       </div>
       <div className="actions-container">
-        <span className="material-icons arrow" onClick={() => onSort(columnHeader)}>
-          {isOrderAsc === SortValue.ASC ? ArrowType.UP : ArrowType.DOWN}
-        </span>
+        {isSortable && (
+          <span className="material-icons arrow" onClick={() => onSort(columnHeaderKey)}>
+            {isOrderAsc === SortValue.ASC ? ArrowType.UP : ArrowType.DOWN}
+          </span>
+        )}
         <span className="material-icons menuBtn" onClick={() => setShowMenu(true)}>
           more_vert
         </span>
         {showMenu && (
           <DropDownMenu
             isSortable={isSortable}
-            columnHeader={columnHeader}
+            columnHeaderKey={columnHeaderKey}
             onHideColumn={onHideColumn}
             onClose={handleClose}
-            onShow={onShow}
+            onSortChange={onSortChange}
+            onShowFilter={onShowFilter}
           />
         )}
       </div>
