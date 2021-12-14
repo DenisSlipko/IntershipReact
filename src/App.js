@@ -1,11 +1,60 @@
-import './App.css';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
-function App() {
+import Table from './components/Table/Table';
+import { fetchCountriesThunk } from './store/thunks/countries.thunks';
+import { getCountries, getTotalAmount } from './store/reducers/countries.reduсer';
+
+const TableColumnsConfig = [
+  {
+    label: 'Name',
+    key: 'name',
+    sortable: true,
+  },
+  {
+    label: 'Iso',
+    key: 'iso3',
+    sortable: true,
+  },
+  {
+    label: 'Phone code',
+    key: 'phone_code',
+    sortable: false,
+  },
+  {
+    label: 'Currency',
+    key: 'currency',
+    sortable: false,
+  },
+  {
+    label: 'Capital',
+    key: 'capital',
+    sortable: false,
+  },
+];
+
+const App = () => {
+  const countries = useSelector(getCountries);
+  const totalAmount = useSelector(getTotalAmount);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    handleDataUpdate();
+  }, []);
+
+  const handleDataUpdate = (amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue) => {
+    dispatch(fetchCountriesThunk(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue));
+  };
+
   return (
-    <div className="App">
-      <header className="App-header"></header>
-    </div>
+    <Table
+      columnsConfig={TableColumnsConfig}
+      data={countries}
+      totalAmount={totalAmount}
+      onDataUpdate={handleDataUpdate}
+    />
   );
-}
+};
 
 export default App;
