@@ -1,13 +1,12 @@
-import { getCountries, getTotalAmount, getCountiesFailure } from '../actions/countries.actions';
-import { countriesRequest } from '../../api/countriesRequest';
+import { fetchCountriesSuccess, fetchCountiesFailure } from '../actions/countries.actions';
+import { countriesRequest } from '../../api/countries.request';
 
 export const fetchCountries = (amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filter) => {
   return async (dispatch) => {
     try {
       const response = await countriesRequest(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filter);
 
-      dispatch(getCountries(response.data));
-      dispatch(getTotalAmount(response.headers['x-total-count']));
+      dispatch(fetchCountriesSuccess(response.data, response.headers['x-total-count']));
 
       // localStorage.setItem('is-asc', isOrderAsc);
       // localStorage.setItem('data-key', columnHeaderKey);
@@ -15,7 +14,7 @@ export const fetchCountries = (amountElOnPage, currentPage, isOrderAsc, columnHe
     } catch (error) {
       console.error(error);
 
-      dispatch(getCountiesFailure(error));
+      dispatch(fetchCountiesFailure(error));
     }
   };
 };

@@ -1,21 +1,12 @@
-import { GET_COUNTRIES, GET_COUNTRIES_FAILURE, GET_COUNTRIES_SUCCESS, TOTAL_AMOUNT } from './types/countries.types';
+import { FETCH_COUNTRIES_FAILURE, FETCH_COUNTRIES_SUCCESS } from './types/countries.types';
 
-export const getCountries = (countries) => ({
-  type: GET_COUNTRIES,
+export const fetchCountriesSuccess = (countries, totalAmount) => ({
+  type: FETCH_COUNTRIES_SUCCESS,
   countries,
+  totalAmount,
 });
 
-export const getTotalAmount = (total) => ({
-  type: TOTAL_AMOUNT,
-  total,
-});
-
-export const getCountiesSuccess = (countries) => ({
-  type: GET_COUNTRIES_SUCCESS,
-  countries,
-});
-
-export const getCountiesFailure = (error) => ({
-  type: GET_COUNTRIES_FAILURE,
+export const fetchCountiesFailure = (error) => ({
+  type: FETCH_COUNTRIES_FAILURE,
   error,
 });

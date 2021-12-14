@@ -3,7 +3,7 @@ import { React } from 'react';
 import { SortValue } from '../constants';
 
 const DropDownMenu = ({ isSortable, columnHeaderKey, onClose, onHideColumn, onShowFilter, onSortChange }) => {
-  const handleMenuSort = (isAsc, columnHeaderKey) => {
+  const handleMenuSort = (isAsc, columnHeaderKey) => () => {
     onSortChange(isAsc, columnHeaderKey);
     onClose();
   };
@@ -22,13 +22,13 @@ const DropDownMenu = ({ isSortable, columnHeaderKey, onClose, onHideColumn, onSh
     <div className="drop-down__menu">
       {isSortable && (
         <>
-          <div className="menu-item" onClick={() => handleMenuSort(null, null)}>
+          <div className="menu-item" onClick={handleMenuSort(null, null)}>
             Unsort
           </div>
-          <div className="menu-item" onClick={() => handleMenuSort(SortValue.ASC, columnHeaderKey)}>
+          <div className="menu-item" onClick={handleMenuSort(SortValue.ASC, columnHeaderKey)}>
             Sort by ASC
           </div>
-          <div className="menu-item" onClick={() => handleMenuSort(SortValue.DESC, columnHeaderKey)}>
+          <div className="menu-item" onClick={handleMenuSort(SortValue.DESC, columnHeaderKey)}>
             Sort by DESC
           </div>
         </>

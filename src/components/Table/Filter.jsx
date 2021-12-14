@@ -1,7 +1,11 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 
 const Filter = ({ filterLabel, filterValue, onClose, onChangeFilter }) => {
   const [value, setValue] = useState(filterValue);
+
+  useEffect(() => {
+    onChangeFilter(value);
+  }, [value]);
 
   const handleCleanField = () => {
     setValue('');
@@ -10,7 +14,6 @@ const Filter = ({ filterLabel, filterValue, onClose, onChangeFilter }) => {
   const handleInputChange = (event) => {
     const value = event.target.value;
     setValue(value);
-    onChangeFilter(value);
   };
 
   return (

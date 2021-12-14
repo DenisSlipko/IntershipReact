@@ -6,13 +6,13 @@ import HeaderCell from './TableHeader/HeaderCell';
 import TableRows from './TableRows';
 import Filter from './Filter';
 
-const Table = ({ TableColumnsConfig, data, totalAmount, onDataUpdate }) => {
+const Table = ({ columnsConfig, data, totalAmount, onDataUpdate }) => {
   const [filterValue, setFilterValue] = useState(localStorage.getItem('filter'));
   const [columnHeaderKey, setColumnHeaderKey] = useState(localStorage.getItem('data-key'));
   const [isOrderAsc, setOrderAsc] = useState(localStorage.getItem('is-asc'));
   const [currentPage, setCurrentPage] = useState(DEFAULT_CURRENT_PAGE);
   const [amountElOnPage, setAmountElOnPage] = useState(DEFAULT_AMOUNT_EL);
-  const [countriesTableColumnsConfig, setCountriesTableColumnsConfig] = useState(TableColumnsConfig);
+  const [countriesConfig, setCountriesConfig] = useState(columnsConfig);
   const [showFilter, setShowFilter] = useState(false);
 
   const pagesAmount = Math.ceil(totalAmount / amountElOnPage);
@@ -40,10 +40,6 @@ const Table = ({ TableColumnsConfig, data, totalAmount, onDataUpdate }) => {
     }
   };
 
-  const handleChangePage = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
   const handleChangeAmountEl = (event) => {
     const amount = parseInt(event.target.value, 10);
 
@@ -52,28 +48,26 @@ const Table = ({ TableColumnsConfig, data, totalAmount, onDataUpdate }) => {
     }
   };
 
-  const handleChangeFilter = (value) => {
-    setFilterValue(value);
-  };
-
   const handleShowFilter = (columnHeaderKey) => {
     setColumnHeaderKey(columnHeaderKey);
     setShowFilter(true);
   };
+
   const handleCloseFilter = () => {
     setShowFilter(false);
   };
 
   const handleHideColumn = (columnHeaderKey) => {
-    const filteredConfig = countriesTableColumnsConfig.filter(({ key }) => key !== columnHeaderKey);
-    setCountriesTableColumnsConfig(filteredConfig);
+    const filteredConfig = countriesConfig.filter(({ key }) => key !== columnHeaderKey);
+
+    setCountriesConfig(filteredConfig);
   };
 
   return (
     <div className="table">
       <div className="table-header">
         <div className="table-header-row">
-          {countriesTableColumnsConfig.map(({ key, label, sortable }) => (
+          {countriesConfig.map(({ key, label, sortable }) => (
             <HeaderCell
               key={key}
               label={label}
@@ -88,14 +82,14 @@ const Table = ({ TableColumnsConfig, data, totalAmount, onDataUpdate }) => {
           ))}
         </div>
       </div>
-      <TableRows data={data} columnsConfig={countriesTableColumnsConfig} />
-      <Pagination pagesAmount={pagesAmount} onPageChange={handleChangePage} onChangeAmountEl={handleChangeAmountEl} />
+      <TableRows data={data} columnsConfig={countriesConfig} />
+      <Pagination pagesAmount={pagesAmount} onPageChange={setCurrentPage} onChangeAmountEl={handleChangeAmountEl} />
       {showFilter && (
         <Filter
           filterLabel={columnHeaderKey}
           filterValue={filterValue}
           onClose={handleCloseFilter}
-          onChangeFilter={handleChangeFilter}
+          onChangeFilter={setFilterValue}
         />
       )}
     </div>
