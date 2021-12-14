@@ -1,12 +1,14 @@
-import { fetchCountriesSuccess, fetchCountiesFailure } from '../actions/countries.actions';
-import { countriesRequest } from '../../api/countries.request';
+import { fetchCountriesSuccess, fetchCountriesFailure } from '../actions/countries.actions';
+import { fetchCountries } from '../../api/countries.request';
 
-export const fetchCountries = (amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filter) => {
+export const fetchCountriesThunk = (amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filter) => {
   return async (dispatch) => {
     try {
-      const response = await countriesRequest(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filter);
+      const response = await fetchCountries(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filter);
+      const countries = response.data;
+      const totalAmount = response.headers['x-total-count'];
 
-      dispatch(fetchCountriesSuccess(response.data, response.headers['x-total-count']));
+      dispatch(fetchCountriesSuccess(countries, totalAmount));
 
       // localStorage.setItem('is-asc', isOrderAsc);
       // localStorage.setItem('data-key', columnHeaderKey);
@@ -14,7 +16,7 @@ export const fetchCountries = (amountElOnPage, currentPage, isOrderAsc, columnHe
     } catch (error) {
       console.error(error);
 
-      dispatch(fetchCountiesFailure(error));
+      dispatch(fetchCountriesFailure(error));
     }
   };
 };

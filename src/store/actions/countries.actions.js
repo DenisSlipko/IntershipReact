@@ -6,7 +6,7 @@ export const fetchCountriesSuccess = (countries, totalAmount) => ({
   totalAmount,
 });
 
-export const fetchCountiesFailure = (error) => ({
+export const fetchCountriesFailure = (error) => ({
   type: FETCH_COUNTRIES_FAILURE,
   error,
 });

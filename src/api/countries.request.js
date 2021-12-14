@@ -1,6 +1,6 @@
 import { baseRequest } from './base.request';
 
-export const countriesRequest = (amountElOnPage = 20, currentPage, isOrderAsc, columnHeaderKey, filter) => {
+export const fetchCountries = (amountElOnPage = 20, currentPage, isOrderAsc, columnHeaderKey, filter) => {
   const like = `${columnHeaderKey}_like`;
 
   return baseRequest('countries', {
