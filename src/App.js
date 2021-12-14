@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import Table from './components/Table/Table';
 import { fetchCountriesThunk } from './store/thunks/countries.thunks';
-import { getCountries, getTotalAmount } from './store/redusers/countries.reducer';
+import { getCountries, getTotalAmount } from './store/reducers/countries.reduсer';
 
 const TableColumnsConfig = [
   {
