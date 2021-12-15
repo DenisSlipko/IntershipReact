@@ -1,9 +1,8 @@
 import { baseRequest } from './base.request';
 
-export const fetchCountries = (amountElOnPage = 20, currentPage, isOrderAsc, columnHeaderKey, filter) => {
+export const fetchCountries = async (amountElOnPage = 20, currentPage, isOrderAsc, columnHeaderKey, filter) => {
   const like = `${columnHeaderKey}_like`;
-
-  return baseRequest('countries', {
+  const response = await baseRequest('countries', {
     params: {
       _limit: amountElOnPage,
       _page: currentPage,
@@ -12,4 +11,5 @@ export const fetchCountries = (amountElOnPage = 20, currentPage, isOrderAsc, col
       [like]: filter,
     },
   });
+  return [response.data, response.headers['x-total-count']];
 };
