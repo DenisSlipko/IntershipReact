@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 
-import { COUNTRIES_LOADING } from '../actions/types/countries.types';
+import { FETCH_COUNTRIES } from '../actions/types/countries.types';
 import { fetchCountries } from '../../api/countries.request';
 import { fetchCountriesFailure, fetchCountriesSuccess } from '../actions/countries.actions';
 
@@ -21,5 +21,5 @@ export function* fetchCountriesSaga({ amountElOnPage, currentPage, isOrderAsc, c
   }
 }
 export default function* watchCountriesSaga() {
-  yield takeLatest(COUNTRIES_LOADING, fetchCountriesSaga);
+  yield takeLatest(FETCH_COUNTRIES, fetchCountriesSaga);
 }

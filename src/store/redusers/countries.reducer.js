@@ -1,4 +1,4 @@
-import { FETCH_COUNTRIES_FAILURE, FETCH_COUNTRIES_SUCCESS, COUNTRIES_LOADING } from '../actions/types/countries.types';
+import { FETCH_COUNTRIES_FAILURE, FETCH_COUNTRIES_SUCCESS, FETCH_COUNTRIES } from '../actions/types/countries.types';
 
 const defaultState = {
   countries: [],
@@ -8,7 +8,7 @@ const defaultState = {
 
 export const countries = (state = defaultState, action) => {
   switch (action.type) {
-    case COUNTRIES_LOADING:
+    case FETCH_COUNTRIES:
       return { ...state, 
               loading: true };
     case FETCH_COUNTRIES_SUCCESS:

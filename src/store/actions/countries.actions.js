@@ -1,7 +1,7 @@
-import { COUNTRIES_LOADING, FETCH_COUNTRIES_FAILURE, FETCH_COUNTRIES_SUCCESS } from './types/countries.types';
+import { FETCH_COUNTRIES, FETCH_COUNTRIES_FAILURE, FETCH_COUNTRIES_SUCCESS } from './types/countries.types';
 
-export const countriesLoading = (loading) => ({
-  type: COUNTRIES_LOADING,
+export const fetchCountries = (loading) => ({
+  type: FETCH_COUNTRIES,
   loading,
 });
 
