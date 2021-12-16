@@ -3,8 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import Table from './components/Table/Table';
 import { getCountries, getTotalAmount } from './store/redusers/countries.reducer';
-import { FETCH_COUNTRIES } from './store/actions/types/countries.types';
-import { countriesLoading } from './store/actions/countries.actions';
+import { fetchCountries } from './store/actions/countries.actions';
 
 const TableColumnsConfig = [
   {
@@ -45,18 +44,7 @@ const App = () => {
   }, []);
 
   const handleDataUpdate = (amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue) => {
-    dispatchData(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue);
-  };
-
-  const dispatchData = (amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue) => {
-    dispatch({
-      type: FETCH_COUNTRIES,
-      amountElOnPage: amountElOnPage,
-      currentPage: currentPage,
-      isOrderAsc: isOrderAsc,
-      columnHeaderKey: columnHeaderKey,
-      filterValue: filterValue,
-    });
+    dispatch(fetchCountries(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue));
   };
 
   return (

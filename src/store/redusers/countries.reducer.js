@@ -9,17 +9,11 @@ const defaultState = {
 export const countries = (state = defaultState, action) => {
   switch (action.type) {
     case FETCH_COUNTRIES:
-      return { ...state, 
-              loading: true };
+      return { ...state, loading: true };
     case FETCH_COUNTRIES_SUCCESS:
-      return { ...state, 
-              countries: action.countries, 
-              totalAmount: action.totalAmount, 
-              loading: false };
+      return { ...state, countries: action.countries, totalAmount: action.totalAmount, loading: false };
     case FETCH_COUNTRIES_FAILURE:
-      return { ...state, 
-              error: action.error, 
-              loading: false };
+      return { ...state, error: action.error, loading: false };
     default:
       return state;
   }

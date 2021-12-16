@@ -1,8 +1,12 @@
 import { FETCH_COUNTRIES, FETCH_COUNTRIES_FAILURE, FETCH_COUNTRIES_SUCCESS } from './types/countries.types';
 
-export const fetchCountries = (loading) => ({
+export const fetchCountries = (amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue) => ({
   type: FETCH_COUNTRIES,
-  loading,
+  amountElOnPage,
+  currentPage,
+  isOrderAsc,
+  columnHeaderKey,
+  filterValue,
 });
 
 export const fetchCountriesSuccess = (countries, totalAmount) => ({
