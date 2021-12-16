@@ -11,5 +11,6 @@ export const fetchCountries = async (amountElOnPage = 20, currentPage, isOrderAs
       [like]: filter,
     },
   });
+
   return [response.data, response.headers['x-total-count']];
 };

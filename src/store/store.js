@@ -1,10 +1,9 @@
-import { combineReducers } from 'redux';
-import { createStore, applyMiddleware } from 'redux';
+import { combineReducers, createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
 
 import { countries } from './redusers/countries.reducer';
-import rootSaga from './sagas/countries.saga';
+import rootSaga from './sagas/root.saga';
 
 const sagaMiddleawre = createSagaMiddleware();
 
