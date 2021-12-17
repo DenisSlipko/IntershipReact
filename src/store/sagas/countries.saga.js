@@ -20,6 +20,7 @@ export function* fetchCountriesSaga({ amountElOnPage, currentPage, isOrderAsc, c
     yield put(fetchCountriesFailure(error));
   }
 }
+
 export default function* watchCountriesSaga() {
   yield takeLatest(FETCH_COUNTRIES, fetchCountriesSaga);
 }

@@ -1,7 +1,7 @@
 import { React } from 'react';
 
-const TableRows = ({ data, columnsConfig }) =>
-  data.map((element) => (
+const TableRows = ({ data, columnsConfig }) => {
+  return data.map((element) => (
     <div className="table-row" key={element.id}>
       {columnsConfig.map(({ key }) => (
         <div className="table-row__cell" key={element[key]}>
@@ -10,5 +10,6 @@ const TableRows = ({ data, columnsConfig }) =>
       ))}
     </div>
   ));
+};
 
 export default TableRows;

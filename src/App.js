@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Table from './components/Table/Table';
-import { getCountries, getTotalAmount } from './store/redusers/countries.reducer';
+import { getCountries, getTotalAmount } from './store/reducers/countries.reducer';
 import { fetchCountries } from './store/actions/countries.actions';
 
 const TableColumnsConfig = [
@@ -36,7 +36,6 @@ const TableColumnsConfig = [
 const App = () => {
   const countries = useSelector(getCountries);
   const totalAmount = useSelector(getTotalAmount);
-
   const dispatch = useDispatch();
 
   useEffect(() => {

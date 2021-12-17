@@ -156,7 +156,7 @@
   top: 50%;
   left: 50%;
   z-index: 1;
-  padding: 20px;
+  padding: 50px 20px;
   background: #ccc;
   transform: translate(-50%, -50%);
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
@@ -171,6 +171,9 @@
 .modal-input-flied {
   padding: 10px;
 }
+.modal-input-flied:invalid:required {
+  border: 2px solid red;
+}
 .change-data-btn {
   height: 50px;
   width: 150px;
@@ -179,4 +182,22 @@
   color: black;
   border: 0.5px solid rgb(160, 159, 159);
   cursor: pointer;
+}
+
+.change-data-btn:disabled {
+  cursor: not-allowed;
+}
+
+.close-modal-btn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.error {
+  margin: 0;
+  font-size: 12px;
+  color: red;
+  margin-top: -22px;
+  margin-bottom: -22px;
 }
