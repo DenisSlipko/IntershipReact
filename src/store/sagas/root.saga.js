@@ -1,5 +1,8 @@
+import { all } from 'redux-saga/effects';
+
 import watchCountriesSaga from './countries.saga';
+import watchCountrySaga from './change.country';
 
 export default function* rootSaga() {
-  yield watchCountriesSaga();
+  yield all([watchCountriesSaga(), watchCountrySaga()]);
 }

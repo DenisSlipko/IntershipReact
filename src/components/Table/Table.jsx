@@ -1,12 +1,14 @@
 import { React, useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
 
 import { DEFAULT_AMOUNT_EL, DEFAULT_CURRENT_PAGE, SortValue } from './constants';
 import Pagination from './PaginationComponents/Pagination';
 import HeaderCell from './TableHeader/HeaderCell';
 import TableRows from './TableRows';
 import Filter from './Filter';
+import Modal from '../Modal/Modal';
 
-const Table = ({ columnsConfig, data, totalAmount, onDataUpdate }) => {
+const Table = ({ columnsConfig, data, totalAmount, onDataUpdate, onCountryChange }) => {
   const [filterValue, setFilterValue] = useState(localStorage.getItem('filter'));
   const [columnHeaderKey, setColumnHeaderKey] = useState(localStorage.getItem('data-key'));
   const [isOrderAsc, setOrderAsc] = useState(localStorage.getItem('is-asc'));
@@ -14,6 +16,8 @@ const Table = ({ columnsConfig, data, totalAmount, onDataUpdate }) => {
   const [amountElOnPage, setAmountElOnPage] = useState(DEFAULT_AMOUNT_EL);
   const [countriesConfig, setCountriesConfig] = useState(columnsConfig);
   const [showFilter, setShowFilter] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [country, setCountry] = useState({});
 
   const pagesAmount = Math.ceil(totalAmount / amountElOnPage);
 
@@ -63,6 +67,16 @@ const Table = ({ columnsConfig, data, totalAmount, onDataUpdate }) => {
     setCountriesConfig(filteredConfig);
   };
 
+  const handleShowModal = (country) => {
+    setCountry(country);
+    setShowModal(!showModal);
+  };
+
+  const handleChangeCountry = (country, id) => {
+    onCountryChange(country, id);
+    handleShowModal(false);
+  };
+
   return (
     <div className="table">
       <div className="table-header">
@@ -82,7 +96,7 @@ const Table = ({ columnsConfig, data, totalAmount, onDataUpdate }) => {
           ))}
         </div>
       </div>
-      <TableRows data={data} columnsConfig={countriesConfig} />
+      <TableRows data={data} columnsConfig={countriesConfig} onShowModal={handleShowModal} />
       <Pagination pagesAmount={pagesAmount} onPageChange={setCurrentPage} onChangeAmountEl={handleChangeAmountEl} />
       {showFilter && (
         <Filter
@@ -92,6 +106,16 @@ const Table = ({ columnsConfig, data, totalAmount, onDataUpdate }) => {
           onChangeFilter={setFilterValue}
         />
       )}
+      {showModal &&
+        ReactDOM.createPortal(
+          <Modal
+            country={country}
+            onClose={handleShowModal}
+            columnsConfig={columnsConfig}
+            onChangeCountry={handleChangeCountry}
+          />,
+          document.getElementById('root')
+        )}
     </div>
   );
 };

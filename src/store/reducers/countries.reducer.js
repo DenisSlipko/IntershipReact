@@ -1,4 +1,11 @@
-import { FETCH_COUNTRIES_FAILURE, FETCH_COUNTRIES_SUCCESS, FETCH_COUNTRIES } from '../actions/types/countries.types';
+import {
+  FETCH_COUNTRIES_FAILURE,
+  FETCH_COUNTRIES_SUCCESS,
+  FETCH_COUNTRIES,
+  CHANGE_COUNTRY,
+  CHANGE_COUNTRY_SUCCESS,
+  CHANGE_COUNTRY_FAILURE,
+} from '../actions/types/countries.types';
 
 const defaultState = {
   countries: [],
@@ -13,6 +20,19 @@ export const countries = (state = defaultState, action) => {
     case FETCH_COUNTRIES_SUCCESS:
       return { ...state, countries: action.countries, totalAmount: action.totalAmount, loading: false };
     case FETCH_COUNTRIES_FAILURE:
+      return { ...state, error: action.error, loading: false };
+    case CHANGE_COUNTRY:
+      return { ...state, loading: true };
+    case CHANGE_COUNTRY_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        countries: state.countries.map((country) => {
+          return country.id === action.country.id ? { ...action.country } : country;
+        }),
+      };
+    }
+    case CHANGE_COUNTRY_FAILURE:
       return { ...state, error: action.error, loading: false };
     default:
       return state;

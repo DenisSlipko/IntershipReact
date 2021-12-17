@@ -1,8 +1,8 @@
 import { React } from 'react';
 
-const TableRows = ({ data, columnsConfig }) => {
+const TableRows = ({ data, columnsConfig, onShowModal }) => {
   return data.map((element) => (
-    <div className="table-row" key={element.id}>
+    <div className="table-row" key={element.id} onClick={() => onShowModal(element)}>
       {columnsConfig.map(({ key }) => (
         <div className="table-row__cell" key={element[key]}>
           {element[key]}
