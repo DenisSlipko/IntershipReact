@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Table from './components/Table/Table';
-import { fetchCountriesThunk } from './store/thunks/countries.thunks';
-import { getCountries, getTotalAmount } from './store/reducers/countries.reduсer';
+import { getCountries, getTotalAmount } from './store/reducers/countries.reducer';
+import { fetchCountries } from './store/actions/countries.actions';
 
 const TableColumnsConfig = [
   {
@@ -36,7 +36,6 @@ const TableColumnsConfig = [
 const App = () => {
   const countries = useSelector(getCountries);
   const totalAmount = useSelector(getTotalAmount);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -44,7 +43,7 @@ const App = () => {
   }, []);
 
   const handleDataUpdate = (amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue) => {
-    dispatch(fetchCountriesThunk(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue));
+    dispatch(fetchCountries(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue));
   };
 
   return (
