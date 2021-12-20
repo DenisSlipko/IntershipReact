@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 
 import { CHANGE_COUNTRY } from '../actions/types/countries.types';
-import { changeCountry } from '../../api/change.country';
+import { changeCountry } from '../../api/change.country.request';
 import { changeCountrySuccess, changeCountryFailure } from '../actions/countries.actions';
 
 export function* changeCountriesSaga({ country, id }) {
