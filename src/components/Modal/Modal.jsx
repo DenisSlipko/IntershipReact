@@ -11,17 +11,17 @@ const Modal = ({ country, onClose, columnsConfig, onChangeCountry }) => {
       <button className="close-modal-btn" onClick={onClose}>
         X
       </button>
-      {columnsConfig.map((el) => (
-        <React.Fragment key={el.key}>
+      {columnsConfig.map(({ key, label, name }) => (
+        <React.Fragment key={key}>
           <input
             className="modal-input-flied"
-            placeholder={el.label}
-            name={el.name}
-            value={values[el.key]}
-            onChange={(event) => handleChange(el.key, event)}
+            placeholder={label}
+            name={name}
+            value={values[key]}
+            onChange={(event) => handleChange(key, event)}
             required
           />
-          {errors[el.key] && <p className="error">{errors[el.key]}</p>}
+          {errors[key] && <p className="error">{errors[key]}</p>}
         </React.Fragment>
       ))}
       <button className="change-data-btn" onClick={handleSubmit}>

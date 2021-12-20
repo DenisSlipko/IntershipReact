@@ -26,10 +26,10 @@ export const countries = (state = defaultState, action) => {
     case CHANGE_COUNTRY_SUCCESS: {
       return {
         ...state,
-        loading: false,
         countries: state.countries.map((country) => {
           return country.id === action.country.id ? { ...action.country } : country;
         }),
+        loading: false,
       };
     }
     case CHANGE_COUNTRY_FAILURE:
