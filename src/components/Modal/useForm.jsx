@@ -1,14 +1,9 @@
 import { useState } from 'react';
 
-const useForm = (country, validate, onChangeCountry) => {
-  const [values, setValues] = useState({
-    name: country.name,
-    iso3: country.iso3,
-    phone_code: country.phone_code,
-    currency: country.currency,
-    capital: country.capital,
-  });
+const useForm = (initialValue, validationConfig) => {
+  const [values, setValues] = useState(initialValue);
   const [errors, setErrors] = useState({});
+  const [isNoError, setIsNoError] = useState(false);
 
   const handleChange = (name, event) => {
     setValues({
@@ -17,17 +12,38 @@ const useForm = (country, validate, onChangeCountry) => {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = () => {
+    if (validationConfig) {
+      let valid = true;
+      const newErrors = {};
+      for (const key in validationConfig) {
+        const value = values[key];
+        const validation = validationConfig[key];
+        const pattern = validation.pattern;
 
-    setErrors(validate(values));
+        if (pattern.value && !RegExp(pattern.value).test(value)) {
+          valid = false;
+          newErrors[key] = pattern.message;
+        }
 
-    if (Object.keys(validate(values)).length === 0) {
-      onChangeCountry(values, country.id);
+        const rule = validation.rules;
+
+        if (rule.isValid && !rule.isValid(value)) {
+          valid = false;
+          newErrors[key] = rule.message;
+        }
+      }
+      valid ? setIsNoError(true) : setErrors(newErrors);
     }
   };
 
-  return { handleChange, handleSubmit, values, errors };
+  return {
+    handleSubmit,
+    handleChange,
+    values,
+    errors,
+    isNoError,
+  };
 };
 
 export default useForm;

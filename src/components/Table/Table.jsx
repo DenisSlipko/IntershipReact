@@ -6,9 +6,20 @@ import Pagination from './PaginationComponents/Pagination';
 import HeaderCell from './TableHeader/HeaderCell';
 import TableRows from './TableRows';
 import Filter from './Filter';
-import Modal from '../Modal/Modal';
+import TableModal from '../Modal/TableModal';
 
-const Table = ({ columnsConfig, data, totalAmount, onDataUpdate, onCountryChange }) => {
+const Table = ({
+  columnsConfig,
+  data,
+  totalAmount,
+  validationConfig,
+  tableField,
+  tableFieldId,
+  showModal,
+  onShowModal,
+  onDataUpdate,
+  onDataChange,
+}) => {
   const [filterValue, setFilterValue] = useState(localStorage.getItem('filter'));
   const [columnHeaderKey, setColumnHeaderKey] = useState(localStorage.getItem('data-key'));
   const [isOrderAsc, setOrderAsc] = useState(localStorage.getItem('is-asc'));
@@ -16,8 +27,11 @@ const Table = ({ columnsConfig, data, totalAmount, onDataUpdate, onCountryChange
   const [amountElOnPage, setAmountElOnPage] = useState(DEFAULT_AMOUNT_EL);
   const [countriesConfig, setCountriesConfig] = useState(columnsConfig);
   const [showFilter, setShowFilter] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [country, setCountry] = useState({});
+  // const [showModal, setShowModal] = useState(false);
+  // const [country, setCountry] = useState({});
+  // const [countryId, setCountryId] = useState();
+
+  const rootSelector = document.getElementById('root');
 
   const pagesAmount = Math.ceil(totalAmount / amountElOnPage);
 
@@ -67,14 +81,9 @@ const Table = ({ columnsConfig, data, totalAmount, onDataUpdate, onCountryChange
     setCountriesConfig(filteredConfig);
   };
 
-  const handleShowModal = (country) => {
-    setCountry(country);
-    setShowModal(!showModal);
-  };
-
-  const handleChangeCountry = (country, id) => {
-    onCountryChange(country, id);
-    handleShowModal(false);
+  const handleUpdateData = (country, id) => {
+    onDataChange(country, id);
+    onShowModal(false);
   };
 
   return (
@@ -96,7 +105,7 @@ const Table = ({ columnsConfig, data, totalAmount, onDataUpdate, onCountryChange
           ))}
         </div>
       </div>
-      <TableRows data={data} columnsConfig={countriesConfig} onShowModal={handleShowModal} />
+      <TableRows data={data} columnsConfig={countriesConfig} onShowModal={onShowModal} />
       <Pagination pagesAmount={pagesAmount} onPageChange={setCurrentPage} onChangeAmountEl={handleChangeAmountEl} />
       {showFilter && (
         <Filter
@@ -108,13 +117,15 @@ const Table = ({ columnsConfig, data, totalAmount, onDataUpdate, onCountryChange
       )}
       {showModal &&
         ReactDOM.createPortal(
-          <Modal
-            country={country}
-            onClose={handleShowModal}
+          <TableModal
+            country={tableField}
+            countryId={tableFieldId}
             columnsConfig={columnsConfig}
-            onChangeCountry={handleChangeCountry}
+            validationConfig={validationConfig}
+            onClose={onShowModal}
+            onUpdateData={handleUpdateData}
           />,
-          document.getElementById('root')
+          rootSelector
         )}
     </div>
   );
