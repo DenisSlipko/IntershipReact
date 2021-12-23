@@ -1,25 +1,12 @@
 import { React, useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
 
 import { DEFAULT_AMOUNT_EL, DEFAULT_CURRENT_PAGE, SortValue } from './constants';
 import Pagination from './PaginationComponents/Pagination';
 import HeaderCell from './TableHeader/HeaderCell';
 import TableRows from './TableRows';
 import Filter from './Filter';
-import TableModal from '../Modal/TableModal';
 
-const Table = ({
-  columnsConfig,
-  data,
-  totalAmount,
-  validationConfig,
-  tableField,
-  tableFieldId,
-  showModal,
-  onShowModal,
-  onDataUpdate,
-  onDataChange,
-}) => {
+const Table = ({ columnsConfig, data, totalAmount, onShowModal, onDataUpdate }) => {
   const [filterValue, setFilterValue] = useState(localStorage.getItem('filter'));
   const [columnHeaderKey, setColumnHeaderKey] = useState(localStorage.getItem('data-key'));
   const [isOrderAsc, setOrderAsc] = useState(localStorage.getItem('is-asc'));
@@ -27,11 +14,6 @@ const Table = ({
   const [amountElOnPage, setAmountElOnPage] = useState(DEFAULT_AMOUNT_EL);
   const [countriesConfig, setCountriesConfig] = useState(columnsConfig);
   const [showFilter, setShowFilter] = useState(false);
-  // const [showModal, setShowModal] = useState(false);
-  // const [country, setCountry] = useState({});
-  // const [countryId, setCountryId] = useState();
-
-  const rootSelector = document.getElementById('root');
 
   const pagesAmount = Math.ceil(totalAmount / amountElOnPage);
 
@@ -81,11 +63,6 @@ const Table = ({
     setCountriesConfig(filteredConfig);
   };
 
-  const handleUpdateData = (country, id) => {
-    onDataChange(country, id);
-    onShowModal(false);
-  };
-
   return (
     <div className="table">
       <div className="table-header">
@@ -115,18 +92,6 @@ const Table = ({
           onChangeFilter={setFilterValue}
         />
       )}
-      {showModal &&
-        ReactDOM.createPortal(
-          <TableModal
-            country={tableField}
-            countryId={tableFieldId}
-            columnsConfig={columnsConfig}
-            validationConfig={validationConfig}
-            onClose={onShowModal}
-            onUpdateData={handleUpdateData}
-          />,
-          rootSelector
-        )}
     </div>
   );
 };

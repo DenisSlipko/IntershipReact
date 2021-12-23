@@ -3,46 +3,48 @@ import { useState } from 'react';
 const useForm = (initialValue, validationConfig) => {
   const [values, setValues] = useState(initialValue);
   const [errors, setErrors] = useState({});
-  const [isNoError, setIsNoError] = useState(false);
 
-  const handleChange = (name, event) => {
+  const handleChange = (name) => (event) => {
+    const value = event.target.value;
     setValues({
       ...values,
-      [name]: event.target.value,
+      [name]: value,
     });
   };
 
-  const handleSubmit = () => {
+  const validate = () => {
     if (validationConfig) {
       let valid = true;
       const newErrors = {};
+
       for (const key in validationConfig) {
         const value = values[key];
         const validation = validationConfig[key];
-        const pattern = validation.pattern;
 
-        if (pattern.value && !RegExp(pattern.value).test(value)) {
+        if (validation.required && value.length === 0) {
           valid = false;
-          newErrors[key] = pattern.message;
+          newErrors[key] = validation.required;
         }
 
-        const rule = validation.rules;
-
-        if (rule.isValid && !rule.isValid(value)) {
+        if (validation.isValid && !validation.isValid(value)) {
           valid = false;
-          newErrors[key] = rule.message;
+          newErrors[key] = validation.message;
         }
       }
-      valid ? setIsNoError(true) : setErrors(newErrors);
+      if (!valid) {
+        setErrors(newErrors);
+      }
+      return valid;
+    } else {
+      return true;
     }
   };
 
   return {
-    handleSubmit,
+    validate,
     handleChange,
     values,
     errors,
-    isNoError,
   };
 };
 

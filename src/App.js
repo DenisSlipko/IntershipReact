@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import ReactDOM from 'react-dom';
 
 import Table from './components/Table/Table';
+import Modal from './components/Modal/Modal';
 import { getCountries, getTotalAmount } from './store/reducers/countries.reducer';
 import { fetchCountries, updateCountry } from './store/actions/countries.actions';
+import { validator } from './components/Modal/validator';
 
 const TableColumnsConfig = [
   {
@@ -33,56 +36,28 @@ const TableColumnsConfig = [
   },
 ];
 
-const ValidationConfig = {
+const validationConfig = {
   name: {
-    rules: {
-      isValid: (value) => value.length < 10,
-      message: 'Need less than 10 characters',
-    },
-    pattern: {
-      value: '^[A-Za-z]*$',
-      message: "You're not allowed to use special characters or numbers in your name.",
-    },
+    isValid: (value) => validator(value, 16, 3),
+    message: 'Need more than 3 and less than 16 characters.',
+    required: 'This field is required!',
   },
   iso3: {
-    rules: {
-      isValid: (value) => value.length <= 3,
-      message: 'Need less than 4 characters.',
-    },
-    pattern: {
-      value: '^[A-Z]*$',
-      message: "You're not allowed to use special characters or numbers in your iso.",
-    },
+    isValid: (value) => validator(value, 3, 2),
+    message: 'Need more than 2 and less than 3 characters.',
+    required: 'This field is required!',
   },
   phone_code: {
-    rules: {
-      isValid: (value) => value.length < 10,
-      message: 'Need less than 10 characters',
-    },
-    pattern: {
-      value: /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){3,}(\s*)?$/,
-      message: "You're not allowed to use special characters or numbers in your phone code.",
-    },
+    isValid: (value) => validator(value, 12, 3),
+    message: 'Need more than 3 and less than 12 characters.',
   },
   currency: {
-    rules: {
-      isValid: (value) => value.length <= 3,
-      message: 'Need less than 4 characters',
-    },
-    pattern: {
-      value: '^[A-Z]*$',
-      message: "You're not allowed to use special characters or numbers in your currency.",
-    },
+    isValid: (value) => validator(value, 3, 2),
+    message: 'Need more than 2 and less than 3 characters.',
   },
   capital: {
-    rules: {
-      isValid: (value) => value.length < 10,
-      message: 'Need less than 10 characters',
-    },
-    pattern: {
-      value: '^[A-Za-z]*$',
-      message: "You're not allowed to use special characters or numbers in your capital.",
-    },
+    isValid: (value) => validator(value, 16, 3),
+    message: 'Need more than 3 and less than 16 characters.',
   },
 };
 
@@ -93,6 +68,8 @@ const App = () => {
   const [showModal, setShowModal] = useState(false);
   const [tableRowId, setTableRowId] = useState();
   const [tableRow, setTableRow] = useState({});
+
+  const rootSelector = document.getElementById('root');
 
   const dispatch = useDispatch();
 
@@ -121,19 +98,33 @@ const App = () => {
     setShowModal(!showModal);
   };
 
+  const handleUpdateData = (country, id) => {
+    handleDataChange(country, id);
+    handleShowModal(false);
+  };
+
   return (
-    <Table
-      columnsConfig={TableColumnsConfig}
-      data={countries}
-      totalAmount={totalAmount}
-      validationConfig={ValidationConfig}
-      tableFieldId={tableRowId}
-      tableField={tableRow}
-      showModal={showModal}
-      onShowModal={handleShowModal}
-      onDataUpdate={handleDataRefresh}
-      onDataChange={handleDataChange}
-    />
+    <>
+      <Table
+        columnsConfig={TableColumnsConfig}
+        data={countries}
+        totalAmount={totalAmount}
+        onShowModal={handleShowModal}
+        onDataUpdate={handleDataRefresh}
+      />
+      {showModal &&
+        ReactDOM.createPortal(
+          <Modal
+            country={tableRow}
+            countryId={tableRowId}
+            columnsConfig={TableColumnsConfig}
+            validationConfig={validationConfig}
+            onClose={handleShowModal}
+            onUpdateData={handleUpdateData}
+          />,
+          rootSelector
+        )}
+    </>
   );
 };
 
