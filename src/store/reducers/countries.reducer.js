@@ -5,12 +5,14 @@ import {
   UPDATE_COUNTRY,
   UPDATE_COUNTRY_SUCCESS,
   UPDATE_COUNTRY_FAILURE,
+  SET_ALERT,
 } from '../actions/types/countries.types';
 
 const defaultState = {
   countries: [],
   totalAmount: 0,
   loading: false,
+  message: {},
 };
 
 export const countries = (state = defaultState, action) => {
@@ -33,6 +35,8 @@ export const countries = (state = defaultState, action) => {
     case FETCH_COUNTRIES_FAILURE:
     case UPDATE_COUNTRY_FAILURE:
       return { ...state, error: action.error, loading: false };
+    case SET_ALERT:
+      return { ...state, message: action.message };
     default:
       return state;
   }
@@ -41,3 +45,5 @@ export const countries = (state = defaultState, action) => {
 const getState = (state) => state.countries;
 export const getCountries = (state) => getState(state).countries;
 export const getTotalAmount = (state) => getState(state).totalAmount;
+export const getLoading = (state) => getState(state).loading;
+export const getToast = (state) => getState(state).message;

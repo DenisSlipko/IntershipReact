@@ -6,6 +6,7 @@ import ModalTableEditForm from './components/Modal/ModalTableEditForm';
 import { getCountries, getTotalAmount } from './store/reducers/countries.reducer';
 import { fetchCountries, updateCountry } from './store/actions/countries.actions';
 import { maxValue, minValue, required } from './components/Modal/useForm';
+import ToastMessage from './components/Toast/ToastMessage';
 
 const TableColumnsConfig = [
   {
@@ -40,6 +41,7 @@ const App = () => {
   const totalAmount = useSelector(getTotalAmount);
 
   const [countryObject, setCountryObject] = useState(null);
+  const [showToast, setShowToast] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -91,6 +93,13 @@ const App = () => {
     handleCloseModal();
   };
 
+  const handleShowToast = () => {
+    setShowToast(true);
+    setTimeout(() => {
+      setShowToast(false);
+    }, 3000);
+  };
+
   return (
     <>
       <Table
@@ -106,8 +115,10 @@ const App = () => {
           columnsConfig={TableColumnsConfig}
           onClose={handleCloseModal}
           onUpdateData={handleCountriesUpdate}
+          onShowToast={handleShowToast}
         />
       )}
+      {showToast && <ToastMessage />}
     </>
   );
 };

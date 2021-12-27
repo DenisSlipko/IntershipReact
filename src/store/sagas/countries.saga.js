@@ -7,6 +7,7 @@ import {
   fetchCountriesSuccess,
   changeCountrySuccess,
   changeCountryFailure,
+  setToast,
 } from '../actions/countries.actions';
 
 export function* fetchCountriesSaga({ amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue }) {
@@ -31,8 +32,10 @@ export function* updateCountriesSaga({ country, id }) {
     const updatedCountry = yield call(updateCountry, country, id);
 
     yield put(changeCountrySuccess(updatedCountry));
+    yield put(setToast({ text: 'Data success updated!', color: 'success' }));
   } catch (error) {
     yield put(changeCountryFailure(error));
+    yield put(setToast({ text: error, color: 'danger' }));
   }
 }
 

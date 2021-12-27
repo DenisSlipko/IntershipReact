@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import Input from '../Input/Input';
 import useForm from './useForm';
 
-const ModalTableEditForm = ({ dataObject, columnsConfig, onClose, onUpdateData }) => {
+const ModalTableEditForm = ({ dataObject, columnsConfig, onClose, onUpdateData, onShowToast }) => {
   const { validate, handleFieldChange, values, errors } = useForm(dataObject);
 
   const rootSelector = document.getElementById('root');
@@ -12,6 +12,7 @@ const ModalTableEditForm = ({ dataObject, columnsConfig, onClose, onUpdateData }
   const handleUpdateData = () => {
     if (validate()) {
       onUpdateData(values, dataObject.id.value);
+      onShowToast();
     }
   };
 
