@@ -26,11 +26,11 @@ export function* fetchCountriesSaga({ amountElOnPage, currentPage, isOrderAsc, c
   }
 }
 
-export function* changeCountriesSaga({ country, id }) {
+export function* updateCountriesSaga({ country, id }) {
   try {
-    const changedCountry = yield call(updateCountry, country, id);
+    const updatedCountry = yield call(updateCountry, country, id);
 
-    yield put(changeCountrySuccess(changedCountry));
+    yield put(changeCountrySuccess(updatedCountry));
   } catch (error) {
     yield put(changeCountryFailure(error));
   }
@@ -38,5 +38,5 @@ export function* changeCountriesSaga({ country, id }) {
 
 export default function* watchCountriesSaga() {
   yield takeLatest(FETCH_COUNTRIES, fetchCountriesSaga);
-  yield takeLatest(UPDATE_COUNTRY, changeCountriesSaga);
+  yield takeLatest(UPDATE_COUNTRY, updateCountriesSaga);
 }

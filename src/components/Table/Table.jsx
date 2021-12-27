@@ -6,7 +6,7 @@ import HeaderCell from './TableHeader/HeaderCell';
 import TableRows from './TableRows';
 import Filter from './Filter';
 
-const Table = ({ columnsConfig, data, totalAmount, onShowModal, onDataUpdate }) => {
+const Table = ({ columnsConfig, data, totalAmount, onClickRow, onDataRefresh }) => {
   const [filterValue, setFilterValue] = useState(localStorage.getItem('filter'));
   const [columnHeaderKey, setColumnHeaderKey] = useState(localStorage.getItem('data-key'));
   const [isOrderAsc, setOrderAsc] = useState(localStorage.getItem('is-asc'));
@@ -18,7 +18,7 @@ const Table = ({ columnsConfig, data, totalAmount, onShowModal, onDataUpdate }) 
   const pagesAmount = Math.ceil(totalAmount / amountElOnPage);
 
   useEffect(() => {
-    onDataUpdate(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue);
+    onDataRefresh(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue);
 
     // setOrderAsc(localStorage.getItem('is-asc'));
     // setColumnHeaderKey(localStorage.getItem('data-key'));
@@ -82,7 +82,7 @@ const Table = ({ columnsConfig, data, totalAmount, onShowModal, onDataUpdate }) 
           ))}
         </div>
       </div>
-      <TableRows data={data} columnsConfig={countriesConfig} onShowModal={onShowModal} />
+      <TableRows data={data} columnsConfig={countriesConfig} onClickRow={onClickRow} />
       <Pagination pagesAmount={pagesAmount} onPageChange={setCurrentPage} onChangeAmountEl={handleChangeAmountEl} />
       {showFilter && (
         <Filter

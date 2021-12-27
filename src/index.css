@@ -157,7 +157,7 @@
   left: 50%;
   z-index: 1;
   padding: 50px 20px 20px;
-  background: #ccc;
+  background: rgb(230, 229, 229);
   transform: translate(-50%, -50%);
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 }
@@ -175,10 +175,10 @@
   height: 50px;
 }
 
-.modal-input-flied {
+.modal-input-field {
   padding: 10px;
 }
-.modal-input-flied:invalid:required {
+.modal-input-field:invalid:required {
   border: 2px solid red;
 }
 .change-data-btn {
@@ -202,6 +202,7 @@
 }
 
 .error {
+  font-family: 'Roboto';
   margin: 0;
   font-size: 12px;
   color: red;

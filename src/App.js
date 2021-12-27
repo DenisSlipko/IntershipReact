@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import ReactDOM from 'react-dom';
 
 import Table from './components/Table/Table';
-import Modal from './components/Modal/Modal';
+import ModalTableEditForm from './components/Modal/ModalTableEditForm';
 import { getCountries, getTotalAmount } from './store/reducers/countries.reducer';
 import { fetchCountries, updateCountry } from './store/actions/countries.actions';
-import { validator } from './components/Modal/validator';
+import { maxValue, minValue, required } from './components/Modal/useForm';
 
 const TableColumnsConfig = [
   {
@@ -36,71 +35,60 @@ const TableColumnsConfig = [
   },
 ];
 
-const validationConfig = {
-  name: {
-    isValid: (value) => validator(value, 16, 3),
-    message: 'Need more than 3 and less than 16 characters.',
-    required: 'This field is required!',
-  },
-  iso3: {
-    isValid: (value) => validator(value, 3, 2),
-    message: 'Need more than 2 and less than 3 characters.',
-    required: 'This field is required!',
-  },
-  phone_code: {
-    isValid: (value) => validator(value, 12, 3),
-    message: 'Need more than 3 and less than 12 characters.',
-  },
-  currency: {
-    isValid: (value) => validator(value, 3, 2),
-    message: 'Need more than 2 and less than 3 characters.',
-  },
-  capital: {
-    isValid: (value) => validator(value, 16, 3),
-    message: 'Need more than 3 and less than 16 characters.',
-  },
-};
-
 const App = () => {
   const countries = useSelector(getCountries);
   const totalAmount = useSelector(getTotalAmount);
 
-  const [showModal, setShowModal] = useState(false);
-  const [tableRowId, setTableRowId] = useState();
-  const [tableRow, setTableRow] = useState({});
-
-  const rootSelector = document.getElementById('root');
+  const [countryObject, setCountryObject] = useState(null);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    handleDataRefresh();
+    handleCountriesRefresh();
   }, []);
 
-  const handleDataRefresh = (amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue) => {
+  const handleCountriesRefresh = (amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue) => {
     dispatch(fetchCountries(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue));
   };
 
-  const handleDataChange = (country, id) => {
+  const handleCountriesChange = (country, id) => {
     dispatch(updateCountry(country, id));
   };
 
   const handleShowModal = (country) => {
-    setTableRowId(country.id);
     const countryObject = {
-      name: country.name,
-      iso3: country.iso3,
-      phone_code: country.phone_code,
-      currency: country.currency,
-      capital: country.capital,
+      name: {
+        value: country.name,
+        validators: [maxValue(16), minValue(2), required('Field required!')],
+      },
+      iso3: {
+        value: country.iso3,
+        validators: [maxValue(3), minValue(2), required('Field required!')],
+      },
+      phone_code: {
+        value: country.phone_code,
+        validators: [maxValue(11), minValue(2), required('Field required!')],
+      },
+      currency: {
+        value: country.currency,
+        validators: [maxValue(3), minValue(2), required('Field required!')],
+      },
+      capital: {
+        value: country.capital,
+        validators: [maxValue(16), minValue(2), required('Field required!')],
+      },
+      id: { value: country.id, validators: [] },
     };
-    setTableRow(countryObject);
-    setShowModal(!showModal);
+    setCountryObject(countryObject);
   };
 
-  const handleUpdateData = (country, id) => {
-    handleDataChange(country, id);
-    handleShowModal(false);
+  const handleCloseModal = () => {
+    setCountryObject(null);
+  };
+
+  const handleCountriesUpdate = (country, id) => {
+    handleCountriesChange(country, id);
+    handleCloseModal();
   };
 
   return (
@@ -109,21 +97,17 @@ const App = () => {
         columnsConfig={TableColumnsConfig}
         data={countries}
         totalAmount={totalAmount}
-        onShowModal={handleShowModal}
-        onDataUpdate={handleDataRefresh}
+        onClickRow={handleShowModal}
+        onDataRefresh={handleCountriesRefresh}
       />
-      {showModal &&
-        ReactDOM.createPortal(
-          <Modal
-            country={tableRow}
-            countryId={tableRowId}
-            columnsConfig={TableColumnsConfig}
-            validationConfig={validationConfig}
-            onClose={handleShowModal}
-            onUpdateData={handleUpdateData}
-          />,
-          rootSelector
-        )}
+      {countryObject !== null && (
+        <ModalTableEditForm
+          dataObject={countryObject}
+          columnsConfig={TableColumnsConfig}
+          onClose={handleCloseModal}
+          onUpdateData={handleCountriesUpdate}
+        />
+      )}
     </>
   );
 };

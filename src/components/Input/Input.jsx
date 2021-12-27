@@ -1,18 +1,16 @@
 import React from 'react';
 
-const ModalInput = ({ label, error, value, onChange }) => {
+const Input = ({ label, error, value, onChange }) => {
+  const handleChange = (event) => {
+    onChange(event.target.value);
+  };
+
   return (
     <div className="input-container">
-      <input
-        required
-        className="modal-input-flied"
-        placeholder={label}
-        value={value}
-        onChange={(fieldName) => onChange(fieldName)}
-      />
+      <input required className="modal-input-field" placeholder={label} value={value} onChange={handleChange} />
       {error && <p className="error">{error}</p>}
     </div>
   );
 };
 
-export default ModalInput;
+export default Input;
