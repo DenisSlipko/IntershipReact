@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, delay, put, takeLatest } from 'redux-saga/effects';
 
 import { FETCH_COUNTRIES, UPDATE_COUNTRY } from '../actions/types/countries.types';
 import { fetchCountries, updateCountry } from '../../api/countries.request';
@@ -7,8 +7,8 @@ import {
   fetchCountriesSuccess,
   changeCountrySuccess,
   changeCountryFailure,
-  setToast,
 } from '../actions/countries.actions';
+import { successToast, failureToast } from '../actions/toast.actions';
 
 export function* fetchCountriesSaga({ amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue }) {
   try {
@@ -32,10 +32,14 @@ export function* updateCountriesSaga({ country, id }) {
     const updatedCountry = yield call(updateCountry, country, id);
 
     yield put(changeCountrySuccess(updatedCountry));
-    yield put(setToast({ text: 'Data success updated!', color: 'success' }));
+    yield put(successToast({ color: 'success', text: 'Data success updated!' }));
+    yield delay(2000);
+    yield put(successToast({}));
   } catch (error) {
     yield put(changeCountryFailure(error));
-    yield put(setToast({ text: error, color: 'danger' }));
+    yield put(failureToast({ color: 'danger', text: error }));
+    yield delay(2000);
+    yield put(failureToast({}));
   }
 }
 

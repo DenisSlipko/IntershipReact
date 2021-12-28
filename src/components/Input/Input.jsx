@@ -7,7 +7,7 @@ const Input = ({ label, error, value, onChange }) => {
 
   return (
     <div className="input-container">
-      <input required className="modal-input-field" placeholder={label} value={value} onChange={handleChange} />
+      <input className="modal-input-field" placeholder={label} value={value} onChange={handleChange} />
       {error && <p className="error">{error}</p>}
     </div>
   );

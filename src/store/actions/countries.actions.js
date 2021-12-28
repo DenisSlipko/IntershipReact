@@ -2,7 +2,6 @@ import {
   FETCH_COUNTRIES,
   FETCH_COUNTRIES_FAILURE,
   FETCH_COUNTRIES_SUCCESS,
-  SET_ALERT,
   UPDATE_COUNTRY,
   UPDATE_COUNTRY_FAILURE,
   UPDATE_COUNTRY_SUCCESS,
@@ -42,9 +41,4 @@ export const changeCountrySuccess = (country) => ({
 export const changeCountryFailure = (error) => ({
   type: UPDATE_COUNTRY_FAILURE,
   error,
-});
-
-export const setToast = (message) => ({
-  type: SET_ALERT,
-  message,
 });

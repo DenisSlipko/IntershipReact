@@ -2,17 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Input from '../Input/Input';
-import useForm from './useForm';
+import useForm from '../hooks/useForm';
 
-const ModalTableEditForm = ({ dataObject, columnsConfig, onClose, onUpdateData, onShowToast }) => {
+const rootSelector = document.getElementById('root');
+
+const ModalTableEditForm = ({ dataObject, dataId, columnsConfig, onClose, onUpdateData }) => {
   const { validate, handleFieldChange, values, errors } = useForm(dataObject);
-
-  const rootSelector = document.getElementById('root');
 
   const handleUpdateData = () => {
     if (validate()) {
-      onUpdateData(values, dataObject.id.value);
-      onShowToast();
+      onUpdateData(values, dataId);
     }
   };
 

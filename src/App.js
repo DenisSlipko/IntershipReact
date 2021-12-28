@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Table from './components/Table/Table';
-import ModalTableEditForm from './components/Modal/ModalTableEditForm';
+import ModalTableEditForm from './components/Table/ModalTableEditForm';
 import { getCountries, getTotalAmount } from './store/reducers/countries.reducer';
 import { fetchCountries, updateCountry } from './store/actions/countries.actions';
-import { maxValue, minValue, required } from './components/Modal/useForm';
-import ToastMessage from './components/Toast/ToastMessage';
+import { maxValue, minValue, required } from './components/hooks/useForm';
+import ToastMessage from './components/ToastMessage/ToastMessage';
+import { getToast } from './store/reducers/toast.reducer';
 
 const TableColumnsConfig = [
   {
@@ -39,9 +40,10 @@ const TableColumnsConfig = [
 const App = () => {
   const countries = useSelector(getCountries);
   const totalAmount = useSelector(getTotalAmount);
+  const message = useSelector(getToast);
 
   const [countryObject, setCountryObject] = useState(null);
-  const [showToast, setShowToast] = useState(false);
+  const [countryId, setCountryId] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -53,11 +55,7 @@ const App = () => {
     dispatch(fetchCountries(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue));
   };
 
-  const handleCountriesChange = (country, id) => {
-    dispatch(updateCountry(country, id));
-  };
-
-  const handleShowModal = (country) => {
+  const handleShowModal = (country, id) => {
     const countryObject = {
       name: {
         value: country.name,
@@ -79,25 +77,19 @@ const App = () => {
         value: country.capital,
         validators: [maxValue(16), minValue(2), required('Field required!')],
       },
-      id: { value: country.id, validators: [] },
     };
+
     setCountryObject(countryObject);
+    setCountryId(id);
   };
 
   const handleCloseModal = () => {
     setCountryObject(null);
   };
 
-  const handleCountriesUpdate = (country, id) => {
-    handleCountriesChange(country, id);
+  const handleCountryUpdate = (country, id) => {
+    dispatch(updateCountry(country, id));
     handleCloseModal();
-  };
-
-  const handleShowToast = () => {
-    setShowToast(true);
-    setTimeout(() => {
-      setShowToast(false);
-    }, 3000);
   };
 
   return (
@@ -109,16 +101,16 @@ const App = () => {
         onClickRow={handleShowModal}
         onDataRefresh={handleCountriesRefresh}
       />
-      {countryObject !== null && (
+      {countryObject && (
         <ModalTableEditForm
           dataObject={countryObject}
+          dataId={countryId}
           columnsConfig={TableColumnsConfig}
           onClose={handleCloseModal}
-          onUpdateData={handleCountriesUpdate}
-          onShowToast={handleShowToast}
+          onUpdateData={handleCountryUpdate}
         />
       )}
-      {showToast && <ToastMessage />}
+      {Object.keys(message).length !== 0 && <ToastMessage />}
     </>
   );
 };

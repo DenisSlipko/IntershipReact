@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { getToast } from '../../store/reducers/countries.reducer';
+import { getToast } from '../../store/reducers/toast.reducer';
 
 const ToastMessage = () => {
   const message = useSelector(getToast);

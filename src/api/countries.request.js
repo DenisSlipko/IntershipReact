@@ -2,6 +2,7 @@ import { baseRequest } from './base.request';
 
 export const fetchCountries = async (amountElOnPage = 20, currentPage, isOrderAsc, columnHeaderKey, filter) => {
   const like = `${columnHeaderKey}_like`;
+
   const response = await baseRequest('countries', {
     params: {
       _limit: amountElOnPage,
@@ -17,5 +18,6 @@ export const fetchCountries = async (amountElOnPage = 20, currentPage, isOrderAs
 
 export const updateCountry = async (country, id) => {
   const response = await baseRequest.put(`countries/${id}`, country);
+
   return response.data;
 };
