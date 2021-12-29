@@ -1,16 +1,14 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { getToastColor, getToastText, getToastIsShow } from '../../store/reducers/toast.reducer';
+import { getToast } from '../../store/reducers/toast.reducer';
 
 const ToastMessage = () => {
-  const color = useSelector(getToastColor);
-  const text = useSelector(getToastText);
-  const isShow = useSelector(getToastIsShow);
+  const toast = useSelector(getToast);
 
-  return isShow ? (
-    <div className={`info-dialog ${color}`}>
-      <div className="info-dialog__message">{text}</div>
+  return toast.isShow ? (
+    <div className={`info-dialog ${toast.color}`}>
+      <div className="info-dialog__message">{toast.text}</div>
     </div>
   ) : null;
 };

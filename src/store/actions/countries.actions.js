@@ -33,12 +33,12 @@ export const updateCountry = (country, id) => ({
   id,
 });
 
-export const changeCountrySuccess = (country) => ({
+export const updateCountrySuccess = (country) => ({
   type: UPDATE_COUNTRY_SUCCESS,
   country,
 });
 
-export const changeCountryFailure = (error) => ({
+export const updateCountryFailure = (error) => ({
   type: UPDATE_COUNTRY_FAILURE,
   error,
 });

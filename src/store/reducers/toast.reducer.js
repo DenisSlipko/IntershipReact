@@ -11,15 +11,16 @@ export const toast = (state = defaultState, action) => {
     case SET_SUCCESS_TOAST:
       return { ...state, color: action.color, text: action.text, isShow: action.isShow };
     case SET_FAILURE_TOAST:
-      return { ...state, color: action.color, text: action.error, isShow: action.isShow };
+      return { ...state, color: action.color, text: action.text, isShow: action.isShow };
     case SET_DEFAULT_TOAST:
-      return { ...state, color: defaultState.color, text: defaultState.text, isShow: defaultState.isShow };
+      return { ...defaultState }; 
     default:
       return state;
   }
 };
-
 const getState = (state) => state.toast;
-export const getToastColor = (state) => getState(state).color;
-export const getToastText = (state) => getState(state).text;
-export const getToastIsShow = (state) => getState(state).isShow;
+export const getToast = (state) => ({
+  color : getState(state).color,
+  text : getState(state).text,
+  isShow : getState(state).isShow
+});

@@ -7,16 +7,13 @@ export const setSuccessToast = (color, text, isShow) => ({
   isShow,
 });
 
-export const setFailureToast = (color, error, isShow) => ({
+export const setFailureToast = (color, text, isShow) => ({
   type: SET_FAILURE_TOAST,
-  color,
-  error,
-  isShow,
-});
-
-export const setDefaultToast = (color, text, isShow) => ({
-  type: SET_DEFAULT_TOAST,
   color,
   text,
   isShow,
+});
+
+export const setDefaultToast = () => ({
+  type: SET_DEFAULT_TOAST,
 });

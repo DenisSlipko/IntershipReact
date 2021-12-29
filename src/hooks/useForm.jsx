@@ -25,12 +25,11 @@ export const minValue = (quantity, message) => (value) => {
 };
 
 const getInitialValues = (dataObject) => {
-  return Object.keys(dataObject).reduce((acc, key) => {
-    return {
-      ...acc,
-      [key]: dataObject[key].value,
-    };
-  }, {});
+  return Object.keys(dataObject).reduce((acc, key) => ({
+    ...acc,
+    [key]: dataObject[key].value,
+  })
+  ,{});
 };
 
 const useForm = (dataObject) => {
@@ -55,7 +54,8 @@ const useForm = (dataObject) => {
 
       if (field.validators) {
         const errors = field.validators.reduce((acc, validator) => { 
-          return validator(value) !== null ? [...acc , validator(value)] : acc
+          const errorMessage = validator(value);
+          return errorMessage ? [...acc , errorMessage] : acc
         },[])
 
         if (errors.length > 0) {
