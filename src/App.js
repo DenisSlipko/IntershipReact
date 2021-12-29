@@ -70,7 +70,6 @@ const App = () => {
       },
       currency: {
         value: country.currency,
-        validators: [maxValue(3), minValue(2)],
       },
       capital: {
         value: country.capital,
