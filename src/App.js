@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Table from './components/Table/Table';
-import ModalTableEditForm from './components/Table/ModalTableEditForm';
+import ModalTableEditDialog from './components/Table/ModalTableEditDialog';
 import { getCountries, getTotalAmount } from './store/reducers/countries.reducer';
 import { fetchCountries, updateCountry } from './store/actions/countries.actions';
-import { maxValue, minValue, required } from './components/hooks/useForm';
+import { maxValue, minValue, required } from './hooks/useForm';
 import ToastMessage from './components/ToastMessage/ToastMessage';
 import { getToast } from './store/reducers/toast.reducer';
 
@@ -40,7 +40,6 @@ const TableColumnsConfig = [
 const App = () => {
   const countries = useSelector(getCountries);
   const totalAmount = useSelector(getTotalAmount);
-  const message = useSelector(getToast);
 
   const [countryObject, setCountryObject] = useState(null);
   const [countryId, setCountryId] = useState(null);
@@ -63,19 +62,19 @@ const App = () => {
       },
       iso3: {
         value: country.iso3,
-        validators: [maxValue(3), minValue(2), required('Field required!')],
+        validators: [minValue(2), required('Field required!')],
       },
       phone_code: {
         value: country.phone_code,
-        validators: [maxValue(11), minValue(2), required('Field required!')],
+        validators: [maxValue(11), minValue(2)],
       },
       currency: {
         value: country.currency,
-        validators: [maxValue(3), minValue(2), required('Field required!')],
+        validators: [maxValue(3), minValue(2)],
       },
       capital: {
         value: country.capital,
-        validators: [maxValue(16), minValue(2), required('Field required!')],
+        validators: [maxValue(16)],
       },
     };
 
@@ -85,10 +84,11 @@ const App = () => {
 
   const handleCloseModal = () => {
     setCountryObject(null);
+    setCountryId(null);
   };
 
-  const handleCountryUpdate = (country, id) => {
-    dispatch(updateCountry(country, id));
+  const handleCountryUpdate = (updatedCountry) => {
+    dispatch(updateCountry(updatedCountry, countryId));
     handleCloseModal();
   };
 
@@ -102,15 +102,14 @@ const App = () => {
         onDataRefresh={handleCountriesRefresh}
       />
       {countryObject && (
-        <ModalTableEditForm
+        <ModalTableEditDialog
           dataObject={countryObject}
-          dataId={countryId}
           columnsConfig={TableColumnsConfig}
           onClose={handleCloseModal}
           onUpdateData={handleCountryUpdate}
         />
       )}
-      {Object.keys(message).length !== 0 && <ToastMessage />}
+      <ToastMessage />
     </>
   );
 };

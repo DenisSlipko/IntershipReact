@@ -1,9 +1,7 @@
 import { useState } from 'react';
 
-export const required =
-  (message = 'required') =>
-  (value) => {
-    if (!value && value !== false && value !== 0) {
+export const required = (message = 'required') => (value) => {
+    if (value === null && value === undefined) {
       return message;
     }
 
@@ -26,7 +24,7 @@ export const minValue = (quantity, message) => (value) => {
   return null;
 };
 
-const initialValues = (dataObject) => {
+const getInitialValues = (dataObject) => {
   const objectValues = {};
 
   for (const key in dataObject) {
@@ -37,9 +35,7 @@ const initialValues = (dataObject) => {
 };
 
 const useForm = (dataObject) => {
-  const initialObject = initialValues(dataObject);
-
-  const [values, setValues] = useState(initialObject);
+  const [values, setValues] = useState(getInitialValues(dataObject));
   const [errors, setErrors] = useState({});
 
   const handleFieldChange = (name) => (value) => {
@@ -55,16 +51,16 @@ const useForm = (dataObject) => {
 
     for (const key in dataObject) {
       const value = values[key];
-      const validation = dataObject[key];
+      const field = dataObject[key];
 
-      if (validation) {
-        const errors = validation.validators.map((validator) => validator(value));
+      if (field.validators) {
+        const errors = field.validators
+        .filter((validator) => validator(value))
+        .map((validator) => validator(value));
 
-        for (let i = 0; i < errors.length; i++) {
-          if (errors[i] !== null) {
-            valid = false;
-            newErrors[key] = errors[i];
-          }
+        if (errors.length > 0) {
+          valid = false;
+          newErrors[key] = errors;
         }
       }
     }
@@ -72,6 +68,7 @@ const useForm = (dataObject) => {
     if (!valid) {
       setErrors(newErrors);
     }
+
     return valid;
   };
 

@@ -6,12 +6,12 @@ import { countries } from './reducers/countries.reducer';
 import { toast } from './reducers/toast.reducer';
 import rootSaga from './sagas/root.saga';
 
-const sagaMiddleawre = createSagaMiddleware();
+const sagaMiddleaware = createSagaMiddleware();
 
-const rootReduces = combineReducers({
+const rootReducers = combineReducers({
   countries,
   toast,
 });
 
-export const store = createStore(rootReduces, composeWithDevTools(applyMiddleware(sagaMiddleawre)));
-sagaMiddleawre.run(rootSaga);
+export const store = createStore(rootReducers, composeWithDevTools(applyMiddleware(sagaMiddleaware)));
+sagaMiddleaware.run(rootSaga);

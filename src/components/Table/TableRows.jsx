@@ -5,11 +5,13 @@ import { getLoading } from '../../store/reducers/countries.reducer';
 import Loader from '../loaders/Loader';
 
 const TableRows = ({ data, columnsConfig, onClickRow }) => {
-  const loading = useSelector(getLoading);
+  const isLoading = useSelector(getLoading);
 
-  return loading ? (
+  return isLoading ? (
     <Loader />
-  ) : (
+  ) 
+  : 
+  (
     data.map((element) => (
       <div className="table-row" key={element.id} onClick={() => onClickRow(element, element.id)}>
         {columnsConfig.map(({ key }) => (

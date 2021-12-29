@@ -1,11 +1,22 @@
-import { SUCCESS_TOAST, FAILURE_TOAST } from './types/toast.types';
+import { SET_SUCCESS_TOAST, SET_FAILURE_TOAST, SET_DEFAULT_TOAST } from './types/toast.types';
 
-export const successToast = (feedback) => ({
-  type: SUCCESS_TOAST,
-  feedback,
+export const setSuccessToast = (color, text, isShow) => ({
+  type: SET_SUCCESS_TOAST,
+  color,
+  text,
+  isShow,
 });
 
-export const failureToast = (error) => ({
-  type: FAILURE_TOAST,
+export const setFailureToast = (color, error, isShow) => ({
+  type: SET_FAILURE_TOAST,
+  color,
   error,
+  isShow,
+});
+
+export const setDefaultToast = (color, text, isShow) => ({
+  type: SET_DEFAULT_TOAST,
+  color,
+  text,
+  isShow,
 });
