@@ -76,6 +76,7 @@ const App = () => {
         value: country.capital,
         validators: [maxValue(16)],
       },
+
     };
 
     setCountryObject(countryObject);

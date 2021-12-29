@@ -25,16 +25,16 @@ export const minValue = (quantity, message) => (value) => {
 };
 
 const getInitialValues = (dataObject) => {
-  const objectValues = {};
-
-  for (const key in dataObject) {
-    objectValues[key] = dataObject[key].value;
-  }
-
-  return objectValues;
+  return Object.keys(dataObject).reduce((acc, key) => {
+    return {
+      ...acc,
+      [key]: dataObject[key].value,
+    };
+  }, {});
 };
 
 const useForm = (dataObject) => {
+  
   const [values, setValues] = useState(getInitialValues(dataObject));
   const [errors, setErrors] = useState({});
 
@@ -54,9 +54,9 @@ const useForm = (dataObject) => {
       const field = dataObject[key];
 
       if (field.validators) {
-        const errors = field.validators
-        .filter((validator) => validator(value))
-        .map((validator) => validator(value));
+        const errors = field.validators.reduce((acc, validator) => { 
+          return validator(value) !== null ? [...acc , validator(value)] : acc
+        },[])
 
         if (errors.length > 0) {
           valid = false;
