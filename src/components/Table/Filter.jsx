@@ -13,6 +13,7 @@ const Filter = ({ filterLabel, filterValue, onClose, onChangeFilter }) => {
 
   const handleInputChange = (event) => {
     const value = event.target.value;
+
     setValue(value);
   };
 

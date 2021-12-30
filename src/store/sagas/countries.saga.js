@@ -1,8 +1,14 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 
-import { FETCH_COUNTRIES } from '../actions/types/countries.types';
-import { fetchCountries } from '../../api/countries.request';
-import { fetchCountriesFailure, fetchCountriesSuccess } from '../actions/countries.actions';
+import { FETCH_COUNTRIES, UPDATE_COUNTRY } from '../actions/types/countries.types';
+import { fetchCountries, updateCountry } from '../../api/countries.request';
+import {
+  fetchCountriesFailure,
+  fetchCountriesSuccess,
+  updateCountrySuccess,
+  updateCountryFailure,
+} from '../actions/countries.actions';
+import { getSuccessToast, getFailureToast } from '../ducks/toast.duck';
 
 export function* fetchCountriesSaga({ amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue }) {
   try {
@@ -21,6 +27,20 @@ export function* fetchCountriesSaga({ amountElOnPage, currentPage, isOrderAsc, c
   }
 }
 
+export function* updateCountriesSaga({ country, id }) {
+  try {
+    const updatedCountry = yield call(updateCountry, country, id);
+
+    yield put(updateCountrySuccess(updatedCountry));
+    yield getSuccessToast('Data success updated!', 2000);
+  } catch (error) {
+    yield put(updateCountryFailure(error));
+    yield getFailureToast(error, 2000);
+  }
+}
+
+
 export default function* watchCountriesSaga() {
   yield takeLatest(FETCH_COUNTRIES, fetchCountriesSaga);
+  yield takeLatest(UPDATE_COUNTRY, updateCountriesSaga);
 }

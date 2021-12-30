@@ -14,3 +14,9 @@ export const fetchCountries = async (amountElOnPage = 20, currentPage, isOrderAs
 
   return [response.data, response.headers['x-total-count']];
 };
+
+export const updateCountry = async (country, id) => {
+  const response = await baseRequest.put(`countries/${id}`, country);
+
+  return response.data;
+};
