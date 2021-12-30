@@ -115,6 +115,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  font-family: 'Roboto';
 }
 .dropdown-pagination-container {
   margin-left: 20px;
@@ -323,3 +324,76 @@
   font-family: 'Roboto';
   font-size: 24px;
 }
+
+/* NAVIGATION */
+.navigation {
+  background: rgb(58, 57, 57);
+  color: white;
+}
+.link-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 50px;
+  margin: 0;
+  list-style-type: none;
+}
+.navigation-element {
+  display: flex;
+  flex-direction: row;
+  color: white;
+  font-family: 'Roboto';
+  font-size: 20px;
+  text-decoration: none;
+}
+
+/* CARD */
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  font-family: 'Roboto';
+  justify-content: center;
+}
+
+.card-container {
+  border: 1px solid #ccc;
+  height: 200px;
+  width: 200px;
+  margin: 10px;
+  text-align: center;
+  padding: 10px;
+}
+.earth-img {
+  width: 100px;
+  height: 100px;
+}
+.card-title,
+.card-text {
+  font-size: 20px;
+  margin-top: 10px;
+}
+/* LOGIN */
+.input-label {
+  font-family: 'Roboto';
+}
+.login-container {
+  display: flex;
+  justify-content: center;
+}
+.login-window-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 400px;
+  height: 300px;
+  padding: 50px;
+  margin-top: 100px;
+  background: rgb(230, 229, 229);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+.input-label {
+  font-size: 20px;
+  margin-bottom: -30px;
+}
+
