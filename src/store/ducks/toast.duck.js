@@ -1,15 +1,15 @@
 import { put, delay } from 'redux-saga/effects';
 import { setSuccessToast, setFailureToast, setDefaultToast } from '../actions/toast.actions';
 
-const DefaultDelay = 2000;
+const DEFAULT_DELAY = 2000;
 
-export function* getSuccessToast(message, delayTime = DefaultDelay) {
+export function* getSuccessToast(message, delayTime = DEFAULT_DELAY) {
   yield put(setSuccessToast('success', message, true));
   yield delay(delayTime);
   yield put(setDefaultToast());
 }
 
-export function* getFailureToast(error, delayTime = DefaultDelay) {
+export function* getFailureToast(error, delayTime = DEFAULT_DELAY) {
   yield put(setFailureToast('danger', error, true));
   yield delay(delayTime);
   yield put(setDefaultToast());
