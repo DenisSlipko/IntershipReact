@@ -7,13 +7,13 @@ import {
   UPDATE_COUNTRY_FAILURE,
 } from '../actions/types/countries.types';
 
-const defaultState = {
+const DefaultState = {
   countries: [],
   totalAmount: 0,
   loading: false,
 };
 
-export const countries = (state = defaultState, action) => {
+export const countries = (state = DefaultState, action) => {
   switch (action.type) {
     case FETCH_COUNTRIES:
       return { ...state, loading: true };

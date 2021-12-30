@@ -54,8 +54,8 @@ const useForm = (dataObject) => {
       if (field.validators) {
         const errors = field.validators.reduce((acc, validator) => { 
           const errorMessage = validator(value);
-          return errorMessage ? [...acc , errorMessage] : acc
           
+          return errorMessage ? [...acc , errorMessage] : acc
         },[])
 
         if (errors.length > 0) {
