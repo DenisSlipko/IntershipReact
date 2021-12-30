@@ -13,15 +13,16 @@ export const toast = (state = defaultState, action) => {
     case SET_FAILURE_TOAST:
       return { ...state, color: action.color, text: action.text, isShow: action.isShow };
     case SET_DEFAULT_TOAST:
-      return { ...defaultState }; 
+      return { defaultState }; 
     default:
       return state;
   }
 };
 
 const getState = (state) => state.toast;
-export const getToast = (state) => ({
-  color : getState(state).color,
-  text : getState(state).text,
-  isShow : getState(state).isShow
-});
+const getColor = (state) => getState(state).color;
+const getText = (state) => getState(state).text;
+const getIsShow = (state) => getState(state).isShow;
+export const getToast = ([getColor, getText, getIsShow], (toast) => {
+  return toast.toast;
+})

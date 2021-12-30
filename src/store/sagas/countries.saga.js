@@ -8,7 +8,7 @@ import {
   updateCountrySuccess,
   updateCountryFailure,
 } from '../actions/countries.actions';
-import {getSuccessToast, getFailureToast } from '../ducks/toast.duck';
+import { getSuccessToast, getFailureToast } from '../ducks/toast.duck';
 
 export function* fetchCountriesSaga({ amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue }) {
   try {

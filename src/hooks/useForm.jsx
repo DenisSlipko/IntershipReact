@@ -28,8 +28,7 @@ const getInitialValues = (dataObject) => {
   return Object.keys(dataObject).reduce((acc, key) => ({
     ...acc,
     [key]: dataObject[key].value,
-  })
-  ,{});
+  }),{});
 };
 
 const useForm = (dataObject) => {
@@ -56,6 +55,7 @@ const useForm = (dataObject) => {
         const errors = field.validators.reduce((acc, validator) => { 
           const errorMessage = validator(value);
           return errorMessage ? [...acc , errorMessage] : acc
+          
         },[])
 
         if (errors.length > 0) {
