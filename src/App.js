@@ -7,7 +7,6 @@ import { getCountries, getTotalAmount } from './store/reducers/countries.reducer
 import { fetchCountries, updateCountry } from './store/actions/countries.actions';
 import { maxValue, minValue, required } from './hooks/useForm';
 import ToastMessage from './components/ToastMessage/ToastMessage';
-import { getToast } from './store/reducers/toast.reducer';
 
 const TableColumnsConfig = [
   {
