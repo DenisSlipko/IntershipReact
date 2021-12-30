@@ -32,12 +32,13 @@ export function* updateCountriesSaga({ country, id }) {
     const updatedCountry = yield call(updateCountry, country, id);
 
     yield put(updateCountrySuccess(updatedCountry));
-    getSuccessToast('Data success updated!', 2000);
+    yield getSuccessToast('Data success updated!', 2000);
   } catch (error) {
     yield put(updateCountryFailure(error));
-    getFailureToast(error, 2000);
+    yield getFailureToast(error, 2000);
   }
 }
+
 
 export default function* watchCountriesSaga() {
   yield takeLatest(FETCH_COUNTRIES, fetchCountriesSaga);

@@ -18,6 +18,7 @@ export const toast = (state = defaultState, action) => {
       return state;
   }
 };
+
 const getState = (state) => state.toast;
 export const getToast = (state) => ({
   color : getState(state).color,
