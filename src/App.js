@@ -1,56 +1,32 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Countries from './pages/Countries';
-import Governments from './pages/Governments';
+import CountriesState from './pages/CountriesState';
 import Cities from './pages/Cities';
-import Cards from './pages/Cards';
+import Posts from './pages/Posts';
 import Login from './pages/Login';
 import ToastMessage from './components/ToastMessage/ToastMessage'
+import Navation from './Navigation';
+
+const routeConfig = [
+  {path: '/', element: <Countries />},
+  {path: 'states', element: <CountriesState />},
+  {path: 'cities', element: <Cities />},
+  {path: 'cards', element: <Posts />},
+  {path: 'login', element: <Login />},
+]
 
 const App = () => {
 
   return (
     <Router>
-      <>
-        <nav className="navigation">
-          <ul className="link-container">
-            <li className="navigation-element">
-              <Link className="navigation-element" to="/">
-                Country
-              </Link>
-            </li>
-            <li>
-              <Link className="navigation-element" to="/states">
-                States
-              </Link>
-            </li>
-            <li>
-              <Link className="navigation-element" to="/cities">
-                Cities
-              </Link>
-            </li>
-            <li>
-              <Link className="navigation-element" to="/cards">
-                Cards
-              </Link>
-            </li>
-            <li>
-              <Link className="navigation-element" to="/login">
-                Login
-              </Link>
-            </li>
-          </ul>
-        </nav>
-
+        <Navation />
         <Routes>
-          <Route path="/" element={<Countries />} />
-          <Route path="states" element={<Governments />} />
-          <Route path="cities" element={<Cities />} />
-          <Route path="cards" element={<Cards />} />
-          <Route path="login" element={<Login />} />
+          {routeConfig.map(route => 
+            <Route path={route.path} element={route.element} key={route.element}/>
+          )}
         </Routes>
         <ToastMessage />
-      </>
     </Router>
   );
 };

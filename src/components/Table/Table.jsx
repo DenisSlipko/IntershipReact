@@ -1,20 +1,22 @@
 import { React, useEffect, useState } from 'react';
 
-import { DEFAULT_AMOUNT_EL, DEFAULT_CURRENT_PAGE, SortValue } from './constants';
-import Pagination from './PaginationComponents/Pagination';
+import { SortValue } from '../../constants/constants';
+import Pagination from '../Pagination/Pagination';
 import HeaderCell from './TableHeader/HeaderCell';
 import TableRows from './TableRows';
 import Filter from './Filter';
+
+export const DEFAULT_AMOUNT_EL = 20;
 
 const Table = ({ columnsConfig, data, totalAmount, onClickRow, onDataRefresh }) => {
   const [filterValue, setFilterValue] = useState(localStorage.getItem('filter'));
   const [columnHeaderKey, setColumnHeaderKey] = useState(localStorage.getItem('data-key'));
   const [isOrderAsc, setOrderAsc] = useState(localStorage.getItem('is-asc'));
-  const [currentPage, setCurrentPage] = useState(DEFAULT_CURRENT_PAGE);
+  const [currentPage, setCurrentPage] = useState(1);
   const [amountElOnPage, setAmountElOnPage] = useState(DEFAULT_AMOUNT_EL);
   const [countriesConfig, setCountriesConfig] = useState(columnsConfig);
   const [showFilter, setShowFilter] = useState(false);
-
+  
   const pagesAmount = Math.ceil(totalAmount / amountElOnPage);
 
   useEffect(() => {
@@ -40,8 +42,8 @@ const Table = ({ columnsConfig, data, totalAmount, onClickRow, onDataRefresh }) 
     }
   };
 
-  const handleChangeAmountEl = (event) => {
-    const amount = parseInt(event.target.value, 10);
+  const handleChangeAmountEl = (value) => {
+    const amount = parseInt(value, 10);
 
     if (amountElOnPage !== amount) {
       setAmountElOnPage(amount);

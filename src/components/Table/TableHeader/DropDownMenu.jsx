@@ -1,6 +1,6 @@
 import { React } from 'react';
 
-import { SortValue } from '../constants';
+import { SortValue } from '../../../constants/constants';
 
 const DropDownMenu = ({ isSortable, columnHeaderKey, onClose, onHideColumn, onShowFilter, onSortChange }) => {
   const handleMenuSort = (isAsc, columnHeaderKey) => () => {

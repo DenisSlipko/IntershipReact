@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
 
 import DropDownMenu from './DropDownMenu';
-import { ArrowType, SortValue } from '../constants';
+import { ArrowType, SortValue } from '../../../constants/constants';
 
 const HeaderCell = ({
   columnHeaderKey,

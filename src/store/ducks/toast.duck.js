@@ -3,13 +3,13 @@ import { setSuccessToast, setFailureToast, setDefaultToast } from '../actions/to
 
 const DEFAULT_DELAY = 2000;
 
-export function* getSuccessToast(message, delayTime = DEFAULT_DELAY) {
+export function* callSuccessToast(message, delayTime = DEFAULT_DELAY) {
   yield put(setSuccessToast('success', message, true));
   yield delay(delayTime);
   yield put(setDefaultToast());
 }
 
-export function* getFailureToast(error, delayTime = DEFAULT_DELAY) {
+export function* callFailureToast(error, delayTime = DEFAULT_DELAY) {
   yield put(setFailureToast('danger', error, true));
   yield delay(delayTime);
   yield put(setDefaultToast());

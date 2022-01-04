@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Table from '../components/Table/Table';
 import { getCities, getTotalAmount } from '../store/reducers/cities.reducer';
 import { fetchCities, updateCity } from '../store/actions/cities.actions';
-import ModalTableEditDialog from '../components/Table/ModalTableEditDialog';
+import ModalTableEditDialog from '../components/Modal/ModalTableEditDialog';
 import { maxValue, minValue, required } from '../hooks/useForm';
 
 const TableColumnsConfig = [
@@ -21,23 +21,21 @@ const TableColumnsConfig = [
   {
     label: 'Country code',
     key: 'country_code',
-    sortable: false,
   },
   {
     label: 'Country name',
     key: 'country_name',
-    sortable: false,
   },
 ];
 
 const Cities = () => {
+  const dispatch = useDispatch();
+
   const cities = useSelector(getCities);
   const totalAmount = useSelector(getTotalAmount);
 
   const [cityObject, setCityObject] = useState(null);
   const [cityId, setCityId] = useState(null);
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     handleCitiesRefresh();
@@ -51,11 +49,11 @@ const Cities = () => {
     const cityObject = {
       name: {
         value: city.name,
-        validators: [maxValue(16), minValue(2), required('Field required!')],
+        validators: [maxValue(16), minValue(2), required('Name field is required!')],
       },
       state_code: {
         value: city.state_code,
-        validators: [minValue(2), required('Field required!')],
+        validators: [minValue(2), required('State code field is required!')],
       },
       country_code: {
         value: city.country_code,

@@ -259,6 +259,10 @@
 
 /* NAVIGATION */
 .navigation {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
   background: rgb(58, 57, 57);
   color: white;
 }
@@ -266,6 +270,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  width: 100%;
   padding: 20px 50px;
   margin: 0;
   list-style-type: none;
@@ -323,28 +328,6 @@
 .info-dialog__message {
   font-family: 'Roboto';
   font-size: 24px;
-}
-
-/* NAVIGATION */
-.navigation {
-  background: rgb(58, 57, 57);
-  color: white;
-}
-.link-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 20px 50px;
-  margin: 0;
-  list-style-type: none;
-}
-.navigation-element {
-  display: flex;
-  flex-direction: row;
-  color: white;
-  font-family: 'Roboto';
-  font-size: 20px;
-  text-decoration: none;
 }
 
 /* CARD */

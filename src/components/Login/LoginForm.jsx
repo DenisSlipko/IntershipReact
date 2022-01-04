@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ModalInput from '../Input/Input';
+import Input from '../Input/Input';
 
 const LoginForm = () => {
 
@@ -10,12 +10,12 @@ const LoginForm = () => {
   return (
     <div className="login-window-container">
       <div className="input-label">Enter your login: </div>
-      <ModalInput
+      <Input
         label="login"
         error={['login']}
       />
       <div className="input-label">Enter your password: </div>
-      <ModalInput
+      <Input
         label="password"
         error={['password']}
       />

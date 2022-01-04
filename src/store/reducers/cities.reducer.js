@@ -16,11 +16,10 @@ const defaultState = {
 export const cities = (state = defaultState, action) => {
   switch (action.type) {
     case FETCH_CITIES:
+    case UPDATE_CITY:
       return { ...state, loading: true };
     case FETCH_CITIES_SUCCESS:
       return { ...state, cities: action.cities, totalAmount: action.totalAmount, loading: false };
-    case UPDATE_CITY:
-      return { ...state, loading: true };
     case UPDATE_CITY_SUCCESS: {
       return {
         ...state,

@@ -8,7 +8,7 @@ import {
   updateCitySuccess,
   updateCityFailure,
 } from '../actions/cities.actions';
-import {getFailureToast, getSuccessToast} from '../ducks/toast.duck'
+import {callFailureToast, callSuccessToast} from '../ducks/toast.duck'
 
 export function* fetchCitiesSaga({ amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue }) {
   try {
@@ -27,19 +27,19 @@ export function* fetchCitiesSaga({ amountElOnPage, currentPage, isOrderAsc, colu
   }
 }
 
-export function* changeCitiesSaga({ city, id }) {
+export function* updateCitiesSaga({ city, id }) {
   try {
     const updateCities = yield call(updateCity, city, id);
 
     yield put(updateCitySuccess(updateCities));
-    yield getSuccessToast('Data success updated!', 2000);
+    yield callSuccessToast('Data success updated!');
   } catch (error) {
     yield put(updateCityFailure(error));
-    yield getFailureToast(error, 2000);
+    yield callFailureToast(error);
   }
 }
 
 export default function* watchCitiesSaga() {
   yield takeLatest(FETCH_CITIES, fetchCitiesSaga);
-  yield takeLatest(UPDATE_CITY, changeCitiesSaga);
+  yield takeLatest(UPDATE_CITY, updateCitiesSaga);
 }

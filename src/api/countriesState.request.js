@@ -1,6 +1,6 @@
 import { baseRequest } from './base.request';
 
-export const fetchGovernments = async (amountElOnPage = 20, currentPage, isOrderAsc, columnHeaderKey, filter) => {
+export const fetchCountriesState = async (amountElOnPage = 20, currentPage, isOrderAsc, columnHeaderKey, filter) => {
   const like = `${columnHeaderKey}_like`;
   const response = await baseRequest('states', {
     params: {
@@ -14,8 +14,8 @@ export const fetchGovernments = async (amountElOnPage = 20, currentPage, isOrder
   return [response.data, response.headers['x-total-count']];
 };
 
-export const updateGovernment = async (government, id) => {
-  const response = await baseRequest.put(`states/${id}`, government);
+export const updateCountryState = async (countryState, id) => {
+  const response = await baseRequest.put(`states/${id}`, countryState);
   
   return response.data;
 };

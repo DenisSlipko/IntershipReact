@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Table from '../components/Table/Table';
-import ModalTableEditDialog from '../components/Table/ModalTableEditDialog';
+import ModalTableEditDialog from '../components/Modal/ModalTableEditDialog';
 import { getCountries, getTotalAmount } from '../store/reducers/countries.reducer';
 import { fetchCountries, updateCountry } from '../store/actions/countries.actions';
 import { maxValue, minValue, required } from '../hooks/useForm';
@@ -21,28 +21,25 @@ const TableColumnsConfig = [
   {
     label: 'Phone code',
     key: 'phone_code',
-    sortable: false,
   },
   {
     label: 'Currency',
     key: 'currency',
-    sortable: false,
   },
   {
     label: 'Capital',
     key: 'capital',
-    sortable: false,
   },
 ];
 
 const Countries = () => {
+  const dispatch = useDispatch();
+
   const countries = useSelector(getCountries);
   const totalAmount = useSelector(getTotalAmount);
 
   const [countryObject, setCountryObject] = useState(null);
   const [countryId, setCountryId] = useState(null);
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     handleCountriesRefresh();
@@ -56,11 +53,11 @@ const Countries = () => {
     const countryObject = {
       name: {
         value: country.name,
-        validators: [maxValue(16), minValue(2), required('Field required!')],
+        validators: [maxValue(16), minValue(2), required('Name field is required!')],
       },
       iso3: {
         value: country.iso3,
-        validators: [minValue(2), required('Field required!')],
+        validators: [minValue(2), required('Iso field is required!')],
       },
       phone_code: {
         value: country.phone_code,
