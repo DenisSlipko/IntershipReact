@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Table from '../components/Table/Table';
-import ModalTableEditDialog from '../components/Modal/ModalTableEditDialog';
+import ModalEditDialog from '../components/ModalEditDialog/ModalEditDialog';
 import { getCountries, getTotalAmount } from '../store/reducers/countries.reducer';
 import { fetchCountries, updateCountry } from '../store/actions/countries.actions';
 import { maxValue, minValue, required } from '../hooks/useForm';
@@ -97,7 +97,7 @@ const Countries = () => {
         onDataRefresh={handleCountriesRefresh}
       />
       {countryObject && (
-        <ModalTableEditDialog
+        <ModalEditDialog
           dataObject={countryObject}
           columnsConfig={TableColumnsConfig}
           onClose={handleCloseModal}

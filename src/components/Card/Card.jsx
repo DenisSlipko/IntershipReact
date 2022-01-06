@@ -1,7 +1,7 @@
 import { React } from 'react';
 import image from '../../images/image-earth.jpeg';
 
-const Post = ({ title, text }) => (
+const Card = ({ title, text }) => (
   <div className="card-container">
     <img className="earth-img" src={image} alt="img" />
     <div className="card-title">{title}</div>
@@ -10,4 +10,4 @@ const Post = ({ title, text }) => (
   );
 ;
 
-export default Post;
+export default Card;

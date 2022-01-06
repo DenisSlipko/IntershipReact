@@ -1,12 +1,11 @@
 import { React, useEffect, useState } from 'react';
 
-import { SortValue } from '../../constants/constants';
+import { SortValueMap } from '../../constants/constants';
 import Pagination from '../Pagination/Pagination';
 import HeaderCell from './TableHeader/HeaderCell';
 import TableRows from './TableRows';
 import Filter from './Filter';
-
-export const DEFAULT_AMOUNT_EL = 20;
+import { DEFAULT_AMOUNT_EL } from '../../constants/constants'
 
 const Table = ({ columnsConfig, data, totalAmount, onClickRow, onDataRefresh }) => {
   const [filterValue, setFilterValue] = useState(localStorage.getItem('filter'));
@@ -34,19 +33,17 @@ const Table = ({ columnsConfig, data, totalAmount, onClickRow, onDataRefresh }) 
 
   const handleSort = (columnHeaderKey) => {
     if (isOrderAsc === null) {
-      handleChangeSort(SortValue.ASC, columnHeaderKey);
-    } else if (isOrderAsc === SortValue.ASC) {
-      handleChangeSort(SortValue.DESC, columnHeaderKey);
+      handleChangeSort(SortValueMap.ASC, columnHeaderKey);
+    } else if (isOrderAsc === SortValueMap.ASC) {
+      handleChangeSort(SortValueMap.DESC, columnHeaderKey);
     } else {
       handleChangeSort(null, null);
     }
   };
 
   const handleChangeAmountEl = (value) => {
-    const amount = parseInt(value, 10);
-
-    if (amountElOnPage !== amount) {
-      setAmountElOnPage(amount);
+    if (amountElOnPage !== value) {
+      setAmountElOnPage(value);
     }
   };
 

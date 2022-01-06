@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Table from '../components/Table/Table';
 import { getCities, getTotalAmount } from '../store/reducers/cities.reducer';
 import { fetchCities, updateCity } from '../store/actions/cities.actions';
-import ModalTableEditDialog from '../components/Modal/ModalTableEditDialog';
+import ModalEditDialog from '../components/ModalEditDialog/ModalEditDialog';
 import { maxValue, minValue, required } from '../hooks/useForm';
 
 const TableColumnsConfig = [
@@ -88,7 +88,7 @@ const Cities = () => {
         onDataRefresh={handleCitiesRefresh}
       />
       {cityObject && (
-        <ModalTableEditDialog
+        <ModalEditDialog
           dataObject={cityObject}
           columnsConfig={TableColumnsConfig}
           onClose={handleCloseModal}

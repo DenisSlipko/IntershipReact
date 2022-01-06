@@ -1,6 +1,6 @@
 import { baseRequest } from './base.request';
 
-export const fetchCountriesState = async (amountElOnPage = 20, currentPage, isOrderAsc, columnHeaderKey, filter) => {
+export const fetchCountriesStates = async (amountElOnPage = 20, currentPage, isOrderAsc, columnHeaderKey, filter) => {
   const like = `${columnHeaderKey}_like`;
   const response = await baseRequest('states', {
     params: {
@@ -14,8 +14,8 @@ export const fetchCountriesState = async (amountElOnPage = 20, currentPage, isOr
   return [response.data, response.headers['x-total-count']];
 };
 
-export const updateCountryState = async (countryState, id) => {
-  const response = await baseRequest.put(`states/${id}`, countryState);
+export const updateCountryStates = async (countryStates, id) => {
+  const response = await baseRequest.put(`states/${id}`, countryStates);
   
   return response.data;
 };

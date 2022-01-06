@@ -3,10 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { getCities, getTotalAmount } from '../store/reducers/cities.reducer';
 import { fetchCities } from '../store/actions/cities.actions';
-import Card from '../components/Card/Post';
+import Card from '../components/Card/Card';
 import Pagination from '../components/Pagination/Pagination';
-
-const DEFAULT_AMOUNT_EL = 20;
+import { DEFAULT_AMOUNT_EL } from '../constants/constants'
 
 const Posts = () => {
   const dispatch = useDispatch();
@@ -24,10 +23,8 @@ const Posts = () => {
   }, [amountElOnPage, currentPage]);
 
   const handleChangeAmountEl = (value) => {
-    const amount = parseInt(value, 10);
-
-    if (amountElOnPage !== amount) {
-      setAmountElOnPage(amount);
+    if (amountElOnPage !== value) {
+      setAmountElOnPage(value);
     }
   };
 

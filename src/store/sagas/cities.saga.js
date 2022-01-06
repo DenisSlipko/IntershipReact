@@ -8,7 +8,7 @@ import {
   updateCitySuccess,
   updateCityFailure,
 } from '../actions/cities.actions';
-import {callFailureToast, callSuccessToast} from '../ducks/toast.duck'
+import { callFailureToast, callSuccessToast } from '../ducks/toast.duck'
 
 export function* fetchCitiesSaga({ amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue }) {
   try {
