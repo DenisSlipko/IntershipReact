@@ -284,9 +284,6 @@
   text-decoration: none;
 }
 
-.navigation-element::first-letter {
-  text-transform: uppercase;
-}
 /* LOADER */
 .loader {
   margin: 100px auto;
