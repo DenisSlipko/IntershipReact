@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
 
-import { RouteConfig } from './App'
+import { PathMap } from './App';
 
 const Navigation = () =>  (
   <nav className="navigation">
     <ul className="link-container">
-      {RouteConfig.map(({path, label}) => 
-        <Link className="navigation-element" to={path} key={label}>
-          {label}
+      {Object.keys(PathMap).map((path) => 
+        <Link className="navigation-element" to={PathMap[path]} key={path}>
+          {path}
         </Link>
       )}
     </ul>

@@ -6,13 +6,13 @@ const PaginationConfigList = [20, 50, 100];
 
 const Pagination = ({ pagesAmount, onPageChange, onChangeAmountEl }) => {
 
-  const handleChangeAmountEl = (event) => {
+  const handleChangeAmount = (event) => {
     onChangeAmountEl(parseInt(event.target.value, 10));
   }
 
   return (
   <div className="pagination-container">
-    <select className="dropdown-pagination-container" onChange={handleChangeAmountEl}>
+    <select className="dropdown-pagination-container" onChange={handleChangeAmount}>
       {PaginationConfigList.map((pageSize) => (
         <option className="drop-pag-item" key={pageSize}>
           {pageSize}

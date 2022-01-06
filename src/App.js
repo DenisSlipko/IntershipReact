@@ -8,12 +8,20 @@ import Login from './pages/Login';
 import ToastMessage from './components/ToastMessage/ToastMessage'
 import Navigation from './Navigation';
 
+export const PathMap = {
+  countries: '/',
+  cities: '/cities',
+  states: '/states',
+  cards: '/cards',
+  login: '/login'
+}
+
 export const RouteConfig = [
-  {path: '/', element: <Countries />, label: 'Countries'},
-  {path: '/states', element: <CountriesStates />, label: 'States'},
-  {path: '/cities', element: <Cities />, label: 'Cities'},
-  {path: '/cards', element: <Posts />, label: 'Cards'},
-  {path: '/login', element: <Login />, label: 'Login'},
+  {path: '/', element: <Countries />},
+  {path: '/states', element: <CountriesStates />},
+  {path: '/cities', element: <Cities />},
+  {path: '/cards', element: <Posts />},
+  {path: '/login', element: <Login />},
 ]
 
 const App = () => {
