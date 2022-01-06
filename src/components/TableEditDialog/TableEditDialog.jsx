@@ -6,7 +6,7 @@ import useForm from '../../hooks/useForm';
 
 const rootSelector = document.getElementById('root');
 
-const ModalEditDialog = ({ dataObject, columnsConfig, onClose, onUpdateData }) => {
+const TableEditDialog = ({ dataObject, columnsConfig, onClose, onUpdateData }) => {
   const { validate, handleFieldChange, values, errors } = useForm(dataObject);
 
   const handleUpdateData = () => {
@@ -31,4 +31,4 @@ const ModalEditDialog = ({ dataObject, columnsConfig, onClose, onUpdateData }) =
   );
 };
 
-export default ModalEditDialog;
+export default TableEditDialog;

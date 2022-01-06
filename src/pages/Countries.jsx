@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Table from '../components/Table/Table';
-import ModalEditDialog from '../components/ModalEditDialog/ModalEditDialog';
+import ModalEditDialog from '../components/TableEditDialog/TableEditDialog';
 import { getCountries, getTotalAmount } from '../store/reducers/countries.reducer';
 import { fetchCountries, updateCountry } from '../store/actions/countries.actions';
 import { maxValue, minValue, required } from '../hooks/useForm';

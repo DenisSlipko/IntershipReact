@@ -1,11 +1,10 @@
 import { React, useEffect, useState } from 'react';
 
-import { SortValueMap } from '../../constants/constants';
+import { SortValueMap, DEFAULT_AMOUNT_EL } from '../../constants/constants';
 import Pagination from '../Pagination/Pagination';
 import HeaderCell from './TableHeader/HeaderCell';
 import TableRows from './TableRows';
 import Filter from './Filter';
-import { DEFAULT_AMOUNT_EL } from '../../constants/constants'
 
 const Table = ({ columnsConfig, data, totalAmount, onClickRow, onDataRefresh }) => {
   const [filterValue, setFilterValue] = useState(localStorage.getItem('filter'));

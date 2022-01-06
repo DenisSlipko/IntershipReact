@@ -14,8 +14,8 @@ export const fetchCountriesStates = async (amountElOnPage = 20, currentPage, isO
   return [response.data, response.headers['x-total-count']];
 };
 
-export const updateCountryStates = async (countryStates, id) => {
-  const response = await baseRequest.put(`states/${id}`, countryStates);
+export const updateCountryState = async (countryState, id) => {
+  const response = await baseRequest.put(`states/${id}`, countryState);
   
   return response.data;
 };

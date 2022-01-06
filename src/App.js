@@ -8,7 +8,7 @@ import Login from './pages/Login';
 import ToastMessage from './components/ToastMessage/ToastMessage'
 import Navigation from './Navigation';
 
-const RouteConfig = [
+export const RouteConfig = [
   {path: '/', element: <Countries />, label: 'Countries'},
   {path: '/states', element: <CountriesStates />, label: 'States'},
   {path: '/cities', element: <Cities />, label: 'Cities'},
@@ -20,9 +20,9 @@ const App = () => {
 
   return (
     <Router>
-        <Navigation navigationConfig={RouteConfig}/>
+        <Navigation />
         <Routes>
-          {RouteConfig.map(({path, element}) => 
+          {RouteConfig.map(({ path, element }) => 
             <Route path={path} element={element} key={element}/>
           )}
         </Routes>

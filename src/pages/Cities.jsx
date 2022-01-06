@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Table from '../components/Table/Table';
 import { getCities, getTotalAmount } from '../store/reducers/cities.reducer';
 import { fetchCities, updateCity } from '../store/actions/cities.actions';
-import ModalEditDialog from '../components/ModalEditDialog/ModalEditDialog';
+import ModalEditDialog from '../components/TableEditDialog/TableEditDialog';
 import { maxValue, minValue, required } from '../hooks/useForm';
 
 const TableColumnsConfig = [

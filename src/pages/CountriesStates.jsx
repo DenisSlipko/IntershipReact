@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import Table from '../components/Table/Table';
 import { getCountriesStates, getTotalAmount } from '../store/reducers/countriesStates.reducer';
-import { fetchCountriesStates, updateCountryStates } from '../store/actions/countriesStates.actions';
-import ModalEditDialog from '../components/ModalEditDialog/ModalEditDialog';
+import { fetchCountriesStates, updateCountryState } from '../store/actions/countriesStates.actions';
+import ModalEditDialog from '../components/TableEditDialog/TableEditDialog';
 import { maxValue, minValue, required } from '../hooks/useForm';
 
 const TableColumnsConfig = [
@@ -73,7 +73,7 @@ const CountriesStates = () => {
   };
 
   const handleCountriesStatesUpdate = (updatedCountriesStates) => {
-    dispatch(updateCountryStates(updatedCountriesStates, countriesStatesId));
+    dispatch(updateCountryState(updatedCountriesStates, countriesStatesId));
     handleCloseModal();
   };
 
