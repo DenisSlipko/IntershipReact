@@ -17,3 +17,10 @@ export const PathsMap = {
   CARDS: '/cards',
   LOGIN: '/login'
 }
+
+export const UserData = {
+  login: 'admin',
+  password: 'admin',
+}; 
+
+export const TOKEN = 'sdkajsbndklabli22nio4o81nui9nd1';

@@ -381,3 +381,27 @@
   margin-bottom: -30px;
 }
 
+.auth-success {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 100px;
+  left: 30%;
+  border-radius: 20px;
+  transition: bottom 0.1s linear;
+  color: rgb(0, 0, 0);
+  font-family: 'Roboto';
+  font-size: 30px;
+}
+
+.logout-btn {
+  position: absolute;
+  right: 8px;
+  background: #ccc;
+  color: black;
+  border: 1px solid #ccc;
+  padding: 15px;
+  text-transform: uppercase;
+}
+

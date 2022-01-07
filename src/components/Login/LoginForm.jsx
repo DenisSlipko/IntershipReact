@@ -1,25 +1,40 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 
-import Input from '../Input/Input';
+import { setLogin } from '../../store/actions/login.actions';
+import ModalInput from '../Input/Input';
+import useForm from '../../hooks/useForm'
 
-const LoginForm = () => {
+const LoginForm = ({dataObject}) => {
+  const { validate, handleFieldChange, values, errors } = useForm(dataObject);
 
-  const handleUpdateData = () => {
-    
+  const dispatch = useDispatch();
+
+  const handleLogin = () => {
+    console.log(validate())
+    if(validate()) {
+      dispatch(setLogin(values));
+    }
   };
+
   return (
     <div className="login-window-container">
-      <div className="input-label">Enter your login: </div>
-      <Input
+      <div className="input-label">Login: </div>
+      <ModalInput
         label="login"
-        error={['login']}
+        error={errors['login']}
+        value={values['login']}
+        onChange={handleFieldChange('login')}
       />
-      <div className="input-label">Enter your password: </div>
-      <Input
+      <div className="input-label">Password: </div>
+      <ModalInput
         label="password"
-        error={['password']}
+        error={errors['password']}
+        type='password'
+        value={values['password']}
+        onChange={handleFieldChange('password')}
       />
-      <button className="change-data-btn" onClick={handleUpdateData}>
+      <button className="change-data-btn" onClick={handleLogin}>
         login
       </button>
     </div>
@@ -27,3 +42,4 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
+

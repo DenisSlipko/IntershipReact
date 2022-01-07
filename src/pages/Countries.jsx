@@ -32,7 +32,7 @@ const TableColumnsConfig = [
   },
 ];
 
-const Countries = () => {
+const Countries = ({isLogin}) => {
   const dispatch = useDispatch();
 
   const countries = useSelector(getCountries);
@@ -96,7 +96,7 @@ const Countries = () => {
         onClickRow={handleShowModal}
         onDataRefresh={handleCountriesRefresh}
       />
-      {countryObject && (
+      {countryObject && isLogin && (
         <TableEditDialog
           dataObject={countryObject}
           columnsConfig={TableColumnsConfig}
