@@ -16,11 +16,10 @@ const DefaultState = {
 export const countries = (state = DefaultState, action) => {
   switch (action.type) {
     case FETCH_COUNTRIES:
+      case UPDATE_COUNTRY:
       return { ...state, loading: true };
     case FETCH_COUNTRIES_SUCCESS:
       return { ...state, countries: action.countries, totalAmount: action.totalAmount, loading: false };
-    case UPDATE_COUNTRY:
-      return { ...state, loading: true };
     case UPDATE_COUNTRY_SUCCESS: {
       return {
         ...state,

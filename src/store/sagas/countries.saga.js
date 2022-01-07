@@ -8,7 +8,7 @@ import {
   updateCountrySuccess,
   updateCountryFailure,
 } from '../actions/countries.actions';
-import { getSuccessToast, getFailureToast } from '../ducks/toast.duck';
+import { callSuccessToast, callFailureToast } from '../ducks/toast.duck';
 
 export function* fetchCountriesSaga({ amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue }) {
   try {
@@ -32,10 +32,10 @@ export function* updateCountriesSaga({ country, id }) {
     const updatedCountry = yield call(updateCountry, country, id);
 
     yield put(updateCountrySuccess(updatedCountry));
-    yield getSuccessToast('Data success updated!', 2000);
+    yield callSuccessToast('Data success updated!');
   } catch (error) {
     yield put(updateCountryFailure(error));
-    yield getFailureToast(error, 2000);
+    yield callFailureToast(error);
   }
 }
 

@@ -1,6 +1,6 @@
 import { React } from 'react';
 
-import { SortValue } from '../constants';
+import { SortValueMap } from '../../../constants/constants';
 
 const DropDownMenu = ({ isSortable, columnHeaderKey, onClose, onHideColumn, onShowFilter, onSortChange }) => {
   const handleMenuSort = (isAsc, columnHeaderKey) => () => {
@@ -25,10 +25,10 @@ const DropDownMenu = ({ isSortable, columnHeaderKey, onClose, onHideColumn, onSh
           <div className="menu-item" onClick={handleMenuSort(null, null)}>
             Unsort
           </div>
-          <div className="menu-item" onClick={handleMenuSort(SortValue.ASC, columnHeaderKey)}>
+          <div className="menu-item" onClick={handleMenuSort(SortValueMap.ASC, columnHeaderKey)}>
             Sort by ASC
           </div>
-          <div className="menu-item" onClick={handleMenuSort(SortValue.DESC, columnHeaderKey)}>
+          <div className="menu-item" onClick={handleMenuSort(SortValueMap.DESC, columnHeaderKey)}>
             Sort by DESC
           </div>
         </>

@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from 'react';
 
-import { DEFAULT_AMOUNT_EL, DEFAULT_CURRENT_PAGE, SortValue } from './constants';
-import Pagination from './PaginationComponents/Pagination';
+import { SortValueMap, DEFAULT_AMOUNT_EL } from '../../constants/constants';
+import Pagination from '../Pagination/Pagination';
 import HeaderCell from './TableHeader/HeaderCell';
 import TableRows from './TableRows';
 import Filter from './Filter';
@@ -10,11 +10,11 @@ const Table = ({ columnsConfig, data, totalAmount, onClickRow, onDataRefresh }) 
   const [filterValue, setFilterValue] = useState(localStorage.getItem('filter'));
   const [columnHeaderKey, setColumnHeaderKey] = useState(localStorage.getItem('data-key'));
   const [isOrderAsc, setOrderAsc] = useState(localStorage.getItem('is-asc'));
-  const [currentPage, setCurrentPage] = useState(DEFAULT_CURRENT_PAGE);
+  const [currentPage, setCurrentPage] = useState(1);
   const [amountElOnPage, setAmountElOnPage] = useState(DEFAULT_AMOUNT_EL);
   const [countriesConfig, setCountriesConfig] = useState(columnsConfig);
   const [showFilter, setShowFilter] = useState(false);
-
+  
   const pagesAmount = Math.ceil(totalAmount / amountElOnPage);
 
   useEffect(() => {
@@ -32,19 +32,17 @@ const Table = ({ columnsConfig, data, totalAmount, onClickRow, onDataRefresh }) 
 
   const handleSort = (columnHeaderKey) => {
     if (isOrderAsc === null) {
-      handleChangeSort(SortValue.ASC, columnHeaderKey);
-    } else if (isOrderAsc === SortValue.ASC) {
-      handleChangeSort(SortValue.DESC, columnHeaderKey);
+      handleChangeSort(SortValueMap.ASC, columnHeaderKey);
+    } else if (isOrderAsc === SortValueMap.ASC) {
+      handleChangeSort(SortValueMap.DESC, columnHeaderKey);
     } else {
       handleChangeSort(null, null);
     }
   };
 
-  const handleChangeAmountEl = (event) => {
-    const amount = parseInt(event.target.value, 10);
-
-    if (amountElOnPage !== amount) {
-      setAmountElOnPage(amount);
+  const handleChangeAmountEl = (value) => {
+    if (amountElOnPage !== value) {
+      setAmountElOnPage(value);
     }
   };
 

@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
 
 import DropDownMenu from './DropDownMenu';
-import { ArrowType, SortValue } from '../constants';
+import { ArrowTypeMap, SortValueMap } from '../../../constants/constants';
 
 const HeaderCell = ({
   columnHeaderKey,
@@ -27,7 +27,7 @@ const HeaderCell = ({
       <div className="actions-container">
         {isSortable && (
           <span className="material-icons arrow" onClick={() => onSort(columnHeaderKey)}>
-            {isOrderAsc === SortValue.ASC ? ArrowType.UP : ArrowType.DOWN}
+            {isOrderAsc === SortValueMap.ASC ? ArrowTypeMap.UP : ArrowTypeMap.DOWN}
           </span>
         )}
         <span className="material-icons menuBtn" onClick={() => setShowMenu(true)}>

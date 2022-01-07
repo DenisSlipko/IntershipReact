@@ -9,7 +9,6 @@ const DefaultState = {
 export const toast = (state = DefaultState, action) => {
   switch (action.type) {
     case SET_SUCCESS_TOAST:
-      return { ...state, color: action.color, text: action.text, isShow: action.isShow };
     case SET_FAILURE_TOAST:
       return { ...state, color: action.color, text: action.text, isShow: action.isShow };
     case SET_DEFAULT_TOAST:
