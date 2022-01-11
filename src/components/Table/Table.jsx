@@ -36,9 +36,6 @@ const Table = ({
       if (isOrderAsc !== order) {
         searchParams.set('sort', isOrderAsc);
         searchParams.set('column', columnHeaderKey);
-        searchParams.set('amount', amountElOnPage);
-        searchParams.set('page', currentPage);
-        console.log(amountElOnPage)
         history.push({ search: searchParams.toString() })
       }
     } 
