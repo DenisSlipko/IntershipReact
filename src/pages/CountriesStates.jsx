@@ -6,6 +6,8 @@ import { getCountriesStates, getTotalAmount } from '../store/reducers/countriesS
 import { fetchCountriesStates, updateCountryState } from '../store/actions/countriesStates.actions';
 import TableEditDialog from '../components/TableEditDialog/TableEditDialog';
 import { maxValue, minValue, required } from '../hooks/useForm';
+import { useLocation } from 'react-router-dom';
+import { DEFAULT_AMOUNT_EL } from '../constants/constants';
 
 const TableColumnsConfig = [
   {
@@ -37,13 +39,19 @@ const CountriesStates = () => {
   const [countriesStatesObject, setCountriesStatesObject] = useState(null);
   const [countriesStatesId, setCountriesStatesId] = useState(null);
 
-  useEffect(() => {
-    handleCountriesStatesRefresh();
-  }, []);
+  const location = useLocation();
 
-  const handleCountriesStatesRefresh = (amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue) => {
-   dispatch(fetchCountriesStates(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue));
-  };
+  const searchParams = new URLSearchParams(location.search);
+
+  const amountElOnPage = searchParams.get('amount') || DEFAULT_AMOUNT_EL;
+  const currentPage = searchParams.get('page') || 1;
+  const isOrderAsc = searchParams.get('sort');
+  const columnHeaderKey = searchParams.get('column');
+  const filterValue = searchParams.get('filter');
+
+  useEffect(() => {
+    dispatch(fetchCountriesStates(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue));
+  }, [amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue]);
 
   const handleShowModal = (countryStates, id) => {
     const countryStatesObject = {
@@ -83,8 +91,13 @@ const CountriesStates = () => {
         columnsConfig={TableColumnsConfig}
         data={countriesStates}
         totalAmount={totalAmount}
+        filter={filterValue}
+        order={isOrderAsc}
+        columnName={columnHeaderKey}
+        amount={amountElOnPage}
+        page={currentPage}
+        searchParams={searchParams}
         onClickRow={handleShowModal}
-        onDataRefresh={handleCountriesStatesRefresh}
       />
       {countriesStatesObject && (
         <TableEditDialog

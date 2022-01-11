@@ -1,13 +1,20 @@
 import { React } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import PaginationPages from './PaginationPages';
 
 const PaginationConfigList = [20, 50, 100];
 
-const Pagination = ({ pagesAmount, onPageChange, onChangeAmountEl }) => {
+const Pagination = ({ pagesAmount, searchParams, onPageChange, onChangeAmountEl }) => {
+
+  const history = useHistory();
 
   const handleChangeAmount = (event) => {
-    onChangeAmountEl(parseInt(event.target.value, 10));
+    const value = parseInt(event.target.value, 10)
+    onChangeAmountEl(value);
+
+    searchParams.set('amount', value);
+    history.push({ search: searchParams.toString() })
   }
 
   return (
@@ -19,7 +26,7 @@ const Pagination = ({ pagesAmount, onPageChange, onChangeAmountEl }) => {
         </option>
       ))}
     </select>
-    <PaginationPages pagesAmount={pagesAmount} onPageChange={onPageChange} />
+    <PaginationPages pagesAmount={pagesAmount} searchParams={searchParams} onPageChange={onPageChange} />
   </div>
   )
 };

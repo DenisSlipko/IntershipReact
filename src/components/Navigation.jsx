@@ -6,11 +6,11 @@ const NavigationList = [
   {path: PathsMap.COUNTRIES, label: 'Countries'},
   {path: PathsMap.STATES, label: 'States'},
   {path: PathsMap.CITIES, label: 'Cities'},
-  {path: PathsMap.CARDS, label: 'Posts'},
+  {path: PathsMap.CARDS, label: 'Cards'},
   {path: PathsMap.LOGIN, label: 'Login'},
 ]
 
-const Navigation = () =>  (
+const Navigation = () => (
   <nav className="navigation">
     <ul className="link-container">
       {NavigationList.map(({path, label}) => 

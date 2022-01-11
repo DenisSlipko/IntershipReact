@@ -6,6 +6,9 @@ import TableEditDialog from '../components/TableEditDialog/TableEditDialog';
 import { getCountries, getTotalAmount } from '../store/reducers/countries.reducer';
 import { fetchCountries, updateCountry } from '../store/actions/countries.actions';
 import { maxValue, minValue, required } from '../hooks/useForm';
+import { getIsLogin } from '../store/reducers/authorization.reducer';
+import { useLocation } from 'react-router-dom';
+import { DEFAULT_AMOUNT_EL } from '../constants/constants';
 
 const TableColumnsConfig = [
   {
@@ -32,22 +35,29 @@ const TableColumnsConfig = [
   },
 ];
 
-const Countries = ({isLogin}) => {
+const Countries = () => {
   const dispatch = useDispatch();
 
   const countries = useSelector(getCountries);
   const totalAmount = useSelector(getTotalAmount);
+  const isLogin = useSelector(getIsLogin)
 
   const [countryObject, setCountryObject] = useState(null);
   const [countryId, setCountryId] = useState(null);
 
-  useEffect(() => {
-    handleCountriesRefresh();
-  }, []);
+  const location = useLocation();
 
-  const handleCountriesRefresh = (amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue) => {
-    dispatch(fetchCountries(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue));
-  };
+  const searchParams = new URLSearchParams(location.search);
+
+  const amountElOnPage = searchParams.get('amount') || DEFAULT_AMOUNT_EL;
+  const currentPage = searchParams.get('page') || 1;
+  const isOrderAsc = searchParams.get('sort');
+  const columnHeaderKey = searchParams.get('column');
+  const filterValue = searchParams.get('filter');
+
+  useEffect(() => {
+    dispatch(fetchCountries(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue)); 
+  }, [amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue]);
 
   const handleShowModal = (country, id) => {
     const countryObject = {
@@ -93,8 +103,13 @@ const Countries = ({isLogin}) => {
         columnsConfig={TableColumnsConfig}
         data={countries}
         totalAmount={totalAmount}
+        filter={filterValue}
+        order={isOrderAsc}
+        columnName={columnHeaderKey}
+        amount={amountElOnPage}
+        page={currentPage}
+        searchParams={searchParams}
         onClickRow={handleShowModal}
-        onDataRefresh={handleCountriesRefresh}
       />
       {countryObject && isLogin && (
         <TableEditDialog

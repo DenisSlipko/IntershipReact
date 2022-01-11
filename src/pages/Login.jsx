@@ -1,35 +1,29 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { logoutUser } from '../store/actions/authorization.actions';
+import { getIsLogin } from '../store/reducers/authorization.reducer';
 import LoginForm from '../components/Login/LoginForm';
-import { maxValue, minValue, required } from '../hooks/useForm';
-import { setLogout } from '../store/actions/login.actions';
 
-const Login = ({ isLogin }) => {
+const Login = () => {
 
   const dispatch = useDispatch();
 
+  const isLogin = useSelector(getIsLogin)
+
   const handleLogout = () => {
-    dispatch(setLogout());
+    dispatch(logoutUser());
   }
 
-  const loginObject = {
-    login: {
-      value: '',
-      validators: [maxValue(16), minValue(2), required('Field required!')],
-    },
-    password: {
-      value: '',
-      validators: [maxValue(16), minValue(2), required('Field required!')],
-    },
-  };
 
   return (
-    isLogin ? (<><div className='auth-success'>You are success authorizated!</div>
-    <button className="logout-btn" onClick={handleLogout} >logout</button></>
-    )
+    isLogin ? 
+    (<>
+      <div className='auth-success'>You are success authorizated!</div>
+      <button className="logout-btn" onClick={handleLogout} >logout</button>
+    </>)
     : 
     (<div className="login-container">
-      <LoginForm dataObject={loginObject}/>
+      <LoginForm />
     </div>) 
   );
 };

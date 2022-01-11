@@ -1,33 +1,44 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import { setLogin } from '../../store/actions/login.actions';
-import ModalInput from '../Input/Input';
+import { loginUser } from '../../store/actions/authorization.actions';
+import Input from '../Input/Input';
 import useForm from '../../hooks/useForm'
+import { maxValue, minValue, required } from '../../hooks/useForm'
 
-const LoginForm = ({dataObject}) => {
-  const { validate, handleFieldChange, values, errors } = useForm(dataObject);
+const loginObject = {
+  login: {
+    value: '',
+    validators: [maxValue(16), minValue(2), required('Field required!')],
+  },
+  password: {
+    value: '',
+    validators: [maxValue(16), minValue(2), required('Field required!')],
+  },
+};
+
+const LoginForm = () => {
+  const { validate, handleFieldChange, values, errors } = useForm(loginObject);
 
   const dispatch = useDispatch();
 
   const handleLogin = () => {
-    console.log(validate())
     if(validate()) {
-      dispatch(setLogin(values));
+      dispatch(loginUser(values));
     }
   };
 
   return (
     <div className="login-window-container">
       <div className="input-label">Login: </div>
-      <ModalInput
+      <Input
         label="login"
         error={errors['login']}
         value={values['login']}
         onChange={handleFieldChange('login')}
       />
       <div className="input-label">Password: </div>
-      <ModalInput
+      <Input
         label="password"
         error={errors['password']}
         type='password'

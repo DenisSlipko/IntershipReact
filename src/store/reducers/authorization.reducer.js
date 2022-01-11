@@ -1,15 +1,12 @@
-import { LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, LOGIN_USER, LOGOUT_USER_SUCCESS, LOGOUT_USER_FAILURE, LOGOUT_USER } from '../actions/types/login.types';
+import { LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, LOGIN_USER, LOGOUT_USER_SUCCESS, LOGOUT_USER_FAILURE, LOGOUT_USER } from '../actions/types/authorization.types';
 
 const DefaultState = {
   token: localStorage.getItem('token'),
-  values: {
-    login: '',
-    password: ''
-  },
+  login : '',
   error: ''
 };
 
-export const login = (state = DefaultState, action) => {
+export const authorization = (state = DefaultState, action) => {
   switch (action.type) {
     case LOGIN_USER_SUCCESS:
       return { ...state, token: action.token};
@@ -18,7 +15,7 @@ export const login = (state = DefaultState, action) => {
     case LOGIN_USER:
       return { ...state, values: action.values};
     case LOGOUT_USER:
-        return { ...state };
+        return state;
     case LOGOUT_USER_SUCCESS:
       return { ...state, token: null };
     case LOGOUT_USER_FAILURE:
@@ -28,10 +25,6 @@ export const login = (state = DefaultState, action) => {
   }
 };
 
-const getState = (state) => state.login;
+const getState = (state) => state.authorization;
 
-export const getLogin = (state) => ({
-  value : getState(state).value,
-  text : getState(state).text,
-})
 export const getIsLogin = (state) => getState(state).token;

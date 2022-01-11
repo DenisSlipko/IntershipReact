@@ -11,7 +11,7 @@ export const ArrowTypeMap = {
 export const DEFAULT_AMOUNT_EL = 20;
 
 export const PathsMap = {
-  COUNTRIES: '/',
+  COUNTRIES: '/countries',
   CITIES: '/cities',
   STATES: '/states',
   CARDS: '/cards',
