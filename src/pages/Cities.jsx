@@ -6,8 +6,6 @@ import { getCities, getTotalAmount } from '../store/reducers/cities.reducer';
 import { fetchCities, updateCity } from '../store/actions/cities.actions';
 import TableEditDialog from '../components/TableEditDialog/TableEditDialog';
 import { maxValue, minValue, required } from '../hooks/useForm';
-import { useLocation } from 'react-router-dom';
-import { DEFAULT_AMOUNT_EL } from '../constants/constants';
 
 const TableColumnsConfig = [
   {
@@ -39,19 +37,13 @@ const Cities = () => {
   const [cityObject, setCityObject] = useState(null);
   const [cityId, setCityId] = useState(null);
 
-  const location = useLocation();
-
-  const searchParams = new URLSearchParams(location.search);
-
-  const amountElOnPage = searchParams.get('amount') || DEFAULT_AMOUNT_EL;
-  const currentPage = searchParams.get('page') || 1;
-  const isOrderAsc = searchParams.get('sort');
-  const columnHeaderKey = searchParams.get('column');
-  const filterValue = searchParams.get('filter');
-
   useEffect(() => {
+    handleCitiesRefresh()
+  }, []);
+
+  const handleCitiesRefresh = (amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue) => {
     dispatch(fetchCities(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue));
-  }, [amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue]);
+  }
 
   const handleShowModal = (city, id) => {
     const cityObject = {
@@ -92,12 +84,7 @@ const Cities = () => {
         columnsConfig={TableColumnsConfig}
         data={cities}
         totalAmount={totalAmount}
-        filter={filterValue}
-        order={isOrderAsc}
-        columnName={columnHeaderKey}
-        amount={amountElOnPage}
-        page={currentPage}
-        searchParams={searchParams}
+        onDataRefresh={handleCitiesRefresh}
         onClickRow={handleShowModal}
       />
       {cityObject && (

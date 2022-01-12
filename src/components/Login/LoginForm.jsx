@@ -3,17 +3,16 @@ import { useDispatch } from 'react-redux';
 
 import { loginUser } from '../../store/actions/authorization.actions';
 import Input from '../Input/Input';
-import useForm from '../../hooks/useForm'
-import { maxValue, minValue, required } from '../../hooks/useForm'
+import useForm, { required } from '../../hooks/useForm';
 
 const loginObject = {
   login: {
     value: '',
-    validators: [maxValue(16), minValue(2), required('Field required!')],
+    validators: [required('Field login is required!')],
   },
   password: {
     value: '',
-    validators: [maxValue(16), minValue(2), required('Field required!')],
+    validators: [required('Field password is required!')],
   },
 };
 
@@ -23,7 +22,7 @@ const LoginForm = () => {
   const dispatch = useDispatch();
 
   const handleLogin = () => {
-    if(validate()) {
+    if (validate()) {
       dispatch(loginUser(values));
     }
   };

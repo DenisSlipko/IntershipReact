@@ -1,19 +1,11 @@
 import { React, useState, useEffect } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
 
 const Filter = ({ filterLabel, filterValue, onClose, onChangeFilter }) => {
-  const location = useLocation();
-  const history = useHistory();
-  
-  const searchParams = new URLSearchParams(location.search);
 
   const [value, setValue] = useState(filterValue);
 
   useEffect(() => {
     onChangeFilter(value);
-    
-    searchParams.set('filter', value);
-    history.push({ search: searchParams.toString() })
   }, [value]);
 
   const handleCleanField = () => {

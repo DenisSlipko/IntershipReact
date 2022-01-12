@@ -6,23 +6,15 @@ import { fetchCities } from '../store/actions/cities.actions';
 import Card from '../components/Card/Card';
 import Pagination from '../components/Pagination/Pagination';
 import { DEFAULT_AMOUNT_EL } from '../constants/constants'
-import { useLocation } from 'react-router-dom';
 
 const Posts = () => {
   const dispatch = useDispatch();
   
   const cities = useSelector(getCities);
   const totalAmount = useSelector(getTotalAmount);
-
-  const location = useLocation();
-
-  const searchParams = new URLSearchParams(location.search);
-
-  const amount = searchParams.get('amount') || DEFAULT_AMOUNT_EL;
-  const page = searchParams.get('page') || 1;
   
-  const [currentPage, setCurrentPage] = useState(page);
-  const [amountElOnPage, setAmountElOnPage] = useState(amount);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [amountElOnPage, setAmountElOnPage] = useState(DEFAULT_AMOUNT_EL);
   
   const pagesAmount = Math.ceil(totalAmount / amountElOnPage);
   
@@ -45,7 +37,6 @@ const Posts = () => {
     </div>
       <Pagination 
         pagesAmount={pagesAmount} 
-        searchParams={searchParams} 
         onPageChange={setCurrentPage} 
         onChangeAmountEl={handleChangeAmountEl} />
     </>

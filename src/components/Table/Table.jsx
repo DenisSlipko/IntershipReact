@@ -1,5 +1,4 @@
 import { React, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 
 import { SortValueMap } from '../../constants/constants';
 import Pagination from '../Pagination/Pagination';
@@ -14,9 +13,9 @@ const Table = ({
   filter, 
   columnName, 
   order, 
-  amount, 
+  amount = 20, 
   page, 
-  searchParams, 
+  onDataRefresh,
   onClickRow }) => {
 
   const [filterValue, setFilterValue] = useState(filter);
@@ -29,18 +28,9 @@ const Table = ({
   
   const pagesAmount = Math.ceil(totalAmount / amountElOnPage);
 
-  const history = useHistory();
-
   useEffect(() => {
-    if (searchParams) {
-      if (isOrderAsc !== order) {
-        searchParams.set('sort', isOrderAsc);
-        searchParams.set('column', columnHeaderKey);
-        history.push({ search: searchParams.toString() })
-      }
-    } 
-
-  }, [amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue, order]);
+    onDataRefresh(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue)
+  }, [amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue]);
 
   const handleChangeSort = (isAsc, columnHeaderKey) => {
     setOrderAsc(isAsc);
@@ -100,7 +90,6 @@ const Table = ({
       <TableRows data={data} columnsConfig={dataConfig} onClickRow={onClickRow} />
       <Pagination 
         pagesAmount={pagesAmount} 
-        searchParams={searchParams} 
         onPageChange={setCurrentPage} 
         onChangeAmountEl={handleChangeAmountEl} 
       />

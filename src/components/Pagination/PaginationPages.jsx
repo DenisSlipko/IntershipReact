@@ -1,16 +1,10 @@
 import { React } from 'react';
-import { useHistory } from 'react-router-dom';
 
-const PaginationPages = ({ pagesAmount, searchParams, onPageChange }) => {
+const PaginationPages = ({ pagesAmount, onPageChange }) => {
   const pagesNumber = [...Array(pagesAmount).keys()];
-
-  const history = useHistory();
 
   const handlePageChange = (page) => {
     onPageChange(page);
-
-    searchParams.set('page', page);
-    history.push({ search: searchParams.toString() })
   }
 
   return (
