@@ -128,11 +128,7 @@ const Countries = () => {
         columnsConfig={TableColumnsConfig}
         data={countries}
         totalAmount={totalAmount}
-        filter={urlParamsObject.filter}
-        order={urlParamsObject.order}
-        columnName={urlParamsObject.columnName}
-        amount={urlParamsObject.amount}
-        page={urlParamsObject.page}
+        urlParamsObject={urlParamsObject}
         onDataRefresh={handleCountriesRefresh}
         onClickRow={handleShowModal}
       />
