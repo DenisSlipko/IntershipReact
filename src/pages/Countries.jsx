@@ -37,9 +37,7 @@ const TableColumnsConfig = [
 
 const Countries = () => {
   const dispatch = useDispatch();
-
   const history = useHistory();
-
   const location = useLocation();
 
   const countries = useSelector(getCountries);
