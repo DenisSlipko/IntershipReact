@@ -34,5 +34,3 @@ export const logoutUserFailure = (error) => ({
   type: LOGOUT_USER_FAILURE,
   error
 });
-
-

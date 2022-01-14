@@ -1,30 +1,34 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import Table from '../components/Table/Table';
 import { getCountriesStates, getTotalAmount } from '../store/reducers/countriesStates.reducer';
 import { fetchCountriesStates, updateCountryState } from '../store/actions/countriesStates.actions';
-import TableEditDialog from '../components/TableEditDialog/TableEditDialog';
+import DialogForm from '../components/TableEditDialog/DialogForm';
 import { maxValue, minValue, required } from '../hooks/useForm';
+import Table from '../components/Table/Table';
 
 const TableColumnsConfig = [
-  {
-    label: 'Name',
-    key: 'name',
-    sortable: true,
+  { 
+    field: "name", 
+    headerName: "Name",
+    flex: 1, 
   },
-  {
-    label: 'Country code',
-    key: 'country_code',
-    sortable: true,
+  { 
+    field: "country_code", 
+    headerName: "Country code", 
+    flex: 1, 
   },
-  {
-    label: 'Country name',
-    key: 'country_name',
+  { 
+    field: "country_name", 
+    headerName: "Country name",
+    sortable: false, 
+    flex: 1, 
   },
-  {
-    label: 'State code',
-    key: 'state_code',
+  { 
+    field: "state_code",
+    headerName: "State code",
+    sortable: false, 
+    flex: 1, 
   },
 ];
 
@@ -32,71 +36,77 @@ const CountriesStates = () => {
   const dispatch = useDispatch();
 
   const countriesStates = useSelector(getCountriesStates);
-  const totalAmount = useSelector(getTotalAmount);
+  const totalAmount = Number(useSelector(getTotalAmount));
 
-  const [countriesStatesObject, setCountriesStatesObject] = useState(null);
-  const [countriesStatesId, setCountriesStatesId] = useState(null);
+  const [countryStateObject, setCountryStateObject] = useState();
+  const [countryStateId, setCountryStateId] = useState();
+
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    handleCountriesStatesRefresh()
-  }, []);
+    handleCountriesStatesRefresh(); 
+  },[]);
 
-  const handleCountriesStatesRefresh = (amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue) => {
-    dispatch(fetchCountriesStates(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue));
+  const handleCountriesStatesRefresh = (amount, page, order, columnKey, filter) => {  
+    dispatch(fetchCountriesStates(amount, page, order, columnKey, filter));
   }
 
-  const handleShowModal = (countryStates, id) => {
+  const handleClickRow = ({ row,id }) => {
+    modalOpen()
     const countryStatesObject = {
       name: {
-        value: countryStates.name,
+        value: row.name,
         validators: [maxValue(16), minValue(2), required('Name field is required!')],
       },
       country_code: {
-        value: countryStates.country_code,
+        value: row.country_code,
         validators: [minValue(2), required('Country code field is required!')],
       },
       country_name: {
-        value: countryStates.country_name,
+        value: row.country_name,
         validators: [maxValue(11), minValue(2)],
       },
       state_code: {
-        value: countryStates.state_code,
+        value: row.state_code,
       },
     };
-    setCountriesStatesObject(countryStatesObject);
-    setCountriesStatesId(id);
-  };
+    setCountryStateObject(countryStatesObject);
+    setCountryStateId(id);
+  }
 
-  const handleCloseModal = () => {
-    setCountriesStatesObject(null);
-    setCountriesStatesId(null);
-  };
+  const modalOpen = () => {
+    setOpen(true)
+  }
 
-  const handleCountriesStatesUpdate = (updatedCountriesStates) => {
-    dispatch(updateCountryState(updatedCountriesStates, countriesStatesId));
-    handleCloseModal();
+  const modalClose = () => {
+    setOpen(false)
+  }
+
+  const handleCountryStateUpdate = (countryState) => {
+    dispatch(updateCountryState(countryState, countryStateId));
+    setCountryStateObject(null)
   };
 
   return (
     <>
-      <Table
-        columnsConfig={TableColumnsConfig}
-        data={countriesStates}
-        totalAmount={totalAmount}
-        onDataRefresh={handleCountriesStatesRefresh}
-        onClickRow={handleShowModal}
-      />
-      {countriesStatesObject && (
-        <TableEditDialog
-          dataObject={countriesStatesObject}
+      <div style={{ width: "100%", display:'flex' }}>
+        <Table
+          data={countriesStates}
+          totalAmount={totalAmount}
           columnsConfig={TableColumnsConfig}
-          onClose={handleCloseModal}
-          onUpdateData={handleCountriesStatesUpdate}
+          onDataRefresh={handleCountriesStatesRefresh}
+          onRowClick={handleClickRow}
         />
-      )}
+        {countryStateObject && <DialogForm 
+          dataObject={countryStateObject}
+          dataConfig={TableColumnsConfig}
+          openDialog={open}
+          onUpdateData={handleCountryStateUpdate}
+          onCloseDialog={modalClose}
+        />}
+      </div>
     </>
   );
 };
-
 
 export default CountriesStates;

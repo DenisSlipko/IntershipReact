@@ -277,10 +277,18 @@
   list-style-type: none;
 }
 .navigation-element {
+  display: flex;
+  color: hsl(0, 0%, 100%);
+  font-family: 'Roboto';
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.login-link {
   display: block;
   color: white;
   font-family: 'Roboto';
-  font-size: 20px;
+  font-size: 0.875rem;
   text-decoration: none;
 }
 

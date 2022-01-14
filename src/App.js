@@ -2,10 +2,9 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import ToastMessage from './components/ToastMessage/ToastMessage'
 import Navigation from './components/Navigation/Navigation';
-import AppRouter from './applicationRouter/AppRouter'
+import AppRouter from './appRouter/AppRouter'
 
 const App = () => {
-
   return (
     <Router>
         <Navigation />
