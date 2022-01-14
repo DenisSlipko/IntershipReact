@@ -16,15 +16,15 @@ const Login = () => {
   return (
     isLogin 
       ? (
-        <>
-          <div className='auth-success'>You are success authorizated!</div>
-          <button className="logout-btn" onClick={handleLogout} >logout</button>
-        </>
+          <>
+            <div className='auth-success'>You are success authorizated!</div>
+            <button className="logout-btn" onClick={handleLogout} >logout</button>
+          </>
         )
       : (
-        <div className="login-container">
-          <LoginForm />
-        </div>
+          <div className="login-container">
+            <LoginForm />
+          </div>
         ) 
   )
 };
