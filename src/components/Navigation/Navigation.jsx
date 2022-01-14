@@ -3,11 +3,26 @@ import { Link } from 'react-router-dom';
 import { PathsMap } from '../../constants/constants';
 
 const NavigationList = [
-  {path: PathsMap.COUNTRIES, label: 'Countries'},
-  {path: PathsMap.STATES, label: 'States'},
-  {path: PathsMap.CITIES, label: 'Cities'},
-  {path: PathsMap.CARDS, label: 'Cards'},
-  {path: PathsMap.LOGIN, label: 'Login'},
+  {
+    path: PathsMap.COUNTRIES, 
+    label: 'Countries'
+  },
+  {
+    path: PathsMap.STATES, 
+    label: 'States'
+  },
+  {
+    path: PathsMap.CITIES, 
+    label: 'Cities'
+  },
+  {
+    path: PathsMap.CARDS, 
+    label: 'Cards'
+  },
+  {
+    path: PathsMap.LOGIN, 
+    label: 'Login'
+  },
 ]
 
 const Navigation = () => (
