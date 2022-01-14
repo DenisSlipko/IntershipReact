@@ -53,7 +53,7 @@ const Countries = () => {
     const searchParams = new URLSearchParams(location.search);
 
     const amount = searchParams.get('amount') || DEFAULT_AMOUNT_EL;
-    const page = searchParams.get('page');
+    const page = searchParams.get('page') || 1;
     const order = searchParams.get('sort');
     const columnName = searchParams.get('column');
     const filter = searchParams.get('filter');
