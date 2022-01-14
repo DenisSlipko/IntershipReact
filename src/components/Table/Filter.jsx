@@ -1,7 +1,6 @@
 import { React, useState, useEffect } from 'react';
 
 const Filter = ({ filterLabel, filterValue, onClose, onChangeFilter }) => {
-
   const [value, setValue] = useState(filterValue);
 
   useEffect(() => {

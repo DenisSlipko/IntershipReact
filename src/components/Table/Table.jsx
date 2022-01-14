@@ -10,14 +10,15 @@ const Table = ({
   columnsConfig,
   data, 
   totalAmount, 
-  urlParamsObject,
+  initialParams,
   onDataRefresh,
-  onClickRow }) => {
-  const [filterValue, setFilterValue] = useState(urlParamsObject ? urlParamsObject.filter : null);
-  const [columnHeaderKey, setColumnHeaderKey] = useState(urlParamsObject ? urlParamsObject.columnName : null);
-  const [isOrderAsc, setOrderAsc] = useState(urlParamsObject ? urlParamsObject.order : null);
-  const [currentPage, setCurrentPage] = useState(1 || urlParamsObject.page);
-  const [amountElOnPage, setAmountElOnPage] = useState(20 || urlParamsObject.amount);
+  onClickRow, 
+  }) => {
+  const [filterValue, setFilterValue] = useState(initialParams?.filter);
+  const [columnHeaderKey, setColumnHeaderKey] = useState(initialParams?.columnName);
+  const [isOrderAsc, setOrderAsc] = useState(initialParams?.order);
+  const [currentPage, setCurrentPage] = useState(initialParams?.page || 1);
+  const [amountElOnPage, setAmountElOnPage] = useState(initialParams?.amount || 20);
   const [dataConfig, setDataConfig] = useState(columnsConfig);
   const [showFilter, setShowFilter] = useState(false);
   

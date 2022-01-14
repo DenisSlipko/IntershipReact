@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { PathsMap } from '../constants/constants';
+import { PathsMap } from '../../constants/constants';
 
 const NavigationList = [
   {path: PathsMap.COUNTRIES, label: 'Countries'},

@@ -5,7 +5,6 @@ import { getIsLogin } from '../store/reducers/authorization.reducer';
 import LoginForm from '../components/Login/LoginForm';
 
 const Login = () => {
-
   const dispatch = useDispatch();
 
   const isLogin = useSelector(getIsLogin)
@@ -15,17 +14,14 @@ const Login = () => {
   }
 
 
-  return (
-    isLogin ? 
-    (<>
+  return isLogin 
+    ? (<>
       <div className='auth-success'>You are success authorizated!</div>
       <button className="logout-btn" onClick={handleLogout} >logout</button>
-    </>)
-    : 
-    (<div className="login-container">
+      </>)
+    : (<div className="login-container">
       <LoginForm />
-    </div>) 
-  );
+      </div>) 
 };
 
 export default Login;

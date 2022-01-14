@@ -38,7 +38,8 @@ const Posts = () => {
       <Pagination 
         pagesAmount={pagesAmount} 
         onPageChange={setCurrentPage} 
-        onChangeAmountEl={handleChangeAmountEl} />
+        onChangeAmountEl={handleChangeAmountEl} 
+      />
     </>
   );
 };

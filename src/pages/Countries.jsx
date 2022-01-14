@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import Table from '../components/Table/Table';
 import TableEditDialog from '../components/TableEditDialog/TableEditDialog';
@@ -7,7 +8,6 @@ import { getCountries, getTotalAmount } from '../store/reducers/countries.reduce
 import { fetchCountries, updateCountry } from '../store/actions/countries.actions';
 import { maxValue, minValue, required } from '../hooks/useForm';
 import { getIsLogin } from '../store/reducers/authorization.reducer';
-import { useHistory, useLocation } from 'react-router-dom';
 import { DEFAULT_AMOUNT_EL } from '../constants/constants';
 
 const TableColumnsConfig = [
@@ -38,6 +38,10 @@ const TableColumnsConfig = [
 const Countries = () => {
   const dispatch = useDispatch();
 
+  const history = useHistory();
+
+  const location = useLocation();
+
   const countries = useSelector(getCountries);
   const totalAmount = useSelector(getTotalAmount);
   const isLogin = useSelector(getIsLogin)
@@ -45,13 +49,11 @@ const Countries = () => {
   const [countryObject, setCountryObject] = useState(null);
   const [countryId, setCountryId] = useState(null);
 
-  const location = useLocation();
-
-  const searchParams = new URLSearchParams(location.search);
-
   const urlParamsObject = useMemo(() => {
+    const searchParams = new URLSearchParams(location.search);
+
     const amount = searchParams.get('amount') || DEFAULT_AMOUNT_EL;
-    const page = searchParams.get('page') || 1;
+    const page = searchParams.get('page');
     const order = searchParams.get('sort');
     const columnName = searchParams.get('column');
     const filter = searchParams.get('filter');
@@ -59,27 +61,27 @@ const Countries = () => {
     return { amount, page, order, columnName, filter }
   }, [location])
 
-  const history = useHistory();
-
   useEffect(() => {
     handleCountriesRefresh(
       urlParamsObject.amount, 
       urlParamsObject.page, 
       urlParamsObject.order, 
       urlParamsObject.columnName, 
-      urlParamsObject.filter); 
+      urlParamsObject.filter
+    ); 
   }, []);
 
   const handleCountriesRefresh = (amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue) => {
-    if (isOrderAsc !== urlParamsObject.order) {
-      searchParams.set('sort', isOrderAsc);
-      searchParams.set('column', columnHeaderKey);
-      searchParams.set('amount', amountElOnPage);
-      searchParams.set('page', currentPage);
-      filterValue !== null && searchParams.set('filter', filterValue);
+    const searchParams = new URLSearchParams(location.search);
 
-      history.push({ search: searchParams.toString() })
+    searchParams.set('sort', isOrderAsc);
+    searchParams.set('column', columnHeaderKey);
+    searchParams.set('amount', amountElOnPage);
+    searchParams.set('page', currentPage);
+    if (filterValue !== null) {
+      searchParams.set('filter', filterValue);
     }
+    history.push({ search: searchParams.toString() })
 
     dispatch(fetchCountries(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue)); 
   }

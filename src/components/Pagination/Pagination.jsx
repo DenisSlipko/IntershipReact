@@ -7,7 +7,8 @@ const PaginationConfigList = [20, 50, 100];
 const Pagination = ({ pagesAmount, onPageChange, onChangeAmountEl }) => {
 
   const handleChangeAmount = (event) => {
-    const value = parseInt(event.target.value, 10)
+    const value = parseInt(event.target.value, 10);
+    
     onChangeAmountEl(value);
   }
 

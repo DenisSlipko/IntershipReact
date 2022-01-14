@@ -11,12 +11,14 @@ export const ArrowTypeMap = {
 export const DEFAULT_AMOUNT_EL = 20;
 
 export const PathsMap = {
-  COUNTRIES: '/countries',
+  COUNTRIES: '/',
   CITIES: '/cities',
   STATES: '/states',
   CARDS: '/cards',
   LOGIN: '/login'
 }
+
+export const HOME_PAGE = PathsMap.COUNTRIES;
 
 export const UserData = {
   login: 'admin',

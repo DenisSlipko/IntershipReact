@@ -9,21 +9,34 @@ import { PathsMap } from '../constants/constants'
 import ProtectedRoute from './ProtectedRoute';
 
 const RouteConfig = [
-    {path: PathsMap.COUNTRIES, component: <Countries />},
-    {path: PathsMap.STATES, component: <CountriesStates />, isProtectedRoute: true},
-    {path: PathsMap.CITIES, component: <Cities />, isProtectedRoute: true},
-    {path: PathsMap.CARDS, component: <Posts />, isProtectedRoute: true},
-    {path: PathsMap.LOGIN, component: <Login />},
+        { path: PathsMap.COUNTRIES, 
+          Component: <Countries />, 
+        },
+        { path: PathsMap.STATES, 
+          Component: <CountriesStates />, 
+          isProtectedRoute: true, 
+        },
+        { path: PathsMap.CITIES, 
+          Component: <Cities />, 
+          isProtectedRoute: true, 
+        },
+        { path: PathsMap.CARDS, 
+          Component: <Posts />, 
+          isProtectedRoute: true, 
+        },
+        { path: PathsMap.LOGIN, 
+          Component: <Login />, 
+        },
 ]
 
 const AppRouter = () => { 
 
     return (
     <Switch>
-        { RouteConfig.map(({ path, component : Component, isProtectedRoute }) =>      
-            <ProtectedRoute path={path} isProtectedRoute={isProtectedRoute} key={Component} >
+        {RouteConfig.map(({ path, Component, isProtectedRoute }) => (    
+            <ProtectedRoute exact path={path} isProtectedRoute={isProtectedRoute} key={Component} >
                 {Component}
-            </ProtectedRoute>
+            </ProtectedRoute> )
         )} 
     </Switch>
 )

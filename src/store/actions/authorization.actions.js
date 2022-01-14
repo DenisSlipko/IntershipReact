@@ -1,4 +1,16 @@
-import { LOGIN_USER, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, LOGOUT_USER, LOGOUT_USER_SUCCESS, LOGOUT_USER_FAILURE } from './types/authorization.types';
+import { 
+  LOGIN_USER, 
+  LOGIN_USER_SUCCESS, 
+  LOGIN_USER_FAILURE, 
+  LOGOUT_USER, 
+  LOGOUT_USER_SUCCESS, 
+  LOGOUT_USER_FAILURE 
+} from './types/authorization.types';
+
+export const loginUser = (values) => ({
+  type: LOGIN_USER,
+  values
+});
 
 export const loginUserSuccess = (token) => ({
   type: LOGIN_USER_SUCCESS,
@@ -10,9 +22,8 @@ export const loginUserFailure = (error) => ({
   error
 });
 
-export const loginUser = (values) => ({
-  type: LOGIN_USER,
-  values
+export const logoutUser = () => ({
+  type: LOGOUT_USER,
 });
 
 export const logoutUserSuccess = () => ({
@@ -24,7 +35,4 @@ export const logoutUserFailure = (error) => ({
   error
 });
 
-export const logoutUser = () => ({
-  type: LOGOUT_USER,
-});
 
