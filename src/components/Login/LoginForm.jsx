@@ -23,7 +23,7 @@ const LoginForm = () => {
   const dispatch = useDispatch();
 
   const handleLogin = () => {
-    if(validate()) {
+    if (validate()) {
       dispatch(loginUser(values));
     }
   };
