@@ -1,28 +1,31 @@
 import { React, useEffect, useState } from 'react';
 
-import { SortValueMap, DEFAULT_AMOUNT_EL } from '../../constants/constants';
+import { DEFAULT_AMOUNT_EL, SortValueMap } from '../../constants/constants';
 import Pagination from '../Pagination/Pagination';
 import HeaderCell from './TableHeader/HeaderCell';
 import TableRows from './TableRows';
 import Filter from './Filter';
 
-const Table = ({ columnsConfig, data, totalAmount, onClickRow, onDataRefresh }) => {
-  const [filterValue, setFilterValue] = useState(localStorage.getItem('filter'));
-  const [columnHeaderKey, setColumnHeaderKey] = useState(localStorage.getItem('data-key'));
-  const [isOrderAsc, setOrderAsc] = useState(localStorage.getItem('is-asc'));
-  const [currentPage, setCurrentPage] = useState(1);
-  const [amountElOnPage, setAmountElOnPage] = useState(DEFAULT_AMOUNT_EL);
-  const [countriesConfig, setCountriesConfig] = useState(columnsConfig);
+const Table = ({ 
+  columnsConfig,
+  data, 
+  totalAmount, 
+  initialParams,
+  onDataRefresh,
+  onClickRow, 
+  }) => {
+  const [filterValue, setFilterValue] = useState(initialParams?.filter);
+  const [columnHeaderKey, setColumnHeaderKey] = useState(initialParams?.columnName);
+  const [isOrderAsc, setOrderAsc] = useState(initialParams?.order);
+  const [currentPage, setCurrentPage] = useState(initialParams?.page || 1);
+  const [amountElOnPage, setAmountElOnPage] = useState(initialParams?.amount || DEFAULT_AMOUNT_EL);
+  const [dataConfig, setDataConfig] = useState(columnsConfig);
   const [showFilter, setShowFilter] = useState(false);
   
   const pagesAmount = Math.ceil(totalAmount / amountElOnPage);
 
   useEffect(() => {
-    onDataRefresh(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue);
-
-    // setOrderAsc(localStorage.getItem('is-asc'));
-    // setColumnHeaderKey(localStorage.getItem('data-key'));
-    // setFilterValue(localStorage.getItem('filter'));
+    onDataRefresh(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue)
   }, [amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue]);
 
   const handleChangeSort = (isAsc, columnHeaderKey) => {
@@ -56,16 +59,16 @@ const Table = ({ columnsConfig, data, totalAmount, onClickRow, onDataRefresh }) 
   };
 
   const handleHideColumn = (columnHeaderKey) => {
-    const filteredConfig = countriesConfig.filter(({ key }) => key !== columnHeaderKey);
+    const filteredConfig = dataConfig.filter(({ key }) => key !== columnHeaderKey);
 
-    setCountriesConfig(filteredConfig);
+    setDataConfig(filteredConfig);
   };
 
   return (
     <div className="table">
       <div className="table-header">
         <div className="table-header-row">
-          {countriesConfig.map(({ key, label, sortable }) => (
+          {dataConfig.map(({ key, label, sortable }) => (
             <HeaderCell
               key={key}
               label={label}
@@ -80,8 +83,12 @@ const Table = ({ columnsConfig, data, totalAmount, onClickRow, onDataRefresh }) 
           ))}
         </div>
       </div>
-      <TableRows data={data} columnsConfig={countriesConfig} onClickRow={onClickRow} />
-      <Pagination pagesAmount={pagesAmount} onPageChange={setCurrentPage} onChangeAmountEl={handleChangeAmountEl} />
+      <TableRows data={data} columnsConfig={dataConfig} onClickRow={onClickRow} />
+      <Pagination 
+        pagesAmount={pagesAmount} 
+        onPageChange={setCurrentPage} 
+        onChangeAmountEl={handleChangeAmountEl} 
+      />
       {showFilter && (
         <Filter
           filterLabel={columnHeaderKey}

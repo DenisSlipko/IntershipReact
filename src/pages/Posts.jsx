@@ -35,7 +35,11 @@ const Posts = () => {
         <Card key={id} text={state_name} title={name} />
       ))}
     </div>
-      <Pagination pagesAmount={pagesAmount} onPageChange={setCurrentPage} onChangeAmountEl={handleChangeAmountEl} />
+      <Pagination 
+        pagesAmount={pagesAmount} 
+        onPageChange={setCurrentPage} 
+        onChangeAmountEl={handleChangeAmountEl} 
+      />
     </>
   );
 };

@@ -38,12 +38,12 @@ const Cities = () => {
   const [cityId, setCityId] = useState(null);
 
   useEffect(() => {
-    handleCitiesRefresh();
+    handleCitiesRefresh()
   }, []);
 
   const handleCitiesRefresh = (amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue) => {
     dispatch(fetchCities(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue));
-  };
+  }
 
   const handleShowModal = (city, id) => {
     const cityObject = {
@@ -84,8 +84,8 @@ const Cities = () => {
         columnsConfig={TableColumnsConfig}
         data={cities}
         totalAmount={totalAmount}
-        onClickRow={handleShowModal}
         onDataRefresh={handleCitiesRefresh}
+        onClickRow={handleShowModal}
       />
       {cityObject && (
         <TableEditDialog

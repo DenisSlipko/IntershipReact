@@ -1,6 +1,6 @@
 import { baseRequest } from './base.request';
 
-export const fetchCountries = async (amountElOnPage = 20, currentPage, isOrderAsc, columnHeaderKey, filter) => {
+export const fetchCountries = async (amountElOnPage = 20, currentPage = 1, isOrderAsc, columnHeaderKey, filter) => {
   const like = `${columnHeaderKey}_like`;
   const response = await baseRequest('countries', {
     params: {

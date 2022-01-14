@@ -38,12 +38,12 @@ const CountriesStates = () => {
   const [countriesStatesId, setCountriesStatesId] = useState(null);
 
   useEffect(() => {
-    handleCountriesStatesRefresh();
+    handleCountriesStatesRefresh()
   }, []);
 
   const handleCountriesStatesRefresh = (amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue) => {
-   dispatch(fetchCountriesStates(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue));
-  };
+    dispatch(fetchCountriesStates(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue));
+  }
 
   const handleShowModal = (countryStates, id) => {
     const countryStatesObject = {
@@ -83,8 +83,8 @@ const CountriesStates = () => {
         columnsConfig={TableColumnsConfig}
         data={countriesStates}
         totalAmount={totalAmount}
-        onClickRow={handleShowModal}
         onDataRefresh={handleCountriesStatesRefresh}
+        onClickRow={handleShowModal}
       />
       {countriesStatesObject && (
         <TableEditDialog

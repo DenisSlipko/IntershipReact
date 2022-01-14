@@ -1,11 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import Table from '../components/Table/Table';
 import TableEditDialog from '../components/TableEditDialog/TableEditDialog';
 import { getCountries, getTotalAmount } from '../store/reducers/countries.reducer';
 import { fetchCountries, updateCountry } from '../store/actions/countries.actions';
 import { maxValue, minValue, required } from '../hooks/useForm';
+import { getIsLogin } from '../store/reducers/authorization.reducer';
+import { DEFAULT_AMOUNT_EL } from '../constants/constants';
 
 const TableColumnsConfig = [
   {
@@ -34,20 +37,52 @@ const TableColumnsConfig = [
 
 const Countries = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
 
   const countries = useSelector(getCountries);
   const totalAmount = useSelector(getTotalAmount);
+  const isLogin = useSelector(getIsLogin)
 
   const [countryObject, setCountryObject] = useState(null);
   const [countryId, setCountryId] = useState(null);
 
+  const urlParamsObject = useMemo(() => {
+    const searchParams = new URLSearchParams(location.search);
+
+    const amount = searchParams.get('amount') || DEFAULT_AMOUNT_EL;
+    const page = searchParams.get('page') || 1;
+    const order = searchParams.get('sort');
+    const columnName = searchParams.get('column');
+    const filter = searchParams.get('filter');
+
+    return { amount, page, order, columnName, filter }
+  }, [location])
+
   useEffect(() => {
-    handleCountriesRefresh();
+    handleCountriesRefresh(
+      urlParamsObject.amount, 
+      urlParamsObject.page, 
+      urlParamsObject.order, 
+      urlParamsObject.columnName, 
+      urlParamsObject.filter
+    ); 
   }, []);
 
   const handleCountriesRefresh = (amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue) => {
-    dispatch(fetchCountries(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue));
-  };
+    const searchParams = new URLSearchParams(location.search);
+
+    searchParams.set('sort', isOrderAsc);
+    searchParams.set('column', columnHeaderKey);
+    searchParams.set('amount', amountElOnPage);
+    searchParams.set('page', currentPage);
+    if (filterValue !== null) {
+      searchParams.set('filter', filterValue);
+    }
+    history.push({ search: searchParams.toString() })
+
+    dispatch(fetchCountries(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue)); 
+  }
 
   const handleShowModal = (country, id) => {
     const countryObject = {
@@ -93,10 +128,11 @@ const Countries = () => {
         columnsConfig={TableColumnsConfig}
         data={countries}
         totalAmount={totalAmount}
-        onClickRow={handleShowModal}
+        urlParamsObject={urlParamsObject}
         onDataRefresh={handleCountriesRefresh}
+        onClickRow={handleShowModal}
       />
-      {countryObject && (
+      {countryObject && isLogin && (
         <TableEditDialog
           dataObject={countryObject}
           columnsConfig={TableColumnsConfig}
