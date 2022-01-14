@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from 'react';
 
-import { SortValueMap } from '../../constants/constants';
+import { DEFAULT_AMOUNT_EL, SortValueMap } from '../../constants/constants';
 import Pagination from '../Pagination/Pagination';
 import HeaderCell from './TableHeader/HeaderCell';
 import TableRows from './TableRows';
@@ -18,7 +18,7 @@ const Table = ({
   const [columnHeaderKey, setColumnHeaderKey] = useState(initialParams?.columnName);
   const [isOrderAsc, setOrderAsc] = useState(initialParams?.order);
   const [currentPage, setCurrentPage] = useState(initialParams?.page || 1);
-  const [amountElOnPage, setAmountElOnPage] = useState(initialParams?.amount || 20);
+  const [amountElOnPage, setAmountElOnPage] = useState(initialParams?.amount || DEFAULT_AMOUNT_EL);
   const [dataConfig, setDataConfig] = useState(columnsConfig);
   const [showFilter, setShowFilter] = useState(false);
   
