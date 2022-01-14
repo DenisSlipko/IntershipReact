@@ -25,7 +25,7 @@ const Login = () => {
           <div className="login-container">
             <LoginForm />
           </div>
-        ) 
+      ) 
   )
 };
 
