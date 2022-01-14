@@ -13,15 +13,20 @@ const Login = () => {
     dispatch(logoutUser());
   }
 
-
-  return isLogin 
-    ? (<>
-      <div className='auth-success'>You are success authorizated!</div>
-      <button className="logout-btn" onClick={handleLogout} >logout</button>
-      </>)
-    : (<div className="login-container">
-      <LoginForm />
-      </div>) 
+  return (
+    isLogin 
+      ? (
+        <>
+          <div className='auth-success'>You are success authorizated!</div>
+          <button className="logout-btn" onClick={handleLogout} >logout</button>
+        </>
+        )
+      : (
+        <div className="login-container">
+          <LoginForm />
+        </div>
+        ) 
+  )
 };
 
 export default Login;
