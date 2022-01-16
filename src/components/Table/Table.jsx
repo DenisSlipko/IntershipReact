@@ -3,7 +3,7 @@ import { DataGrid } from '@mui/x-data-grid';
 
 import { DEFAULT_AMOUNT_EL } from '../../constants/constants';
 
-const Table = ({ data, totalAmount, columnsConfig, initialParams, onDataRefresh, onRowClick }) => {
+const Table = ({ data, totalAmount, columnsConfig, initialParams, isLoading, onDataRefresh, onRowClick }) => {
   const [columnHeaderKey, setColumnHeaderKey] = useState(initialParams?.headerName);
   const [isOrderAsc, setIsOrderAsc] = useState(initialParams?.order);
   const [filterValue, setFilterValue] = useState(initialParams?.filter);
@@ -55,6 +55,7 @@ const Table = ({ data, totalAmount, columnsConfig, initialParams, onDataRefresh,
       onPageSizeChange={handlePageSizeChange}
       onRowClick={onRowClick}
       rowCount={totalAmount}
+      loading={isLoading}
     />
   );
 };

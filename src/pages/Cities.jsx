@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { getCities, getTotalAmount } from '../store/reducers/cities.reducer';
+import { getCities, getLoading, getTotalAmount } from '../store/reducers/cities.reducer';
 import { fetchCities, updateCity } from '../store/actions/cities.actions';
 import DialogForm from '../components/TableEditDialog/DialogForm';
 import { maxValue, minValue, required } from '../hooks/useForm';
@@ -36,7 +36,8 @@ const Cities = () => {
   const dispatch = useDispatch();
 
   const cities = useSelector(getCities);
-  const totalAmount = Number(useSelector(getTotalAmount));
+  const totalAmount = parseFloat(useSelector(getTotalAmount), 10);
+  const isLoading = useSelector(getLoading);
 
   const [cityObject, setCityObject] = useState();
   const [cityId, setCityId] = useState();
@@ -95,6 +96,7 @@ const Cities = () => {
           data={cities}
           totalAmount={totalAmount}
           columnsConfig={TableColumnsConfig}
+          isLoading={isLoading}
           onDataRefresh={handleCitiesRefresh}
           onRowClick={handleClickRow}
         />

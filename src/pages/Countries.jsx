@@ -2,13 +2,14 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 
-import { getCountries, getTotalAmount } from '../store/reducers/countries.reducer';
+import { getCountries, getLoading, getTotalAmount } from '../store/reducers/countries.reducer';
 import { fetchCountries, updateCountry } from '../store/actions/countries.actions';
 import { maxValue, minValue, required } from '../hooks/useForm';
 import { getIsLogin } from '../store/reducers/authorization.reducer';
 import { DEFAULT_AMOUNT_EL } from '../constants/constants';
 import DialogForm from '../components/TableEditDialog/DialogForm';
 import Table from '../components/Table/Table';
+import { CircularProgress } from '@mui/material';
 
 const TableColumnsConfig = [
   { 
@@ -47,8 +48,9 @@ const Countries = () => {
   const location = useLocation();
   
   const countries = useSelector(getCountries);
-  const totalAmount = Number(useSelector(getTotalAmount));
+  const totalAmount = parseFloat(useSelector(getTotalAmount), 10);
   const isLogin = useSelector(getIsLogin);
+  const isLoading = useSelector(getLoading);
 
   const [countryObject, setCountryObject] = useState();
   const [countryId, setCountryId] = useState();
@@ -134,14 +136,15 @@ const Countries = () => {
   return (
     <>
       <div style={{ width: "100%", display:'flex' }}>
-        <Table
+      <Table
         data={countries}
         totalAmount={totalAmount}
         columnsConfig={TableColumnsConfig}
         initialParams={urlParamsObject}
+        isLoading={isLoading}
         onDataRefresh={handleCountriesRefresh}
         onRowClick={handleClickRow}
-        />
+      />
         
         {countryObject && isLogin && <DialogForm 
           dataObject={countryObject}

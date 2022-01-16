@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { getCountriesStates, getTotalAmount } from '../store/reducers/countriesStates.reducer';
+import { getCountriesStates, getLoading, getTotalAmount } from '../store/reducers/countriesStates.reducer';
 import { fetchCountriesStates, updateCountryState } from '../store/actions/countriesStates.actions';
 import DialogForm from '../components/TableEditDialog/DialogForm';
 import { maxValue, minValue, required } from '../hooks/useForm';
@@ -37,10 +37,11 @@ const CountriesStates = () => {
 
   const countriesStates = useSelector(getCountriesStates);
   const totalAmount = Number(useSelector(getTotalAmount));
+  const isLoading = useSelector(getLoading);
 
   const [countryStateObject, setCountryStateObject] = useState();
   const [countryStateId, setCountryStateId] = useState();
-
+  
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -94,6 +95,7 @@ const CountriesStates = () => {
           data={countriesStates}
           totalAmount={totalAmount}
           columnsConfig={TableColumnsConfig}
+          isLoading={isLoading}
           onDataRefresh={handleCountriesStatesRefresh}
           onRowClick={handleClickRow}
         />
