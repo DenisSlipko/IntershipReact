@@ -46,7 +46,8 @@ const LoginForm = () => {
           id="outlined-basic" 
           label="login" 
           variant="outlined" 
-          error={errors['login']}
+          helperText={errors['login']}
+          error={errors['login'] ? true : false}
           value={values['login']}
           onChange={handleFieldChange('login')}
         />
@@ -55,7 +56,8 @@ const LoginForm = () => {
           label="password" 
           variant="outlined" 
           type="password"
-          error={errors['password']}
+          helperText={errors['password']}
+          error={errors['password'] ? true : false}
           value={values['password']}
           onChange={handleFieldChange('password')}
         />
