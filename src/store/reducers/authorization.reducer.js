@@ -32,3 +32,4 @@ export const authorization = (state = DefaultState, action) => {
 const getState = (state) => state.authorization;
 
 export const getIsLogin = (state) => getState(state).token;
+export const getIsLoginFailure = (state) => getState(state).error;

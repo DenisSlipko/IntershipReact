@@ -1,16 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 
 import { DEFAULT_AMOUNT_EL } from '../../constants/constants';
+import useDidUpdate from '../../hooks/useDidUpdate';
 
 const Table = ({ data, totalAmount, columnsConfig, initialParams, isLoading, onDataRefresh, onRowClick }) => {
   const [columnHeaderKey, setColumnHeaderKey] = useState(initialParams?.headerName);
   const [isOrderAsc, setIsOrderAsc] = useState(initialParams?.order);
   const [filterValue, setFilterValue] = useState(initialParams?.filter);
-  const [currentPage, setCurrentPage] = useState(parseFloat((initialParams?.page) || 1), 10);
-  const [amountElOnPage, setAmountElOnPage] = useState(parseFloat((initialParams?.amount) || DEFAULT_AMOUNT_EL), 10);
+  const [currentPage, setCurrentPage] = useState((parseInt(initialParams?.page, 10 )) || 1);
+  const [amountElOnPage, setAmountElOnPage] = useState((parseInt(initialParams?.amount, 10 )) || DEFAULT_AMOUNT_EL);
 
-  useEffect(() => {
+  useDidUpdate(() => {
     onDataRefresh(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue);
   }, [amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue]);
 
@@ -24,7 +25,7 @@ const Table = ({ data, totalAmount, columnsConfig, initialParams, isLoading, onD
     }
   }
 
-  const onfilterValueChange = (filter) => {
+  const handleFilterValueChange = (filter) => {
     setFilterValue(filter.items[0].value)
     setColumnHeaderKey(filter.items[0].columnField)  
   } 
@@ -39,23 +40,22 @@ const Table = ({ data, totalAmount, columnsConfig, initialParams, isLoading, onD
 
   return (
     <DataGrid  
+      autoHeight
       rows={data}
       columns={columnsConfig}
       pageSize={amountElOnPage}
-      rowsPerPageOptions={[20, 50, 100]}
-      autoHeight={true}
-      page={currentPage - 1}
-      checkboxSelection={true}
-      filterValueMode="server"
-      onfilterValueModelChange={onfilterValueChange}
-      sortingMode="server"
-      onSortModelChange={handleSortModelChange}
-      paginationMode="server"
-      onPageChange={handlePageChange}
-      onPageSizeChange={handlePageSizeChange}
-      onRowClick={onRowClick}
       rowCount={totalAmount}
       loading={isLoading}
+      rowsPerPageOptions={[20, 50, 100]}
+      page={currentPage - 1}
+      filterValueMode="server"
+      sortingMode="server"
+      paginationMode="server"
+      onRowClick={onRowClick}
+      onFilterModelChange={handleFilterValueChange}
+      onSortModelChange={handleSortModelChange}
+      onPageChange={handlePageChange}
+      onPageSizeChange={handlePageSizeChange}
     />
   );
 };

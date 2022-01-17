@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { getCountriesStates, getLoading, getTotalAmount } from '../store/reducers/countriesStates.reducer';
 import { fetchCountriesStates, updateCountryState } from '../store/actions/countriesStates.actions';
-import DialogForm from '../components/TableEditDialog/DialogForm';
+import TableEditDialog from '../components/TableEditDialog/TableEditDialog';
 import { maxValue, minValue, required } from '../hooks/useForm';
 import Table from '../components/Table/Table';
 
@@ -46,7 +46,7 @@ const CountriesStates = () => {
 
   useEffect(() => {
     handleCountriesStatesRefresh(); 
-  },[]);
+  }, []);
 
   const handleCountriesStatesRefresh = (amount, page, order, columnKey, filter) => {  
     dispatch(fetchCountriesStates(amount, page, order, columnKey, filter));
@@ -89,25 +89,23 @@ const CountriesStates = () => {
   };
 
   return (
-    <>
-      <div style={{ width: "100%", display:'flex' }}>
-        <Table
-          data={countriesStates}
-          totalAmount={totalAmount}
-          columnsConfig={TableColumnsConfig}
-          isLoading={isLoading}
-          onDataRefresh={handleCountriesStatesRefresh}
-          onRowClick={handleClickRow}
-        />
-        {countryStateObject && <DialogForm 
-          dataObject={countryStateObject}
-          dataConfig={TableColumnsConfig}
-          openDialog={open}
-          onUpdateData={handleCountryStateUpdate}
-          onCloseDialog={modalClose}
-        />}
-      </div>
-    </>
+    <div style={{ width: "100%", display:'flex' }}>
+      <Table
+        data={countriesStates}
+        totalAmount={totalAmount}
+        columnsConfig={TableColumnsConfig}
+        isLoading={isLoading}
+        onDataRefresh={handleCountriesStatesRefresh}
+        onRowClick={handleClickRow}
+      />
+      {countryStateObject && <TableEditDialog 
+        dataObject={countryStateObject}
+        dataConfig={TableColumnsConfig}
+        openDialog={open}
+        onUpdateData={handleCountryStateUpdate}
+        onCloseDialog={modalClose}
+      />}
+    </div>
   );
 };
 

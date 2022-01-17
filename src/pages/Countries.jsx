@@ -7,9 +7,8 @@ import { fetchCountries, updateCountry } from '../store/actions/countries.action
 import { maxValue, minValue, required } from '../hooks/useForm';
 import { getIsLogin } from '../store/reducers/authorization.reducer';
 import { DEFAULT_AMOUNT_EL } from '../constants/constants';
-import DialogForm from '../components/TableEditDialog/DialogForm';
+import TableEditDialog from '../components/TableEditDialog/TableEditDialog';
 import Table from '../components/Table/Table';
-import { CircularProgress } from '@mui/material';
 
 const TableColumnsConfig = [
   { 
@@ -76,16 +75,24 @@ const Countries = () => {
       urlParamsObject.columnName, 
       urlParamsObject.filter
     ); 
-  },[]);
+  }, []);
 
   const handleCountriesRefresh = (amount, page, order, columnKey, filter) => {
     const searchParams = new URLSearchParams(location.search);
     
+    if (order) {
     searchParams.set('sort', order);
+    } else {
+      searchParams.delete('sort');
+    }
+    if (columnKey) {
     searchParams.set('column', columnKey);
+    } else {
+      searchParams.delete('column');
+    }
     searchParams.set('amount', amount);
     searchParams.set('page', page);
-    if (filter !== null) {
+    if (filter) {
       searchParams.set('filter', filter);
     }
 
@@ -95,7 +102,8 @@ const Countries = () => {
   }
 
   const handleClickRow = ({ row,id }) => {
-    modalOpen()
+    modalOpen();
+
     const countryStatesObject = {
       name: {
         value: row.name,
@@ -116,6 +124,7 @@ const Countries = () => {
         value: row.capital,
       },
     };
+
     setCountryObject(countryStatesObject);
     setCountryId(id);
   }
@@ -130,12 +139,12 @@ const Countries = () => {
 
   const handleCountryUpdate = (values) => {
     dispatch(updateCountry(values, countryId));
+
     setCountryObject(null)
   };
 
   return (
-    <>
-      <div style={{ width: "100%", display:'flex' }}>
+    <div style={{ width: "100%", display:'flex' }}>
       <Table
         data={countries}
         totalAmount={totalAmount}
@@ -145,16 +154,15 @@ const Countries = () => {
         onDataRefresh={handleCountriesRefresh}
         onRowClick={handleClickRow}
       />
-        
-        {countryObject && isLogin && <DialogForm 
-          dataObject={countryObject}
-          dataConfig={TableColumnsConfig}
-          openDialog={open}
-          onUpdateData={handleCountryUpdate}
-          onCloseDialog={modalClose}
-        />}
-      </div>
-    </>
+          
+      {countryObject && isLogin && <TableEditDialog 
+        dataObject={countryObject}
+        dataConfig={TableColumnsConfig}
+        openDialog={open}
+        onUpdateData={handleCountryUpdate}
+        onCloseDialog={modalClose}
+      />}
+    </div>
   );
 };
 

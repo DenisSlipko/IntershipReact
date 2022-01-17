@@ -7,14 +7,14 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 import useForm from '../../hooks/useForm';
 
-const DialogForm = ({dataObject, dataConfig, openDialog, onUpdateData, onCloseDialog }) => {
+const TableEditDialog = ({dataObject, dataConfig, openDialog, onUpdateData, onCloseDialog }) => { 
 
     const { validate, handleFieldChange, values, errors } = useForm(dataObject);
 
     const handleDataUpdate = () => {
         if (validate()) {
             onUpdateData(values);
-          }
+        }
     }
 
     return (
@@ -24,25 +24,25 @@ const DialogForm = ({dataObject, dataConfig, openDialog, onUpdateData, onCloseDi
             {dataConfig.map( ({ field, headerName }) => 
               <TextField
                 autoFocus
-                margin="dense"
+                fullWidth
                 id={field}
                 label={headerName}
-                type="text"
-                fullWidth
-                variant="outlined"
-                value={values[field]} 
-                onChange={handleFieldChange(field)}
                 key={field}
+                value={values[field]} 
                 helperText={errors[field]}
-                error={errors[field] ? true : false}
+                error={Boolean(errors[field])}
+                type="text"
+                variant="outlined"
+                margin="dense"
+                onChange={handleFieldChange(field)}
               />
             )}
           </DialogContent>
-          <DialogActions>
-            <Button onClick={handleDataUpdate}>UPDATE THE DATA</Button>
+          <DialogActions sx={{ justifyContent: 'space-between' }} >
+            <Button onClick={onCloseDialog}>CLOSE</Button> <Button onClick={handleDataUpdate}>UPDATE THE DATA</Button>
           </DialogActions>
         </Dialog>
     )
 }
 
-export default DialogForm
+export default TableEditDialog

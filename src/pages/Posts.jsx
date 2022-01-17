@@ -29,13 +29,15 @@ const Posts = () => {
   return (
     <Box sx={{ display:'flex', flexDirection: 'column', justifyContent: 'center'}}>
       {isLoading 
-      ? (<Grid container spacing={1}>
+      ? (
+        <Grid container spacing={1}>
           {cities.map(({ id }) => (
              <Skeleton variant="rectangular" animation='wave' width={250} height={200} sx={{ m: 2 }} key={id}/>
           ))}
         </Grid>
       )
-      : (<Grid container spacing={1} sx={{ m: 'auto' }}>
+      : (
+        <Grid container spacing={1} sx={{ m: 'auto' }}>
           {cities.map(({ id, name, state_name }) => (
               <Card key={id} sx={{ m: 2, width: 250 }}>
                 <CardMedia
@@ -54,14 +56,14 @@ const Posts = () => {
                 </CardContent>
               </Card>
           ))}
-       </Grid>
+        </Grid>
       )}
       <Pagination 
         count={pagesAmount} 
-        onChange={handleChangeAmountEl} 
         variant="outlined" 
         shape="rounded" 
         sx={{ margin:'auto', mt: 2 }} 
+        onChange={handleChangeAmountEl} 
       />
     </Box>
   );

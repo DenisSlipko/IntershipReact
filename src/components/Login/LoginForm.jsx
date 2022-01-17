@@ -1,19 +1,18 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { Box, Button, TextField, Typography } from '@mui/material';
 
 import { loginUser } from '../../store/actions/authorization.actions';
-import useForm from '../../hooks/useForm'
-import { maxValue, minValue, required } from '../../hooks/useForm'
-import { Box, Button, TextField, Typography } from '@mui/material';
+import useForm, { maxValue, minValue, required } from '../../hooks/useForm'
 
 const loginObject = {
   login: {
     value: '',
-    validators: [maxValue(16), minValue(2), required('Field required!')],
+    validators: [maxValue(16), minValue(2), required('Login field is required!')], 
   },
   password: {
     value: '',
-    validators: [maxValue(16), minValue(2), required('Field required!')],
+    validators: [maxValue(16), minValue(2), required('Password field is required!')], 
   },
 };
 
@@ -30,15 +29,18 @@ const LoginForm = () => {
 
   return (
     <>
-      <Box sx={{ 
+      <Box 
+        sx={{ 
         width: 300, 
         height: 300 , 
+        m: 'auto',
         mt: 10, 
-        display:'flex', 
+        display: 'flex', 
         flexDirection: 'column', 
         justifyContent: 'space-between', 
         textAlign: 'center'
-        }}>
+        }}
+      >
         <Typography>
           LOG IN
         </Typography>
@@ -47,7 +49,7 @@ const LoginForm = () => {
           label="login" 
           variant="outlined" 
           helperText={errors['login']}
-          error={errors['login'] ? true : false}
+          error={Boolean(errors['login'])}
           value={values['login']}
           onChange={handleFieldChange('login')}
         />
@@ -57,11 +59,11 @@ const LoginForm = () => {
           variant="outlined" 
           type="password"
           helperText={errors['password']}
-          error={errors['password'] ? true : false}
+          error={Boolean(errors['password'])}
           value={values['password']}
           onChange={handleFieldChange('password')}
         />
-        <Button onClick={handleLogin}>login</Button>
+        <Button onClick={handleLogin} variant="contained" >login</Button>
       </Box>
     </>
   );

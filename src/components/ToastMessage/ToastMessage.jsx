@@ -7,7 +7,8 @@ import { getToast } from '../../store/reducers/toast.reducer';
 const ToastMessage = () => {
   const toast = useSelector(getToast);
 
-  return toast.isShow && (
+  return toast.isShow 
+  && (
     <Alert severity={`${toast.color}`} 
       sx={{ 
         position:'absolute', 
@@ -16,7 +17,8 @@ const ToastMessage = () => {
         left: 0, 
         right: 0, 
         width: 300 
-      }}>
+      }}
+    >
       <AlertTitle>{toast.color}</AlertTitle>
       {toast.text}
     </Alert>

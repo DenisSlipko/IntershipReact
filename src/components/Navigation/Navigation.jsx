@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppBar, Box, Toolbar,IconButton, Typography,Button, SwipeableDrawer  } from '@mui/material';
@@ -7,6 +7,7 @@ import LocationCityIcon from '@mui/icons-material/LocationCity';
 import PublicIcon from '@mui/icons-material/Public';
 import FlagIcon from '@mui/icons-material/Flag';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import { useLocation } from 'react-router-dom';
 
 import { PathsMap } from '../../constants/constants';
 import { getIsLogin } from '../../store/reducers/authorization.reducer';
@@ -36,7 +37,10 @@ const NavigationList = [
 ]
 
 const Navigation = () => {
+  const location = useLocation();
+
   const [isOpen, setIsOpen] = useState(false);
+  const [pageTitle, setPageTitle] = useState();
 
   const isLogin = useSelector(getIsLogin);
   const dispatch = useDispatch();
@@ -53,23 +57,31 @@ const Navigation = () => {
     dispatch(logoutUser());
   }
 
+  useEffect(() => {
+    if (location.pathname === '/') {
+      setPageTitle('COUNTRIES')
+    } else {
+      setPageTitle(location.pathname.slice(1).toUpperCase())
+    }
+  }, [location])
+
   return (
   <>
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
           <IconButton
+            sx={{ mr: 2 }}
             size="large"
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ mr: 2 }}
             onClick={handleOpen}
           >
           <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Table
+            {pageTitle}
           </Typography>
           {!isLogin 
             ? (
@@ -97,8 +109,8 @@ const Navigation = () => {
         onClick={handleClose}
         onKeyDown={handleClose}
       >
-      {NavigationList.map(({ path, label, Icon }) => 
-        <Link className="navigation-element" to={path} key={path}>
+      {NavigationList.map(({ path, label, Icon }) =>
+        <Link className="navigation-element" to={path} key={path} >
           <Icon/><pre> </pre>{label}
         </Link>
       )}

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { getCities, getLoading, getTotalAmount } from '../store/reducers/cities.reducer';
 import { fetchCities, updateCity } from '../store/actions/cities.actions';
-import DialogForm from '../components/TableEditDialog/DialogForm';
+import TableEditDialog from '../components/TableEditDialog/TableEditDialog';
 import { maxValue, minValue, required } from '../hooks/useForm';
 import Table from '../components/Table/Table';
 
@@ -46,14 +46,15 @@ const Cities = () => {
 
   useEffect(() => {
     handleCitiesRefresh(); 
-  },[]);
+  }, []);
 
   const handleCitiesRefresh = (amount, page, order, columnKey, filter) => {  
     dispatch(fetchCities(amount, page, order, columnKey, filter));
   }
 
   const handleClickRow = ({ row,id }) => {
-    modalOpen()
+    modalOpen();
+
     const cityObject = {
       name: {
         value: row.name,
@@ -86,29 +87,28 @@ const Cities = () => {
 
   const handleCityUpdate = (countryState) => {
     dispatch(updateCity(countryState, cityId));
+
     setCityObject(null)
   };
 
   return (
-    <>
-      <div style={{ width: "100%", display:'flex' }}>
-        <Table
-          data={cities}
-          totalAmount={totalAmount}
-          columnsConfig={TableColumnsConfig}
-          isLoading={isLoading}
-          onDataRefresh={handleCitiesRefresh}
-          onRowClick={handleClickRow}
-        />
-        {cityObject && <DialogForm 
-          dataObject={setCityObject}
-          dataConfig={TableColumnsConfig}
-          openDialog={open}
-          onUpdateData={handleCityUpdate}
-          onCloseDialog={modalClose}
-        />}
-      </div>
-    </>
+    <div style={{ width: "100%", display:'flex' }}>
+      <Table
+        data={cities}
+        totalAmount={totalAmount}
+        columnsConfig={TableColumnsConfig}
+        isLoading={isLoading}
+        onDataRefresh={handleCitiesRefresh}
+        onRowClick={handleClickRow}
+      />
+      {cityObject && <TableEditDialog 
+        dataObject={cityObject}
+        dataConfig={TableColumnsConfig}
+        openDialog={open}
+        onUpdateData={handleCityUpdate}
+        onCloseDialog={modalClose}
+      />}
+    </div>
   );
 };
 

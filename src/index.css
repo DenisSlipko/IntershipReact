@@ -371,6 +371,7 @@
 }
 .login-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
 }
 .login-window-container {
@@ -413,3 +414,6 @@
   text-transform: uppercase;
 }
 
+.MuiDataGrid-root .MuiDataGrid-cell:focus-within {
+  outline: none !important;
+}
