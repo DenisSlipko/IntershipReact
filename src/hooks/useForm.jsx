@@ -36,7 +36,8 @@ const useForm = (dataObject) => {
   const [values, setValues] = useState(getInitialValues(dataObject));
   const [errors, setErrors] = useState({});
 
-  const handleFieldChange = (name) => (value) => {
+  const handleFieldChange = (name) => (event) => {
+    const value = event.target.value
     setValues({
       ...values,
       [name]: value,

@@ -9,6 +9,9 @@ export function* loginUserSaga({ values }) {
     if (values.login === UserData.login && values.password === UserData.password) {
       yield put(loginUserSuccess(TOKEN));
       localStorage.setItem('token', TOKEN);
+      yield put(loginUserFailure());
+    } else {
+      yield put(loginUserFailure('Your login or password is incorrect, please, try again.'));
     }
   } catch (error) {
     yield put(loginUserFailure(error));

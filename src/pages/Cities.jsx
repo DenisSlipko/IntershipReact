@@ -1,30 +1,34 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import Table from '../components/Table/Table';
-import { getCities, getTotalAmount } from '../store/reducers/cities.reducer';
+import { getCities, getLoading, getTotalAmount } from '../store/reducers/cities.reducer';
 import { fetchCities, updateCity } from '../store/actions/cities.actions';
 import TableEditDialog from '../components/TableEditDialog/TableEditDialog';
 import { maxValue, minValue, required } from '../hooks/useForm';
+import Table from '../components/Table/Table';
 
 const TableColumnsConfig = [
-  {
-    label: 'Name',
-    key: 'name',
-    sortable: true,
+  { 
+    field: "name", 
+    headerName: "Name", 
+    flex: 1,
   },
-  {
-    label: 'State code',
-    key: 'state_code',
-    sortable: true,
+  { 
+    field: "state_code", 
+    headerName: "State code", 
+    flex: 1,
   },
-  {
-    label: 'Country code',
-    key: 'country_code',
+  { 
+    field: "country_code", 
+    headerName: "Country code",
+    sortable: false,
+    flex: 1, 
   },
-  {
-    label: 'Country name',
-    key: 'country_name',
+  { 
+    field: "country_name",
+    headerName: "Country name",
+    sortable: false, 
+    flex: 1,
   },
 ];
 
@@ -32,35 +36,40 @@ const Cities = () => {
   const dispatch = useDispatch();
 
   const cities = useSelector(getCities);
-  const totalAmount = useSelector(getTotalAmount);
+  const totalAmount = parseFloat(useSelector(getTotalAmount), 10);
+  const isLoading = useSelector(getLoading);
 
-  const [cityObject, setCityObject] = useState(null);
-  const [cityId, setCityId] = useState(null);
+  const [cityObject, setCityObject] = useState();
+  const [cityId, setCityId] = useState();
+
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    handleCitiesRefresh()
+    handleCitiesRefresh(); 
   }, []);
 
-  const handleCitiesRefresh = (amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue) => {
-    dispatch(fetchCities(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue));
+  const handleCitiesRefresh = (amount, page, order, columnKey, filter) => {  
+    dispatch(fetchCities(amount, page, order, columnKey, filter));
   }
 
-  const handleShowModal = (city, id) => {
+  const handleClickRow = ({ row,id }) => {
+    modalOpen();
+
     const cityObject = {
       name: {
-        value: city.name,
+        value: row.name,
         validators: [maxValue(16), minValue(2), required('Name field is required!')],
       },
       state_code: {
-        value: city.state_code,
+        value: row.state_code,
         validators: [minValue(2), required('State code field is required!')],
       },
       country_code: {
-        value: city.country_code,
+        value: row.country_code,
         validators: [maxValue(11), minValue(2)],
       },
       country_name: {
-        value: city.country_name,
+        value: row.country_name,
       },
     };
 
@@ -68,34 +77,38 @@ const Cities = () => {
     setCityId(id);
   };
 
-  const handleCloseModal = () => {
-    setCityObject(null);
-    setCityId(null);
-  };
+  const modalOpen = () => {
+    setOpen(true)
+  }
 
-  const handleCityUpdate = (updatedCity) => {
-    dispatch(updateCity(updatedCity, cityId));
-    handleCloseModal();
+  const modalClose = () => {
+    setOpen(false)
+  }
+
+  const handleCityUpdate = (countryState) => {
+    dispatch(updateCity(countryState, cityId));
+
+    setCityObject(null)
   };
 
   return (
-    <>
+    <div style={{ width: "100%", display:'flex' }}>
       <Table
-        columnsConfig={TableColumnsConfig}
         data={cities}
         totalAmount={totalAmount}
+        columnsConfig={TableColumnsConfig}
+        isLoading={isLoading}
         onDataRefresh={handleCitiesRefresh}
-        onClickRow={handleShowModal}
+        onRowClick={handleClickRow}
       />
-      {cityObject && (
-        <TableEditDialog
-          dataObject={cityObject}
-          columnsConfig={TableColumnsConfig}
-          onClose={handleCloseModal}
-          onUpdateData={handleCityUpdate}
-        />
-      )}
-    </>
+      {cityObject && <TableEditDialog 
+        dataObject={cityObject}
+        dataConfig={TableColumnsConfig}
+        openDialog={open}
+        onUpdateData={handleCityUpdate}
+        onCloseDialog={modalClose}
+      />}
+    </div>
   );
 };
 

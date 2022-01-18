@@ -1,31 +1,21 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import Alert from '@mui/material/Alert';
 
-import { logoutUser } from '../store/actions/authorization.actions';
-import { getIsLogin } from '../store/reducers/authorization.reducer';
 import LoginForm from '../components/Login/LoginForm';
+import { getIsLoginFailure } from '../store/reducers/authorization.reducer';
 
 const Login = () => {
-  const dispatch = useDispatch();
 
-  const isLogin = useSelector(getIsLogin)
-
-  const handleLogout = () => {
-    dispatch(logoutUser());
-  }
-
+  const wrongData = useSelector(getIsLoginFailure);
+  console.log(wrongData)
   return (
-    isLogin 
-      ? (
-        <>
-          <div className='auth-success'>You are success authorizated!</div>
-          <button className="logout-btn" onClick={handleLogout} >logout</button>
-        </>
-      )
-      : (
-        <div className="login-container">
-          <LoginForm />
-        </div>
-      ) 
+    <div className="login-container">
+      {wrongData 
+      ? <Alert severity="error">{wrongData}</Alert> 
+      : null
+      }
+      <LoginForm />
+    </div> 
   )
 };
 

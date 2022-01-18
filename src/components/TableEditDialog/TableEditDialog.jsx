@@ -1,34 +1,48 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
 
-import Input from '../Input/Input';
 import useForm from '../../hooks/useForm';
 
-const rootSelector = document.getElementById('root');
+const TableEditDialog = ({dataObject, dataConfig, openDialog, onUpdateData, onCloseDialog }) => { 
 
-const TableEditDialog = ({ dataObject, columnsConfig, onClose, onUpdateData }) => {
-  const { validate, handleFieldChange, values, errors } = useForm(dataObject);
+    const { validate, handleFieldChange, values, errors } = useForm(dataObject);
 
-  const handleUpdateData = () => {
-    if (validate()) {
-      onUpdateData(values);
+    const handleDataUpdate = () => {
+        if (validate()) {
+            onUpdateData(values);
+        }
     }
-  };
 
-  return ReactDOM.createPortal(
-    <div className="modal-window-container">
-      <button className="close-modal-btn" onClick={onClose}>
-        X
-      </button>
-      {columnsConfig.map(({ key, label }) => (
-        <Input key={key} label={label} error={errors[key]} value={values[key]} onChange={handleFieldChange(key)} />
-      ))}
-      <button className="change-data-btn" onClick={handleUpdateData}>
-        change data
-      </button>
-    </div>,
-    rootSelector
-  );
-};
+    return (
+        <Dialog open={openDialog} onClose={onCloseDialog}>
+          <DialogTitle>Data editing:</DialogTitle>
+          <DialogContent>
+            {dataConfig.map( ({ field, headerName }) => 
+              <TextField
+                autoFocus
+                fullWidth
+                id={field}
+                label={headerName}
+                key={field}
+                value={values[field]} 
+                helperText={errors[field]}
+                error={Boolean(errors[field])}
+                type="text"
+                variant="outlined"
+                margin="dense"
+                onChange={handleFieldChange(field)}
+              />
+            )}
+          </DialogContent>
+          <DialogActions sx={{ justifyContent: 'space-between' }} >
+            <Button onClick={onCloseDialog}>CLOSE</Button> <Button onClick={handleDataUpdate}>UPDATE THE DATA</Button>
+          </DialogActions>
+        </Dialog>
+    )
+}
 
-export default TableEditDialog;
+export default TableEditDialog

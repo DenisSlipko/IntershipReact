@@ -2,50 +2,58 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 
-import Table from '../components/Table/Table';
-import TableEditDialog from '../components/TableEditDialog/TableEditDialog';
-import { getCountries, getTotalAmount } from '../store/reducers/countries.reducer';
+import { getCountries, getLoading, getTotalAmount } from '../store/reducers/countries.reducer';
 import { fetchCountries, updateCountry } from '../store/actions/countries.actions';
 import { maxValue, minValue, required } from '../hooks/useForm';
 import { getIsLogin } from '../store/reducers/authorization.reducer';
 import { DEFAULT_AMOUNT_EL } from '../constants/constants';
+import TableEditDialog from '../components/TableEditDialog/TableEditDialog';
+import Table from '../components/Table/Table';
 
 const TableColumnsConfig = [
-  {
-    label: 'Name',
-    key: 'name',
-    sortable: true,
+  { 
+    field: "name", 
+    headerName: "Name", 
+    flex: 1, 
   },
-  {
-    label: 'Iso',
-    key: 'iso3',
-    sortable: true,
+  { 
+    field: "iso3", 
+    headerName: "Iso", 
+    flex: 1, 
   },
-  {
-    label: 'Phone code',
-    key: 'phone_code',
+  { 
+    field: "phone_code", 
+    headerName: "Phone code",
+    sortable: false, 
+    flex: 1, 
   },
-  {
-    label: 'Currency',
-    key: 'currency',
+  { 
+    field: "currency",
+    headerName: "Currency",
+    sortable: false, 
+    flex: 1, 
   },
-  {
-    label: 'Capital',
-    key: 'capital',
-  },
+  { 
+    field: "capital", 
+    headerName: "Capital", 
+    sortable: false, 
+    flex: 1, 
+  }
 ];
 
 const Countries = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
-
+  
   const countries = useSelector(getCountries);
-  const totalAmount = useSelector(getTotalAmount);
-  const isLogin = useSelector(getIsLogin)
+  const totalAmount = parseFloat(useSelector(getTotalAmount), 10);
+  const isLogin = useSelector(getIsLogin);
+  const isLoading = useSelector(getLoading);
 
-  const [countryObject, setCountryObject] = useState(null);
-  const [countryId, setCountryId] = useState(null);
+  const [countryObject, setCountryObject] = useState();
+  const [countryId, setCountryId] = useState();
+  const [open, setOpen] = useState(false)
 
   const urlParamsObject = useMemo(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -69,78 +77,92 @@ const Countries = () => {
     ); 
   }, []);
 
-  const handleCountriesRefresh = (amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue) => {
+  const handleCountriesRefresh = (amount, page, order, columnKey, filter) => {
     const searchParams = new URLSearchParams(location.search);
-
-    searchParams.set('sort', isOrderAsc);
-    searchParams.set('column', columnHeaderKey);
-    searchParams.set('amount', amountElOnPage);
-    searchParams.set('page', currentPage);
-    if (filterValue !== null) {
-      searchParams.set('filter', filterValue);
+    
+    if (order) {
+    searchParams.set('sort', order);
+    } else {
+      searchParams.delete('sort');
     }
-    history.push({ search: searchParams.toString() })
+    if (columnKey) {
+    searchParams.set('column', columnKey);
+    } else {
+      searchParams.delete('column');
+    }
+    searchParams.set('amount', amount);
+    searchParams.set('page', page);
+    if (filter) {
+      searchParams.set('filter', filter);
+    }
 
-    dispatch(fetchCountries(amountElOnPage, currentPage, isOrderAsc, columnHeaderKey, filterValue)); 
+    history.push({ search: searchParams.toString() })
+    
+    dispatch(fetchCountries(amount, page, order, columnKey, filter));
   }
 
-  const handleShowModal = (country, id) => {
-    const countryObject = {
+  const handleClickRow = ({ row,id }) => {
+    modalOpen();
+
+    const countryStatesObject = {
       name: {
-        value: country.name,
+        value: row.name,
         validators: [maxValue(16), minValue(2), required('Name field is required!')],
       },
       iso3: {
-        value: country.iso3,
-        validators: [minValue(2), required('Iso field is required!')],
+        value: row.iso3,
+        validators: [minValue(2), required('Country code field is required!')],
       },
       phone_code: {
-        value: country.phone_code,
+        value: row.phone_code,
         validators: [maxValue(11), minValue(2)],
       },
       currency: {
-        value: country.currency,
+        value: row.currency,
       },
       capital: {
-        value: country.capital,
-        validators: [maxValue(16)],
+        value: row.capital,
       },
-
     };
 
-    setCountryObject(countryObject);
+    setCountryObject(countryStatesObject);
     setCountryId(id);
-  };
+  }
 
-  const handleCloseModal = () => {
-    setCountryObject(null);
-    setCountryId(null);
-  };
+  const modalOpen = () => {
+    setOpen(true)
+  }
 
-  const handleCountryUpdate = (updatedCountry) => {
-    dispatch(updateCountry(updatedCountry, countryId));
-    handleCloseModal();
+  const modalClose = () => {
+    setOpen(false)
+  }
+
+  const handleCountryUpdate = (values) => {
+    dispatch(updateCountry(values, countryId));
+
+    setCountryObject(null)
   };
 
   return (
-    <>
+    <div style={{ width: "100%", display:'flex' }}>
       <Table
-        columnsConfig={TableColumnsConfig}
         data={countries}
         totalAmount={totalAmount}
-        urlParamsObject={urlParamsObject}
+        columnsConfig={TableColumnsConfig}
+        initialParams={urlParamsObject}
+        isLoading={isLoading}
         onDataRefresh={handleCountriesRefresh}
-        onClickRow={handleShowModal}
+        onRowClick={handleClickRow}
       />
-      {countryObject && isLogin && (
-        <TableEditDialog
-          dataObject={countryObject}
-          columnsConfig={TableColumnsConfig}
-          onClose={handleCloseModal}
-          onUpdateData={handleCountryUpdate}
-        />
-      )}
-    </>
+          
+      {countryObject && isLogin && <TableEditDialog 
+        dataObject={countryObject}
+        dataConfig={TableColumnsConfig}
+        openDialog={open}
+        onUpdateData={handleCountryUpdate}
+        onCloseDialog={modalClose}
+      />}
+    </div>
   );
 };
 
