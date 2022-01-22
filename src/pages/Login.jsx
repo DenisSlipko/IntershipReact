@@ -5,9 +5,8 @@ import LoginForm from '../components/Login/LoginForm';
 import { getIsLoginFailure } from '../store/reducers/authorization.reducer';
 
 const Login = () => {
-
   const wrongData = useSelector(getIsLoginFailure);
-  console.log(wrongData)
+
   return (
     <div className="login-container">
       {wrongData 

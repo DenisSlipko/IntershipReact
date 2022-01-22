@@ -21,8 +21,8 @@ export const PathsMap = {
 export const HOME_PAGE = PathsMap.COUNTRIES;
 
 export const UserData = {
-  login: 'admin',
-  password: 'admin',
+  login: 'admin@gmail.com',
+  password: 'Admin12345678',
 }; 
 
 export const TOKEN = 'sdkajsbndklabli22nio4o81nui9nd1';

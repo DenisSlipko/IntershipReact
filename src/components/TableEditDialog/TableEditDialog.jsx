@@ -12,11 +12,11 @@ const TableEditDialog = ({dataObject, dataConfig, openDialog, onUpdateData, onCl
     const { validate, handleFieldChange, values, errors } = useForm(dataObject);
 
     const handleDataUpdate = () => {
-        if (validate()) {
-            onUpdateData(values);
-        }
+      if (validate()) {
+        onUpdateData(values);
+      }
     }
-
+    
     return (
         <Dialog open={openDialog} onClose={onCloseDialog}>
           <DialogTitle>Data editing:</DialogTitle>

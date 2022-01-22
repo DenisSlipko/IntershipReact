@@ -94,6 +94,8 @@ const Countries = () => {
     searchParams.set('page', page);
     if (filter) {
       searchParams.set('filter', filter);
+    } else {
+      searchParams.delete('filter');
     }
 
     history.push({ search: searchParams.toString() })

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 export const required = (message = 'required') => (value) => {
-    if (value === null && value === undefined) {
+    if (value === undefined && value === null) {
       return message;
     }
 
@@ -17,7 +17,7 @@ export const maxValue = (quantity, message) => (value) => {
 };
 
 export const minValue = (quantity, message) => (value) => {
-  if (value.length < quantity) {
+  if (value.length < quantity ) {
     return message ? message : `Need more than ${quantity} characters`;
   }
 
@@ -37,16 +37,19 @@ const useForm = (dataObject) => {
   const [errors, setErrors] = useState({});
 
   const handleFieldChange = (name) => (event) => {
-    const value = event.target.value
+    const value = event.target.value;
+
     setValues({
       ...values,
       [name]: value,
     });
+    
+    validate();
   };
 
   const validate = () => {
     let valid = true;
-    const newErrors = {};
+    let newErrors = {};
 
     for (const key in dataObject) {
       const value = values[key];
@@ -55,19 +58,20 @@ const useForm = (dataObject) => {
       if (field.validators) {
         const errors = field.validators.reduce((acc, validator) => { 
           const errorMessage = validator(value);
-          
           return errorMessage ? [...acc , errorMessage] : acc
         },[])
 
         if (errors.length > 0) {
           valid = false;
           newErrors[key] = errors;
-        }
+        } 
       }
     }
 
     if (!valid) {
       setErrors(newErrors);
+    } else {
+      setErrors({})
     }
 
     return valid;
